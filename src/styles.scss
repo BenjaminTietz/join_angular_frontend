@@ -1,1 +1,40 @@
-/* You can add global styles to this file, and also import other style files */
+$main-blue-dark: #4589FF;
+$main-blue-light: #D2E3FF;
+$menu-color: #42526E;
+$white: #fff;
+$black: #000;
+
+
+;
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: $white;
+    overflow: hidden;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', Calibri, 'Trebuchet MS', sans-serif;
+    box-sizing: border-box;
+    font-variation-settings: 'wght' 400;
+}
+
+@mixin dFlex($fd: row, $jc: center, $ai: center) {
+    display: flex;
+    flex-direction: $fd;
+    justify-content: $jc;
+    align-items: $ai;
+}
+
+@mixin OpenSans($weight, $size, $line-height, $color) {
+    font-family: 'Open Sans', sans-serif;
+    font-variation-settings: 'wght'$weight;
+    font-size: $size;
+    line-height: $line-height;
+    color: $color;
+}
