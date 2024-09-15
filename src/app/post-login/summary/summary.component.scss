@@ -5,5 +5,120 @@
     height: 100%;
     position: absolute;
     top: 96px;
-    left: 255px;
+    left: 186px;
+    @include dFlex(column, flex-start, center);
+}
+
+h1 {
+    @include OpenSans(400, 48px, 57.6px, $board-text);
+
+    span {
+        @include OpenSans(700, 64px, 76.8px, $main-blue-dark);
+    }
+}
+
+.task-overview {
+    width: 912px;
+    height: 442px;
+    @include dFlex(row, space-between, center);
+}
+
+.task-overview-top {
+    width: 912px;
+    height: 219px;
+    @include dFlex(row, space-between, center);
+
+    >.task-category {
+        width: 208px;
+        height: 191px;
+    }
+}
+
+.urgent-tasks {
+    width: 672px;
+    height: 191px;
+    border-radius: 30px;
+    padding: 28px 48px;
+    gap: 35px;
+    background-color: $main-blue-dark;
+    @include dFlex(row, space-between, center);
+    box-shadow: 0px 0px 4px 0px #00000029;
+
+    >.task-category {
+        box-shadow: unset;
+        width: 208px;
+        height: 191px;
+
+        .task-category-top {
+            span {
+                color: $white;
+            }
+
+            img {
+                width: 76px;
+                height: 76px;
+                border-radius: 50%;
+                border: 3px solid $white;
+            }
+        }
+
+        .task-category-bottom {
+            color: $white;
+        }
+    }
+
+    .vertical-line {
+        width: 3px;
+        height: 145px;
+        background-color: $white;
+    }
+
+    >.task-deadline {
+        @include dFlex(column, flex-start, flex-start);
+        gap: 13px;
+
+        p {
+            @include OpenSans(700, 33px, 39.6px, $white);
+        }
+
+        span {
+            @include OpenSans(400, 23px, 27.6px, $white);
+        }
+    }
+
+}
+
+.task-overview-bottom {
+    width: 912px;
+    height: 219px;
+    @include dFlex(row, space-between, center);
+}
+
+.task-category {
+    width: 204px;
+    height: 219px;
+    padding: 0px 40px;
+    gap: 40px;
+    @include dFlex(column, center, center);
+    box-shadow: 0px 0px 4px 0px #00000029;
+    border-radius: 20px;
+
+    .task-category-top {
+        width: 124px;
+        height: 76px;
+        gap: 20px;
+        @include dFlex(row, flex-start, center);
+
+        span {
+            @include OpenSans(700, 48px, 57.6px, $black);
+        }
+    }
+
+    .task-category-bottom {
+        width: 124px;
+        height: 28px;
+        @include OpenSans(400, 23px, 27.6px, $main-blue-dark);
+        white-space: wrap;
+        text-align: center;
+    }
 }

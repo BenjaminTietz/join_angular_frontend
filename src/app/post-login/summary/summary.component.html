@@ -1,4 +1,73 @@
 <div class="summary-wrapper">
 
-    <p>summary works!</p>
+    <h1>Good morning,<span>Sofia Müller</span></h1>
+
+    <div class="tasks-overview">
+        <div class="task-overview-top">
+            <div class="urgent-tasks pointer" [routerLink]="['/home/board']">
+                <div class="task-category">
+                    <div class="task-category-top">
+                        <img src="assets/img/icons/board_summary_icon.png" alt="icon">
+                        <span>6</span>
+                    </div>
+                    <div class="task-category-bottom">
+                        <span>Task in Board</span>
+                    </div>
+                </div>
+                <div class="vertical-line"></div>
+                <div class="task-deadline">
+                    <p>October 13, 2024</p>
+                    <span>Upcomming Dealine</span>
+
+                </div>
+            </div>
+            <div class="task-category pointer" [routerLink]="['/home/board']">
+                <div class="task-category-top">
+                    <img src="assets/img/icons/board_summary_icon.png" alt="icon">
+                    <span>5</span>
+                </div>
+                <div class="task-category-bottom">
+                    <span>Task in Board</span>
+                </div>
+            </div>
+        </div>
+        <div class="task-overview-bottom">
+            <div class="task-category pointer" [routerLink]="['/home/board']">
+                <div class="task-category-top">
+                    <img src="assets/img/icons/todo_tasks_summary_icon.png" alt="icon">
+                    <span>3</span>
+                </div>
+                <div class="task-category-bottom">
+                    <span>Tasks To-do</span>
+                </div>
+            </div>
+            <div class="task-category pointer" [routerLink]="['/home/board']">
+                <div class="task-category-top">
+                    <img src="assets/img/icons/in_progress_tasks_summary_icon.png" alt="icon">
+                    <span>2</span>
+                </div>
+                <div class="task-category-bottom">
+                    <span>Task in Progress</span>
+                </div>
+            </div>
+            <div class="task-category pointer" [routerLink]="['/home/board']">
+                <div class="task-category-top">
+                    <img src="assets/img/icons/awaiting_feedback_tasks_summary_icon.png" alt="icon">
+                    <span>1</span>
+                </div>
+                <div class="task-category-bottom">
+                    <span>Awaiting Feedback</span>
+                </div>
+            </div>
+            <div class="task-category pointer" [routerLink]="['/home/board']">
+                <div class="task-category-top">
+                    <img src="assets/img/icons/done_tasks_summary_icon.png" alt="icon">
+                    <span>0</span>
+                </div>
+                <div class="task-category-bottom">
+                    <span>Tasks Done</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
