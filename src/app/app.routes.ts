@@ -27,6 +27,7 @@ export const routes: Routes = [
     path: 'home',
     component: HomescreenComponent,
     children: [
+      { path: '', component: SummaryComponent },
       { path: 'summary', component: SummaryComponent },
       { path: 'add-task', component: AddTaskComponent },
       { path: 'board', component: BoardComponent },
