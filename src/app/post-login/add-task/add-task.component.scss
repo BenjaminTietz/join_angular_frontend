@@ -5,5 +5,102 @@
     height: 100%;
     position: absolute;
     top: 96px;
-    left: 255px;
+    left: 232px;
+    @include dFlex(row, flex-start, flex-start);
+}
+
+.add-task-left {
+    width: 488px;
+    height: 928px;
+    padding: 64px 24px 0px 24px;
+    overflow-y: scroll;
+    box-sizing: content-box;
+}
+
+.add-task-right {
+    width: 488px;
+    height: 928px;
+    position: relative;
+
+    >.submit-btn-container {
+        width: 335px;
+        height: 61px;
+        gap: 4px;
+        @include dFlex(row, flex-start, flex-start);
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+}
+
+form {
+    width: 440px;
+    height: 928px;
+    gap: 24px;
+    @include dFlex(column, flex-start, flex-start);
+
+    input {
+        width: 440px;
+        height: 64px;
+        border-radius: 0px 0px 1px 0px;
+        padding: 13px 16px;
+        box-sizing: border-box;
+        border: none;
+        border-bottom: 1px solid $border-color;
+        cursor: pointer;
+    }
+
+    input::placeholder {
+        @include OpenSans(400, 19px, 22.8px, $border-color);
+    }
+
+    textarea {
+        width: 440px;
+        height: 103px;
+        border-radius: 0px 10px 10px 10px;
+        border: 1px solid $border-color;
+        cursor: pointer;
+    }
+
+    textarea::placeholder {
+        @include OpenSans(400, 19px, 22.8px, $border-color);
+    }
+
+    span {
+        @include OpenSans(700, 19px, 22.8px, $menu-color);
+    }
+}
+
+.btn-container {
+    width: 440px;
+    height: 51px;
+    gap: 16px;
+    @include dFlex(row, flex-start, center);
+}
+
+.prio-btn {
+    width: 136px;
+    height: 51px;
+    border-radius: 10px;
+    padding: 18px 10px;
+    gap: 10px;
+    box-shadow: 0px 0px 4px 0px #00000029;
+    outline: none;
+    @include OpenSans(400, 19px, 22.8px, $black);
+    @include dFlex(row, center, center);
+}
+
+.drop-down {
+    width: 440px;
+    height: 48px;
+    border: 0px 0px 1px 0px;
+    border-color: $border-color;
+    padding: 12px 16px;
+}
+
+.input-container {
+    width: 440px;
+    height: 64px;
+    gap: 16px;
+    @include dFlex(row, flex-start, center);
 }

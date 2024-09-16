@@ -1,4 +1,52 @@
 <div class="add-task-wrapper">
+    <div class="add-task-left">
 
-    <p>add-task works!</p>
+        <form>
+            <input type="text" placeholder="Enter a title" name="taskTitle" required>
+            <span>Description(optional)</span>
+            <textarea placeholder="Enter a description" name="taskDescription" required></textarea>
+            <span>Due date</span>
+            <input type="date" name="taskDueDate" required>
+            <span>Priority</span>
+            <div class="btn-container">
+                <div class="prio-btn urgent pointer" type="button">Urgent<img
+                        src="/assets/img/icons/task_prio_urgent.png">
+                </div>
+                <div class="prio-btn medium pointer" type="button">Medium<img
+                        src="/assets/img/icons/task_prio_medium.png">
+                </div>
+                <div class="prio-btn low pointer" type="button">Low<img src="/assets/img/icons/task_prio_low.png"></div>
+            </div>
+            <span>Assigned to(optional)</span>
+            <div class="drop-down">
+                <div class="input-container">
+                    <input type="text" placeholder="Select contacts to assign" name="taskAssignedTo" required><img
+                        src="/assets/img/icons/arrow_drop_down.png">
+                </div>
+                <div class="drop-down-content">
+
+                </div>
+            </div>
+            <span>Category</span>
+            <div class="input-container">
+                <input type="text" placeholder="Select task category" name="category" required><img
+                    src="/assets/img/icons/arrow_drop_down.png">
+            </div>
+            <div class="drop-down-content">
+
+            </div>
+            <span>Subtasks(optional)</span>
+            <div class="input-container">
+                <input type="text" placeholder="Add new subtask" name="subtask" required><img
+                    src="/assets/img/icons/add_blue.png">
+            </div>
+        </form>
+
+    </div>
+    <div class="add-task-right">
+        <div class="submit-btn-container">
+            <button class="white-btn" type="button">Clear<img src="/assets/img/icons/cancel_btn.png"></button>
+            <button class="blue-btn" type="submit">Create Task<img src="/assets/img/icons/create_btn.png"></button>
+        </div>
+    </div>
 </div>

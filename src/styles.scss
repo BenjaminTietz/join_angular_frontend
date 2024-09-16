@@ -4,6 +4,8 @@ $menu-color: #42526E;
 $white: #fff;
 $black: #000;
 $board-text: #2A3647;
+$border-color: #D1D1D1;
+$white-btn-boarder: #647188;
 
 
 ;
@@ -32,6 +34,7 @@ body {
     align-items: $ai;
 }
 
+//example : @include dFlex(column, flex-start, center);
 @mixin OpenSans($weight, $size, $line-height, $color) {
     font-family: 'Open Sans', sans-serif;
     font-variation-settings: 'wght'$weight;
@@ -40,6 +43,35 @@ body {
     color: $color;
 }
 
+//example : @include OpenSans(700, 64px, 76.8px, $main-blue-dark);
 .pointer {
     cursor: pointer;
+}
+
+.white-btn {
+    width: 136px;
+    height: 61px;
+    background-color: $white;
+    color: $white-btn-boarder;
+    border: 1px solid $white-btn-boarder;
+    border-radius: 10px;
+    padding: 16px 10px;
+    gap: 10px;
+    cursor: pointer;
+    @include OpenSans(400, 23px, 27.6px, $white-btn-boarder);
+    @include dFlex(row, center, center);
+}
+
+.blue-btn {
+    width: 174px;
+    height: 60px;
+    background-color: $main-blue-dark;
+    color: $white;
+    border: none;
+    border-radius: 10px;
+    padding: 16px 10px;
+    gap: 4px;
+    cursor: pointer;
+    @include OpenSans(400, 23px, 27.6px, $white);
+    @include dFlex(row, center, center);
 }
