@@ -3,8 +3,6 @@ import { RouterOutlet } from '@angular/router';
 import { HomescreenComponent } from './post-login/homescreen/homescreen.component';
 import { HeaderComponent } from './post-login/header/header.component';
 import { SidenavComponent } from './post-login/sidenav/sidenav.component';
-import { LandingComponent } from './pre-login/landing/landing.component';
-import { FooterComponent } from './pre-login/footer/footer.component';
 import { LoginComponent } from './pre-login/login/login.component';
 import { SignupComponent } from './pre-login/signup/signup.component';
 import { ImprintComponent } from './legal/imprint/imprint.component';
@@ -22,8 +20,6 @@ import { ContactsComponent } from './post-login/contacts/contacts.component';
     HomescreenComponent,
     HeaderComponent,
     SidenavComponent,
-    LandingComponent,
-    FooterComponent,
     HeaderComponent,
     LoginComponent,
     SignupComponent,
