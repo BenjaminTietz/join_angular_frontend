@@ -5,5 +5,126 @@
     height: 100%;
     position: absolute;
     top: 96px;
-    left: 255px;
+    left: 232px;
+    @include dFlex(row, flex-start, flex-start);
+}
+
+.contacts-left {
+    width: 456px;
+    height: 100%;
+    @include dFlex(column, flex-start, center);
+    overflow-y: scroll;
+
+    >button {
+        width: 357px;
+        margin-top: 16px;
+        gap: 10px;
+
+    }
+
+    >.contacts-list {
+        >.contact {
+            width: 352px;
+            height: 77px;
+            border-radius: 10px;
+            padding: 15px 24px;
+            gap: 35px;
+            cursor: pointer;
+            @include dFlex(row, flex-start, center);
+
+            &:hover {
+                background-color: $main-blue-light;
+            }
+
+            >.contact-left {
+                width: 42px;
+                height: 42px;
+                border-radius: 50%;
+                background-color: red;
+                gap: 10px;
+                border: 2px solid $white;
+                @include dFlex(column, center, center);
+                @include Inter(400, 12px, 14.4px, $white);
+            }
+
+            >.contact-right {
+                width: 140px;
+                height: 47px;
+                @include dFlex(column, flex-start, flex-start);
+
+                >.contact-name {
+                    @include OpenSans(400, 19px, 22.8px, $black);
+                }
+
+                >.contact-email {
+                    @include OpenSans(400, 16px, 19.2px, $main-blue-dark);
+                }
+            }
+        }
+    }
+}
+
+.contacts-right {
+    width: 500px;
+    height: 100%;
+    @include dFlex(row, flex-start, flex-start);
+
+    >.contact-detail-view {
+        @include dFlex(row, flex-start, flex-start);
+
+        >.detail-view-left {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: red;
+            gap: 10px;
+            border: 3px solid $white;
+            @include dFlex(column, center, center);
+            @include Inter(500, 47px, 56.4px, $white);
+            box-shadow: 0px 0px 4px 0px #00000029;
+
+        }
+
+        >.detail-view-right {
+            >.detail-view-right-top {
+                h2 {
+                    @include Inter(500, 47px, 56.4px, $black);
+                }
+
+                >.contact-actions {
+                    @include dFlex(row, flex-start, center);
+                    width: 158px;
+                    height: 24px;
+
+                    button {
+                        width: unset;
+                        height: 24px;
+                        gap: 6px;
+                        border: none;
+                        background-color: $white;
+                        @include dFlex(row, center, center);
+                        @include OpenSans(400, 16px, 19.2px, $board-text);
+                    }
+                }
+            }
+
+            >.detail-view-right-bottom {
+                h3 {
+                    @include OpenSans(700, 23px, 27.6px, $black);
+                }
+
+                h4 {
+                    @include OpenSans(700, 16px, 19.2px, $black);
+                }
+
+                p {
+                    @include OpenSans(400, 16px, 19.2px, $light-blue);
+                }
+
+                span {
+                    @include OpenSans(400, 16px, 19.2px, $black);
+                }
+            }
+        }
+    }
 }
