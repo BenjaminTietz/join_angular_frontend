@@ -5,5 +5,164 @@
     height: 100%;
     position: absolute;
     top: 96px;
-    left: 255px;
+    left: 232px;
+}
+
+.board-top-section {
+    @include dFlex(row, flex-start, center);
+    gap: 35px;
+    padding: 72px 0px 16px 64px;
+
+    >.blue-btn {
+        width: 138px;
+        height: 51px;
+
+    }
+
+    >.input-container {
+        width: 312px;
+        height: 48px;
+        border: 1px solid $input-border;
+        border-radius: 10px;
+        padding: 8px 16px;
+        @include dFlex(row, center, center);
+
+
+        >input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            cursor: pointer;
+
+        }
+
+        >.vertical-line {
+            width: 1px;
+            height: 31px;
+            background-color: $border-color;
+        }
+    }
+
+
+}
+
+.board-column {
+    width: 1208px;
+    height: 28px;
+    @include dFlex(row, space-between, flex-start);
+    box-sizing: content-box;
+    padding: 0px 64px;
+}
+
+.board-column-top {
+    width: 244px;
+    height: 28px;
+    @include dFlex(row, space-between, flex-start);
+
+    h3 {
+        @include OpenSans(700, 23px, 27.6px, $menu-color);
+        white-space: nowrap;
+    }
+}
+
+.board-column-bottom {
+    width: 252px;
+    height: fit-content;
+    @include dFlex(row, space-between, flex-start);
+}
+
+.add-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+    border: 2px solid $main-blue-dark;
+    padding: 3px;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.single-task {
+    width: 252px;
+    height: 263px;
+    border-radius: 24px;
+    padding: 16px;
+    gap: 10px;
+    box-shadow: 0px 0px 10px 3px #00000014;
+
+    h4 {
+        width: 110px;
+        height: 27px;
+        border-radius: 8px;
+        padding: 4px 16px;
+        gap: 10px;
+        background-color: #FF7A00;
+        @include OpenSans(400, 16px, 19.2px, $white);
+        text-align: center;
+        white-space: nowrap;
+        margin-bottom: 24px;
+    }
+
+
+    span {
+        @include OpenSans(700, 16px, 19.2px, $main-blue-dark);
+    }
+
+    p {
+        @include Inter(400, 16px, 19.2px, $input-border);
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-top: 8px;
+    }
+
+    >.progress-container {
+        width: 220px;
+        height: 16px;
+        @include dFlex(row, space-between, center);
+        margin-top: 24px;
+
+        progress {
+            width: 128px;
+            height: 8px;
+            border-radius: 8px;
+            padding: 0px 64px 0px 0px;
+        }
+
+        span {
+            @include OpenSans(400, 12px, 14.4px, $input-border);
+
+        }
+    }
+
+    .single-task-bottom {
+        width: 220px;
+        height: 32px;
+        @include dFlex(row, space-between, center);
+        margin-top: 24px;
+
+        >.task-assignee {
+            @include dFlex(row, flex-start, center);
+            width: 80px;
+            height: 32px;
+
+
+            >.assignee {
+                @include dFlex(row, center, center);
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                gap: 10px;
+                background-color: #FF7A00;
+                border: solid 1px $white;
+
+                span {
+                    @include Inter(400, 12px, 14.4px, $white);
+                }
+            }
+
+        }
+    }
 }

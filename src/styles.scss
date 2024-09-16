@@ -6,6 +6,7 @@ $black: #000;
 $board-text: #2A3647;
 $border-color: #D1D1D1;
 $white-btn-boarder: #647188;
+$input-border: #A8A8A8;
 
 
 ;
@@ -44,6 +45,15 @@ body {
 }
 
 //example : @include OpenSans(700, 64px, 76.8px, $main-blue-dark);
+
+@mixin Inter($weight, $size, $line-height, $color) {
+    font-family: 'Inter', inter;
+    font-variation-settings: 'wght'$weight;
+    font-size: $size;
+    line-height: $line-height;
+    color: $color;
+}
+
 .pointer {
     cursor: pointer;
 }
