@@ -1,37 +1,39 @@
-<div class="login-wrapper">
+<div class="signup-wrapper">
     <header>
         <img src="assets/img/logos/join_logo_big_white.png" alt="logo" class="logo">
     </header>
 
-    <div class="login-form">
-        <h1>Log in</h1>
+    <div class="signup-form">
+        <div class="back-btn" [routerLink]="['']"><img src="assets/img/icons/back_arrow.png" alt="logo" class="logo">
+        </div>
 
-
-        <form>
+        <h1>Sign up</h1>
+        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
             <div class="input-wrapper">
-                <input type="text" placeholder="Name"><img src="assets/img/icons/login_name.png" alt="logo"
-                    class="logo">
-            </div>
-            <div class="input-wrapper">
-                <input type="text" placeholder="Email"><img src="assets/img/icons/login_mail.png" alt="logo"
-                    class="logo">
-            </div>
-            <div class="input-wrapper">
-                <input type="password" placeholder="Password"><img src="assets/img/icons/login_password.png" alt="logo"
-                    class="logo">
-            </div>
-            <div class="input-wrapper">
-                <input type="password" placeholder="Confirm Password"><img src="assets/img/icons/login_password.png"
+                <input type="text" formControlName="name" placeholder="Name"><img src="assets/img/icons/login_name.png"
                     alt="logo" class="logo">
             </div>
+            <div class="input-wrapper">
+                <input type="text" formControlName="email" placeholder="Email"><img
+                    src="assets/img/icons/login_mail.png" alt="logo" class="logo">
+            </div>
+            <div class="input-wrapper">
+                <input type="password" formControlName="password" placeholder="Password"><img
+                    src="assets/img/icons/login_password.png" alt="logo" class="logo">
+            </div>
+            <div class="input-wrapper">
+                <input type="password" formControlName="confirmPassword" placeholder="Confirm Password"><img
+                    src="assets/img/icons/login_password.png" alt="logo" class="logo">
+            </div>
             <div class="checkbox-wrapper">
-                <input type="checkbox" id="privacy" name="privacy">
+                <input type="checkbox" formControlName="privacy" id="privacy" name="privacy">
                 <label class="checkbox-label" for="privacy">I accept the Privacy policy</label>
             </div>
+            <div class="btn-container">
+                <button type="submit" class="blue-btn" [disabled]="signupForm.invalid">Sign up</button>
+            </div>
         </form>
-        <div class="btn-container">
-            <button type="submit" class="blue-btn">Sign up</button>
-        </div>
+
 
 
     </div>

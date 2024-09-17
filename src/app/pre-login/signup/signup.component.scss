@@ -1,6 +1,6 @@
 @import "../../../styles.scss";
 
-.login-wrapper {
+.signup-wrapper {
     width: 100svw;
     height: 100svh;
 
@@ -22,7 +22,7 @@ header {
     }
 }
 
-.login-form {
+.signup-form {
     width: 652px;
     height: 491px;
     border-radius: 30px;
@@ -31,6 +31,7 @@ header {
     box-shadow: 0px 0px 10px 3px #00000014;
     background-color: $white;
     @include dFlex(column, center, center);
+    position: relative;
 
     >h1 {
         @include OpenSans(700, 48px, 57.6px, $black);
@@ -76,19 +77,18 @@ header {
             }
         }
 
+        >.btn-container {
+            gap: 35px;
+            @include dFlex(row, center, center);
 
-    }
-
-    >.btn-container {
-        gap: 35px;
-        @include dFlex(row, center, center);
-
-        >.blue-btn {
-            width: 135px;
-            height: 48px;
-            padding: 10px 35px;
-            white-space: nowrap;
+            >.blue-btn {
+                width: 135px;
+                height: 48px;
+                padding: 10px 35px;
+                white-space: nowrap;
+            }
         }
+
     }
 }
 
@@ -104,4 +104,10 @@ footer {
         cursor: pointer;
     }
 
+}
+
+.back-btn {
+    position: absolute;
+    top: 78px;
+    left: 77px;
 }
