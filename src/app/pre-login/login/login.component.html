@@ -4,7 +4,7 @@
 
         <div class="header-left">
             <p>Not a Join user?</p>
-            <button class="blue-btn">Sign Up</button>
+            <button class="blue-btn" [routerLink]="['/signup']">Sign Up</button>
         </div>
     </header>
 
@@ -12,25 +12,25 @@
         <h1>Log in</h1>
 
 
-        <form>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <div class="input-wrapper">
-                <input type="text" placeholder="Email"><img src="assets/img/icons/login_mail.png" alt="logo"
-                    class="logo">
+                <input type="text" formControlName="email" placeholder="Email"><img
+                    src="assets/img/icons/login_mail.png" alt="logo" class="logo">
             </div>
 
             <div class="input-wrapper">
-                <input type="password" placeholder="Password"><img src="assets/img/icons/login_password.png" alt="logo"
-                    class="logo">
+                <input type="password" formControlName="password" placeholder="Password"><img
+                    src="assets/img/icons/login_password.png" alt="logo" class="logo">
             </div>
             <div class="checkbox-wrapper">
-                <input type="checkbox" id="remember" name="remember">
+                <input type="checkbox" formControlName="remember" id="remember" name="remember">
                 <label class="checkbox-label" for="remember">Remember me</label>
             </div>
+            <div class="btn-container">
+                <button type="submit" class="blue-btn" [disabled]="loginForm.invalid">Log In</button>
+                <button type="button" class="white-btn" [routerLink]="['/home']">Guest log in</button>
+            </div>
         </form>
-        <div class="btn-container">
-            <button type="submit" class="blue-btn">Log In</button>
-            <button type="button" class="white-btn">Guest log in</button>
-        </div>
 
 
     </div>
