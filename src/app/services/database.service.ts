@@ -16,6 +16,9 @@ export class DatabaseService {
   private contactsSubject = new BehaviorSubject<any[]>([]);
   public contacts$ = this.contactsSubject.asObservable();
 
+  private contactDetailSubject = new BehaviorSubject<any | null>(null);
+  public contactDetail$ = this.contactDetailSubject.asObservable();
+
   constructor(private http: HttpClient) {
     this.loadTasks();
     this.loadContacts();
@@ -39,5 +42,15 @@ export class DatabaseService {
 
   public getContacts(): Observable<any[]> {
     return this.contacts$;
+  }
+
+  public getContactById(id: string): Observable<any> {
+    const url = `${this.contactsUrl}${id}/`;
+    return this.http.get<any>(url).pipe(
+      map((contact) => {
+        this.contactDetailSubject.next(contact);
+        return contact;
+      })
+    );
   }
 }
