@@ -36,6 +36,20 @@ export class DatabaseService {
     return this.tasks$;
   }
 
+  public createTask(task: Task): Observable<Task> {
+    const formattedTask = {
+      title: task.title,
+      description: task.description,
+      category: task.category.toLowerCase(),
+      priority: task.priority.toLowerCase(),
+      status: 'todo',
+      due_date: task.dueDate,
+      assigned_to: task.assignedTo,
+    };
+
+    return this.http.post<Task>(this.tasksUrl, formattedTask);
+  }
+
   private loadContacts() {
     this.http.get<Contact[]>(this.contactsUrl).subscribe((contacts) => {
       this.contactsSubject.next(contacts);
