@@ -12,6 +12,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SummaryComponent implements OnInit {
   public tasks: any[] = [];
+  public contacts: any[] = [];
   constructor(
     private router: Router,
     private databaseService: DatabaseService,
@@ -21,6 +22,9 @@ export class SummaryComponent implements OnInit {
   ngOnInit() {
     this.databaseService.getTasks().subscribe((tasks) => {
       console.log(tasks);
+    });
+    this.databaseService.getContacts().subscribe((contacts) => {
+      console.log(contacts);
     });
   }
 }

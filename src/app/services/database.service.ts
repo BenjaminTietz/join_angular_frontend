@@ -12,8 +12,13 @@ export class DatabaseService {
   private tasksSubject = new BehaviorSubject<any[]>([]);
   public tasks$ = this.tasksSubject.asObservable();
 
+  private contactsUrl = `${environment.baseRefUrl}/contact/`;
+  private contactsSubject = new BehaviorSubject<any[]>([]);
+  public contacts$ = this.contactsSubject.asObservable();
+
   constructor(private http: HttpClient) {
     this.loadTasks();
+    this.loadContacts();
   }
 
   private loadTasks() {
@@ -24,5 +29,15 @@ export class DatabaseService {
 
   public getTasks(): Observable<any[]> {
     return this.tasks$;
+  }
+
+  private loadContacts() {
+    this.http.get<any[]>(this.contactsUrl).subscribe((contacts) => {
+      this.contactsSubject.next(contacts);
+    });
+  }
+
+  public getContacts(): Observable<any[]> {
+    return this.contacts$;
   }
 }
