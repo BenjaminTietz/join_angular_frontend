@@ -13,9 +13,18 @@ import { DatabaseService } from '../../services/database.service';
 })
 export class ContactsComponent implements OnInit {
   contacts$!: Observable<Contact[]>;
+  contactDetail: any | null = null;
   constructor(private databaseService: DatabaseService) {}
 
   ngOnInit(): void {
     this.contacts$ = this.databaseService.getContacts();
+  }
+
+  handleShowContactDetails(id: string) {
+    this.databaseService.getContactById(id).subscribe((contact) => {
+      console.log(contact);
+      this.contactDetail = contact;
+    });
+    console.log(this.contactDetail);
   }
 }
