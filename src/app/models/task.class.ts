@@ -6,7 +6,7 @@ export class Task {
   title: string;
   description: string;
   category: string;
-  assignedTo: Contact['contactId'][];
+  assignedTo: Contact['id'][];
   dueDate: string;
   priority: string;
   subTasks: SubTask['subTaskId'][];

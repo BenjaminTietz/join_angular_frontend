@@ -1,6 +1,6 @@
 import { User } from './user.class';
 export class Contact {
-  contactId: string;
+  id: string;
   name: string;
   email: string;
   phone: string;
@@ -8,7 +8,7 @@ export class Contact {
   createdBy: User['userId'];
 
   constructor(obj?: any) {
-    this.contactId = obj ? obj.id : '';
+    this.id = obj ? obj.id : '';
     this.name = obj ? obj.name : '';
     this.email = obj ? obj.email : '';
     this.phone = obj ? obj.phone : '';
