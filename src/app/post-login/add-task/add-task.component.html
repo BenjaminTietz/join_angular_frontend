@@ -1,52 +1,60 @@
 <div class="add-task-wrapper">
     <div class="add-task-left">
 
-        <form>
-            <input type="text" placeholder="Enter a title" name="taskTitle" required>
+        <form [formGroup]="addTaskForm" (ngSubmit)="onSubmit()">
+            <input type="text" placeholder="Enter a title" formControlName="taskTitle">
             <span>Description(optional)</span>
-            <textarea placeholder="Enter a description" name="taskDescription" required></textarea>
+            <textarea placeholder="Enter a description" formControlName="taskDescription"></textarea>
             <span>Due date</span>
-            <input type="date" name="taskDueDate" required>
+            <input type="date" formControlName="taskDueDate">
             <span>Priority</span>
             <div class="btn-container">
-                <div class="prio-btn urgent pointer" type="button">Urgent<img
-                        src="/assets/img/icons/task_prio_urgent.png">
-                </div>
-                <div class="prio-btn medium pointer" type="button">Medium<img
-                        src="/assets/img/icons/task_prio_medium.png">
-                </div>
-                <div class="prio-btn low pointer" type="button">Low<img src="/assets/img/icons/task_prio_low.png"></div>
+                <div class="prio-btn urgent pointer" type="button"
+                    (click)="addTaskForm.patchValue({ taskPriority: 'Urgent' })">Urgent<img
+                        src="/assets/img/icons/task_prio_urgent.png"></div>
+                <div class="prio-btn medium pointer" type="button"
+                    (click)="addTaskForm.patchValue({ taskPriority: 'Medium' })">Medium<img
+                        src="/assets/img/icons/task_prio_medium.png"></div>
+                <div class="prio-btn low pointer" type="button"
+                    (click)="addTaskForm.patchValue({ taskPriority: 'Low' })">
+                    Low<img src="/assets/img/icons/task_prio_low.png"></div>
             </div>
             <span>Assigned to(optional)</span>
             <div class="drop-down">
                 <div class="input-container">
-                    <input type="text" placeholder="Select contacts to assign" name="taskAssignedTo" required><img
-                        src="/assets/img/icons/arrow_drop_down.png">
-                </div>
-                <div class="drop-down-content">
-
+                    <select formControlName="taskAssignedTo">
+                        @for (contact of contacts$ | async; track index; let index = $index) {
+                        <option [value]="contact.id">
+                            {{ contact.name }}
+                        </option>
+                        }
+                    </select>
                 </div>
             </div>
             <span>Category</span>
             <div class="input-container">
-                <input type="text" placeholder="Select task category" name="category" required><img
-                    src="/assets/img/icons/arrow_drop_down.png">
-            </div>
-            <div class="drop-down-content">
-
+                <select formControlName="category">
+                    @for (cat of categories; track index; let index = $index) {
+                    <option [value]="cat.value" [ngClass]="cat.class">
+                        {{ cat.label }}
+                    </option>
+                    }
+                </select>
             </div>
             <span>Subtasks(optional)</span>
             <div class="input-container">
-                <input type="text" placeholder="Add new subtask" name="subtask" required><img
+                <input type="text" placeholder="Add new subtask" formControlName="subtask"><img
                     src="/assets/img/icons/add_blue.png">
+            </div>
+            <div class="add-task-right">
+                <div class="submit-btn-container">
+                    <button class="white-btn" type="button" (click)="onClear()">Clear<img
+                            src="/assets/img/icons/cancel_btn.png"></button>
+                    <button class="blue-btn" type="submit" [disabled]="addTaskForm.invalid">Create Task<img
+                            src="/assets/img/icons/create_btn.png"></button>
+                </div>
             </div>
         </form>
 
-    </div>
-    <div class="add-task-right">
-        <div class="submit-btn-container">
-            <button class="white-btn" type="button">Clear<img src="/assets/img/icons/cancel_btn.png"></button>
-            <button class="blue-btn" type="submit">Create Task<img src="/assets/img/icons/create_btn.png"></button>
-        </div>
     </div>
 </div>
