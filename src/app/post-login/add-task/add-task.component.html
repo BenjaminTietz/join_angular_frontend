@@ -9,28 +9,42 @@
             <input type="date" formControlName="taskDueDate">
             <span>Priority</span>
             <div class="btn-container">
-                <div class="prio-btn urgent pointer" type="button"
-                    (click)="addTaskForm.patchValue({ taskPriority: 'Urgent' })">Urgent<img
-                        src="/assets/img/icons/task_prio_urgent.png"></div>
-                <div class="prio-btn medium pointer" type="button"
-                    (click)="addTaskForm.patchValue({ taskPriority: 'Medium' })">Medium<img
-                        src="/assets/img/icons/task_prio_medium.png"></div>
-                <div class="prio-btn low pointer" type="button"
-                    (click)="addTaskForm.patchValue({ taskPriority: 'Low' })">
-                    Low<img src="/assets/img/icons/task_prio_low.png"></div>
+                <div class="prio-btn pointer urgent" [ngClass]="{ 'urgent': selectedPriority === 'Urgent' }"
+                    (click)="setPriority('Urgent')">
+                    Urgent
+                    <img src="/assets/img/icons/task_prio_urgent.png">
+                </div>
+
+                <div class="prio-btn pointer medium" [ngClass]="{ 'medium': selectedPriority === 'Medium' }"
+                    (click)="setPriority('Medium')">
+                    Medium
+                    <img src="/assets/img/icons/task_prio_medium.png">
+                </div>
+
+                <div class="prio-btn pointer low" [ngClass]="{ 'low': selectedPriority === 'Low' }"
+                    (click)="setPriority('Low')">
+                    Low
+                    <img src="/assets/img/icons/task_prio_low.png">
+                </div>
             </div>
             <span>Assigned to(optional)</span>
             <div class="drop-down">
                 <div class="input-container">
-                    <select formControlName="taskAssignedTo">
-                        @for (contact of contacts$ | async; track index; let index = $index) {
-                        <option [value]="contact.id">
-                            {{ contact.name }}
-                        </option>
-                        }
-                    </select>
+                    @for (contact of contacts$ | async; track index; let index = $index) {
+                    <label>{{ contact.name }}</label>
+                    <input type="checkbox" [value]="contact.id" (change)="onCheckboxChange($event)">
+                    }
                 </div>
             </div>
+            @if ("addTaskForm.get('taskAssignedTo')?.value?.length > 0") {
+            <div class="selected-contacts">
+                <div class="selected-contact">
+                    @for (contactId of addTaskForm.get('taskAssignedTo')?.value; track contactId; let index = $index) {
+                    <span>{{contactId }}</span>
+                    }
+                </div>
+            </div>
+            }
             <span>Category</span>
             <div class="input-container">
                 <select formControlName="category">

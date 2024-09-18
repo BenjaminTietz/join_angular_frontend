@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -9,6 +11,7 @@ import {
 import { Observable } from 'rxjs';
 import { Contact } from '../../models/contact.class';
 import { DatabaseService } from '../../services/database.service';
+import { Task } from '../../models/task.class';
 
 @Component({
   selector: 'app-add-task',
@@ -27,7 +30,7 @@ export class AddTaskComponent implements OnInit {
     { value: 'purchase', label: 'Purchase', class: 'purchase' },
   ];
   contacts$!: Observable<Contact[]>;
-
+  selectedPriority: string = '';
   constructor(
     private fb: FormBuilder,
     private databaseService: DatabaseService
@@ -37,7 +40,7 @@ export class AddTaskComponent implements OnInit {
       taskDescription: [''],
       taskDueDate: ['', Validators.required],
       taskPriority: ['', Validators.required],
-      taskAssignedTo: [''],
+      taskAssignedTo: this.fb.array([], Validators.required),
       category: ['', Validators.required],
       subtask: [''],
     });
@@ -49,10 +52,46 @@ export class AddTaskComponent implements OnInit {
 
   onSubmit() {
     if (this.addTaskForm.valid) {
-      console.log(this.addTaskForm.value);
+      const newTask: Task = {
+        taskId: '',
+        title: this.addTaskForm.value.taskTitle,
+        description: this.addTaskForm.value.taskDescription,
+        dueDate: this.addTaskForm.value.taskDueDate,
+        assignedTo: this.addTaskForm.value.taskAssignedTo,
+        category: this.addTaskForm.value.category,
+        priority: this.addTaskForm.value.taskPriority,
+        status: 'todo',
+        subTasks: this.addTaskForm.value,
+        createdAt: new Date().toISOString(),
+        createdBy: '',
+      };
+      console.log('New Task:', newTask);
+      this.databaseService.createTask(newTask).subscribe((task) => {
+        console.log('Task created:', task);
+        // Optionally, you can also update the task list or show a success message
+      });
     }
   }
   onClear() {
     this.addTaskForm.reset();
+  }
+
+  onCheckboxChange(event: any) {
+    const taskAssignedTo: FormArray = this.addTaskForm.get(
+      'taskAssignedTo'
+    ) as FormArray;
+
+    if (event.target.checked) {
+      taskAssignedTo.push(new FormControl(event.target.value));
+    } else {
+      const index = taskAssignedTo.controls.findIndex(
+        (x) => x.value === event.target.value
+      );
+      taskAssignedTo.removeAt(index);
+    }
+  }
+  setPriority(priority: string) {
+    this.addTaskForm.patchValue({ taskPriority: priority });
+    this.selectedPriority = priority;
   }
 }

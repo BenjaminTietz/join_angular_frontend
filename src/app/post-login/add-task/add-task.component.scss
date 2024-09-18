@@ -86,9 +86,19 @@ form {
     gap: 10px;
     box-shadow: 0px 0px 4px 0px #00000029;
     outline: none;
+    background-color: $white;
     @include OpenSans(400, 19px, 22.8px, $black);
     @include dFlex(row, center, center);
+    border-color: transparent;
+    border-style: solid;
+    border-width: 2px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
 }
+
+
+
 
 .drop-down {
     width: 440px;
