@@ -3,20 +3,22 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { Contact } from '../models/contact.class';
+import { Task } from '../models/task.class';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DatabaseService {
   private tasksUrl = `${environment.baseRefUrl}/task/`;
-  private tasksSubject = new BehaviorSubject<any[]>([]);
+  private tasksSubject = new BehaviorSubject<Task[]>([]);
   public tasks$ = this.tasksSubject.asObservable();
 
   private contactsUrl = `${environment.baseRefUrl}/contact/`;
-  private contactsSubject = new BehaviorSubject<any[]>([]);
+  private contactsSubject = new BehaviorSubject<Contact[]>([]);
   public contacts$ = this.contactsSubject.asObservable();
 
-  private contactDetailSubject = new BehaviorSubject<any | null>(null);
+  private contactDetailSubject = new BehaviorSubject<Contact | null>(null);
   public contactDetail$ = this.contactDetailSubject.asObservable();
 
   constructor(private http: HttpClient) {
@@ -25,28 +27,28 @@ export class DatabaseService {
   }
 
   private loadTasks() {
-    this.http.get<any[]>(this.tasksUrl).subscribe((tasks) => {
+    this.http.get<Task[]>(this.tasksUrl).subscribe((tasks) => {
       this.tasksSubject.next(tasks);
     });
   }
 
-  public getTasks(): Observable<any[]> {
+  public getTasks(): Observable<Task[]> {
     return this.tasks$;
   }
 
   private loadContacts() {
-    this.http.get<any[]>(this.contactsUrl).subscribe((contacts) => {
+    this.http.get<Contact[]>(this.contactsUrl).subscribe((contacts) => {
       this.contactsSubject.next(contacts);
     });
   }
 
-  public getContacts(): Observable<any[]> {
+  public getContacts(): Observable<Contact[]> {
     return this.contacts$;
   }
 
-  public getContactById(id: string): Observable<any> {
+  public getContactById(id: string): Observable<Contact> {
     const url = `${this.contactsUrl}${id}/`;
-    return this.http.get<any>(url).pipe(
+    return this.http.get<Contact>(url).pipe(
       map((contact) => {
         this.contactDetailSubject.next(contact);
         return contact;
