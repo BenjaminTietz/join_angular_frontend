@@ -5,7 +5,7 @@
         <div class="contacts-list">
             @if ("contacts$ | async as contacts") {
             @for (contact of contacts$ | async; track contact; let index = $index) {
-            <div class="contact">
+            <div class="contact" (click)="handleShowContactDetails(contact.id)">
                 <div class="contact-left">
                     BT
                 </div>
@@ -19,12 +19,14 @@
         </div>
     </div>
     <div class="contacts-right">
+
+        @if (contactDetail) {
         <div class="contact-detail-view">
             <div class="detail-view-left">BT</div>
             <div class="detail-view-right">
 
                 <div class="detail-view-right-top">
-                    <h2>John Doe</h2>
+                    <h2>{{contactDetail.name}}</h2>
                     <div class="contact-actions">
                         <button class="contact-action-btn"><img src="/assets/img/icons/edit_contact.png">Edit</button>
                         <button class="contact-action-btn"><img
@@ -34,11 +36,13 @@
                 <div class="detail-view-right-bottom">
                     <h3>Contact Information</h3>
                     <h4>Email</h4>
-                    <p>benatben.com</p>
+                    <p>{{ contactDetail.email }}</p>
                     <h4>Phone</h4>
-                    <span>123-456-7890</span>
+                    <span>{{ contactDetail.phone }}</span>
                 </div>
             </div>
         </div>
+        }
+
     </div>
 </div>
