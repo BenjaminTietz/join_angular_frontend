@@ -63,12 +63,15 @@
         @include OpenSans(700, 23px, 27.6px, $menu-color);
         white-space: nowrap;
     }
+
+    margin-bottom: 16px;
 }
 
 .board-column-bottom {
     width: 252px;
     height: fit-content;
-    @include dFlex(row, space-between, flex-start);
+    gap: 16px;
+    @include dFlex(column, space-between, flex-start);
 }
 
 .add-btn {
@@ -90,12 +93,12 @@
     box-shadow: 0px 0px 10px 3px #00000014;
 
     h4 {
-        width: 110px;
+        min-width: 110px;
+        max-width: fit-content;
         height: 27px;
         border-radius: 8px;
         padding: 4px 16px;
         gap: 10px;
-        background-color: #FF7A00;
         @include OpenSans(400, 16px, 19.2px, $white);
         text-align: center;
         white-space: nowrap;
