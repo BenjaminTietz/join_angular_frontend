@@ -21,6 +21,8 @@ export class ContactsComponent implements OnInit {
   contacts$!: Observable<Contact[]>;
   contactDetail: any | null = null;
   addContactForm!: FormGroup;
+  editContactForm!: FormGroup;
+
   constructor(
     private databaseService: DatabaseService,
     private fb: FormBuilder
@@ -29,6 +31,11 @@ export class ContactsComponent implements OnInit {
       name: ['', Validators.required],
       email: ['', Validators.required],
       phone: ['', Validators.required],
+    });
+    this.editContactForm = this.fb.group({
+      editedName: ['', Validators.required],
+      editedEmail: ['', Validators.required],
+      editedPhone: ['', Validators.required],
     });
   }
 
@@ -42,6 +49,19 @@ export class ContactsComponent implements OnInit {
       this.contactDetail = contact;
     });
     console.log(this.contactDetail);
+  }
+  handleEditContact() {
+    const contactOverlay = document.querySelector(
+      '.add-contact-overlay'
+    ) as HTMLElement;
+    if (contactOverlay) {
+      contactOverlay.style.display = 'block';
+    }
+    this.editContactForm.setValue({
+      editedName: this.contactDetail.name,
+      editedEmail: this.contactDetail.email,
+      editedPhone: this.contactDetail.phone,
+    });
   }
 
   onSubmit() {
@@ -71,5 +91,42 @@ export class ContactsComponent implements OnInit {
   }
   onClear() {
     this.addContactForm.reset();
+  }
+  onSubmitEditContactForm() {
+    if (this.editContactForm.valid) {
+      const oldContact = this.contactDetail;
+      const newContact = {
+        name: this.editContactForm.value.editedName,
+        email: this.editContactForm.value.editedEmail,
+        phone: this.editContactForm.value.editedPhone,
+      };
+
+      const hasChanges =
+        oldContact.name !== newContact.name ||
+        oldContact.email !== newContact.email ||
+        oldContact.phone !== newContact.phone;
+
+      if (hasChanges) {
+        this.databaseService
+          .updateContact(oldContact.id, newContact)
+          .subscribe({
+            next: (updatedContact) => {
+              console.log('Contact updated:', updatedContact);
+              // Todo: refresh contact list / show success message
+            },
+            error: (error) => {
+              console.error('Error updating contact:', error);
+            },
+            complete: () => {
+              console.log('Contact update process completed.');
+            },
+          });
+      } else {
+        console.log('No changes detected, contact not updated.');
+      }
+    }
+  }
+  onClearEditContactForm() {
+    this.editContactForm.reset();
   }
 }
