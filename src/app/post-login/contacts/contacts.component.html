@@ -46,3 +46,39 @@
 
     </div>
 </div>
+<!-- add contact overlay -->
+<div class="add-contact-overlay">
+    <div class="add-contact-overlay-content">
+        <div class="add-contact-overlay-top">
+            <img src="/assets/img/logos/join_logo_white.png">
+            <h2>Add Contact</h2>
+            <h3>Tasks are better with a team!</h3>
+        </div>
+        <div class="add-contact-overlay-bottom">
+            <form [formGroup]="addContactForm" (ngSubmit)="onSubmit()">
+                <div class="form-input">
+                    <div class="input-container">
+                        <input type="text" placeholder="Name" formControlName="name"><img
+                            src="/assets/img/icons/login_name.png">
+                    </div>
+                    <div class="input-container">
+                        <input type="email" placeholder="Email" formControlName="email"><img
+                            src="/assets/img/icons/login_mail.png">
+                    </div>
+                    <div class="input-container">
+                        <input type="phone" placeholder="Phone" formControlName="phone"><img
+                            src="/assets/img/icons/contact_phone.png">
+                    </div>
+                </div>
+                <div class="submit-btn-container">
+                    <button class="white-btn" type="button" (click)="onClear()">Cancel<img
+                            src="/assets/img/icons/cancel_btn.png"></button>
+                    <button class="blue-btn" type="submit">Create Contact<img
+                            src="/assets/img/icons/create_btn.png"></button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
