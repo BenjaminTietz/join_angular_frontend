@@ -78,4 +78,12 @@ export class DatabaseService {
 
     return this.http.post<Contact>(this.contactsUrl, formattedContact);
   }
+
+  public updateContact(
+    id: string,
+    updatedContact: Partial<Contact>
+  ): Observable<Contact> {
+    const url = `${this.contactsUrl}${id}/`;
+    return this.http.put<Contact>(url, updatedContact);
+  }
 }
