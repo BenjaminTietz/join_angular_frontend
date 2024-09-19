@@ -9,8 +9,33 @@ $white-btn-boarder: #647188;
 $input-border: #A8A8A8;
 $light-blue: #005DFF;
 
+//category colors
+.MARKETING {
+    background-color: #FF7A00;
+}
 
-;
+.sales {
+    background-color: #FFD600;
+}
+
+.development {
+    background-color: #00C2FF;
+}
+
+.accounting {
+    background-color: #00FFA3;
+}
+
+.purchase {
+    background-color: #FF00A8;
+}
+
+// prio colors 
+$urgent : #FF3D00;
+$medium : #FFA800;
+$low : #7AE229;
+
+
 
 html {
     scroll-behavior: smooth;
@@ -85,4 +110,12 @@ body {
     cursor: pointer;
     @include OpenSans(400, 23px, 27.6px, $white);
     @include dFlex(row, center, center);
+}
+
+.back-btn {
+    width: 37px;
+    height: 37px;
+    background-color: $white;
+    border-radius: 100%;
+    cursor: pointer;
 }
