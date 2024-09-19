@@ -169,3 +169,36 @@
         }
     }
 }
+
+// add task overlay
+.floating-add-task-wrapper {
+    width: 100svw;
+    height: 100svh;
+    border-radius: 30px 0px 30px 30px;
+    box-shadow: 0px 0px 4px 0px #00000029;
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    >.add-task-content {
+        background-color: $white;
+
+        >.add-task-header {
+            h3 {
+                @include OpenSans(700, 48px, 57.6px, $black);
+            }
+        }
+
+        app-add-task {
+            width: 100%;
+            height: 100%;
+            background-color: $white !important;
+
+            >.add-task-wrapper {
+                >.add-task-left {
+                    background-color: $white !important;
+                }
+            }
+        }
+    }
+}

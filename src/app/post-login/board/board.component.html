@@ -3,19 +3,21 @@
         <div class="input-container"><input type="text" class="board-search" placeholder="Find Task">
             <div class="vertical-line"></div><img src="/assets/img/icons/search_task.png">
         </div>
-        <button class="blue-btn">Add Task<img src="/assets/img/icons/add_task_white.png"></button>
+        <button class="blue-btn" (click)="handleShowAddTaskOverlay('todo')">Add Task<img
+                src="/assets/img/icons/add_task_white.png"></button>
     </div>
     <div class="board-bottom-section">
         <div class="board-column">
             <div class="board-column-container">
                 <div class="board-column-top">
                     <h3>To do</h3>
-                    <button class="add-btn"><img src="/assets/img/icons/add_task_blue.png"></button>
+                    <button class="add-btn" (click)="handleShowAddTaskOverlay('todo')"><img
+                            src="/assets/img/icons/add_task_blue.png"></button>
                 </div>
                 <div class="board-column-bottom">
                     @if ("tasks$ | async as tasks") {
                     @for (task of tasks$ | async; track task; let index = $index) {
-                    @if (task.status == 'TODO' ) {
+                    @if (task.status == 'todo' ) {
                     <div class="single-task">
                         <div class="task-category">
                             <h4 class="{{task.category}}">{{task.category}}</h4>
@@ -54,7 +56,8 @@
             <div class="board-column-container">
                 <div class="board-column-top">
                     <h3>In progress</h3>
-                    <button class="add-btn"><img src="/assets/img/icons/add_task_blue.png"></button>
+                    <button class="add-btn" (click)="handleShowAddTaskOverlay('inProgress')"><img
+                            src="/assets/img/icons/add_task_blue.png"></button>
                 </div>
                 <div class="board-column-bottom">
 
@@ -63,7 +66,8 @@
             <div class="board-column-container">
                 <div class="board-column-top">
                     <h3>Await feedback</h3>
-                    <button class="add-btn"><img src="/assets/img/icons/add_task_blue.png"></button>
+                    <button class="add-btn" (click)="handleShowAddTaskOverlay('awaitFeedback')"><img
+                            src="/assets/img/icons/add_task_blue.png"></button>
                 </div>
                 <div class="board-column-bottom">
 
@@ -81,3 +85,15 @@
         </div>
     </div>
 </div>
+@if (showAddTaskOverlay) {
+<div class="floating-add-task-wrapper">
+    <div class="add-task-content">
+        <div class="add-task-header">
+            <h3>Add Task</h3>
+            <button class="close-btn" (click)="handleCloseAddTaskOverlay()"><img
+                    src="/assets/img/icons/close_btn_blue.png"></button>
+        </div>
+        <app-add-task></app-add-task>
+    </div>
+</div>
+}

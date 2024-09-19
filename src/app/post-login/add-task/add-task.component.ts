@@ -68,7 +68,7 @@ export class AddTaskComponent implements OnInit {
       console.log('New Task:', newTask);
       this.databaseService.createTask(newTask).subscribe((task) => {
         console.log('Task created:', task);
-        // Optionally, you can also update the task list or show a success message
+        // todo : show "task added to board" message
       });
     }
   }

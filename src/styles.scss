@@ -119,3 +119,19 @@ body {
     border-radius: 100%;
     cursor: pointer;
 }
+
+.close-btn {
+    width: 32px;
+    height: 32px;
+    background-color: $white;
+    border-radius: 100%;
+    padding: 4px;
+    gap: 10px;
+    border: unset;
+    cursor: pointer;
+    @include dFlex(row, center, center);
+
+    &:hover {
+        background-color: $main-blue-light;
+    }
+}
