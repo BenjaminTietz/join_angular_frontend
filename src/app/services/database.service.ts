@@ -69,4 +69,13 @@ export class DatabaseService {
       })
     );
   }
+  public createContact(contact: Contact): Observable<Contact> {
+    const formattedContact = {
+      name: contact.name,
+      email: contact.email,
+      phone: contact.phone,
+    };
+
+    return this.http.post<Contact>(this.contactsUrl, formattedContact);
+  }
 }
