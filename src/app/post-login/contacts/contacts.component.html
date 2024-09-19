@@ -28,7 +28,8 @@
                 <div class="detail-view-right-top">
                     <h2>{{contactDetail.name}}</h2>
                     <div class="contact-actions">
-                        <button class="contact-action-btn"><img src="/assets/img/icons/edit_contact.png">Edit</button>
+                        <button class="contact-action-btn" type="button" (click)="handleEditContact()"><img
+                                src="/assets/img/icons/edit_contact.png">Edit</button>
                         <button class="contact-action-btn"><img
                                 src="/assets/img/icons/delete_contact.png">Delete</button>
                     </div>
@@ -47,6 +48,7 @@
     </div>
 </div>
 <!-- add contact overlay -->
+<!--
 <div class="add-contact-overlay">
     <div class="add-contact-overlay-content">
         <div class="add-contact-overlay-top">
@@ -75,6 +77,40 @@
                             src="/assets/img/icons/cancel_btn.png"></button>
                     <button class="blue-btn" type="submit">Create Contact<img
                             src="/assets/img/icons/create_btn.png"></button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+-->
+<!-- edit contact overlay -->
+<div class="add-contact-overlay">
+    <div class="add-contact-overlay-content">
+        <div class="add-contact-overlay-top">
+            <img src="/assets/img/logos/join_logo_white.png">
+            <h2>Edit Contact</h2>
+        </div>
+        <div class="add-contact-overlay-bottom">
+            <form [formGroup]="editContactForm" (ngSubmit)="onSubmitEditContactForm()">
+                <div class="form-input">
+                    <div class="input-container">
+                        <input type="text" placeholder="Name" formControlName="editedName"><img
+                            src="/assets/img/icons/login_name.png">
+                    </div>
+                    <div class="input-container">
+                        <input type="email" placeholder="Email" formControlName="editedEmail"><img
+                            src="/assets/img/icons/login_mail.png">
+                    </div>
+                    <div class="input-container">
+                        <input type="phone" placeholder="Phone" formControlName="editedPhone"><img
+                            src="/assets/img/icons/contact_phone.png">
+                    </div>
+                </div>
+                <div class="submit-btn-container">
+                    <button class="white-btn" type="button" (click)="onClearEditContactForm()">Delete</button>
+                    <button class="blue-btn" type="submit">Save<img src="/assets/img/icons/create_btn.png"></button>
                 </div>
             </form>
 
