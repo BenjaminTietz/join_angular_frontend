@@ -8,7 +8,7 @@ import { BoardComponent } from './post-login/board/board.component';
 import { ContactsComponent } from './post-login/contacts/contacts.component';
 import { ImprintComponent } from './legal/imprint/imprint.component';
 import { PrivacyPolicyComponent } from './legal/privacy-policy/privacy-policy.component';
-
+import { authGuard } from './guards/auth.guard';
 export const routes: Routes = [
   // pre-login component routes
   {
@@ -24,14 +24,22 @@ export const routes: Routes = [
   {
     path: 'home',
     component: HomescreenComponent,
+    canActivate: [authGuard],
     children: [
       { path: '', component: SummaryComponent },
       { path: 'summary', component: SummaryComponent },
       { path: 'add-task', component: AddTaskComponent },
       { path: 'board', component: BoardComponent },
       { path: 'contacts', component: ContactsComponent },
-      { path: 'imprint', component: ImprintComponent },
-      { path: 'privacy-policy', component: PrivacyPolicyComponent },
     ],
+  },
+  // public routes
+  {
+    path: 'privacy-policy',
+    component: PrivacyPolicyComponent,
+  },
+  {
+    path: 'imprint',
+    component: ImprintComponent,
   },
 ];
