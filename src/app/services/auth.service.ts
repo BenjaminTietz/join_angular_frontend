@@ -8,17 +8,26 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = `${environment.baseRefUrl}/login/`;
+  private loginUrl = `${environment.baseRefUrl}/login/`;
+  private signupUrl = `${environment.baseRefUrl}/signup/`;
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<any> {
     const body = { email, password };
-    return this.http.post<any>(this.apiUrl, body).pipe(
+    return this.http.post<any>(this.loginUrl, body).pipe(
       tap((response) => {
         if (response.token) {
           localStorage.setItem('token', response.token);
           console.log('Login Successful', response.token);
         }
+      })
+    );
+  }
+  signup(username: string, email: string, password: string): Observable<any> {
+    const body = { username, email, password };
+    return this.http.post<any>(this.signupUrl, body).pipe(
+      tap((response) => {
+        console.log('Signup Successful', response);
       })
     );
   }
