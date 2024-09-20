@@ -14,11 +14,12 @@
                     <button class="add-btn" (click)="handleShowAddTaskOverlay('todo')"><img
                             src="/assets/img/icons/add_task_blue.png"></button>
                 </div>
-                <div class="board-column-bottom">
-                    @if ("tasks$ | async as tasks") {
-                    @for (task of tasks$ | async; track task; let index = $index) {
+                <div class="board-column-bottom" (dragover)="onDragOver($event, 'todo')"
+                    (drop)="onDrop($event, 'todo')">
+                    @if ("todoTasks") {
+                    @for (task of todoTasks; track task; let index = $index) {
                     @if (task.status == 'todo' ) {
-                    <div class="single-task">
+                    <div class="single-task" (dragstart)="onDrag($event, index, task.id , 'todo')" draggable="true">
                         <div class="task-category">
                             <h4 class="{{task.category}}">{{task.category}}</h4>
                         </div>
@@ -59,8 +60,45 @@
                     <button class="add-btn" (click)="handleShowAddTaskOverlay('inProgress')"><img
                             src="/assets/img/icons/add_task_blue.png"></button>
                 </div>
-                <div class="board-column-bottom">
+                <div class="board-column-bottom" (dragover)="onDragOver($event, 'inProgress')"
+                    (drop)="onDrop($event, 'inProgress')">
+                    @if ("inProgressTasks") {
+                    @for (task of inProgressTasks; track task; let index = $index) {
+                    @if (task.status == 'inProgress' ) {
+                    <div class="single-task" (dragstart)="onDrag($event, index, task.id, 'inProgress')"
+                        draggable="true">
+                        <div class="task-category">
+                            <h4 class="{{task.category}}">{{task.category}}</h4>
+                        </div>
+                        <div class="task-title">
+                            <span>{{task.title}}</span>
+                        </div>
+                        <div class="task-description">
+                            <p>{{task.description}}</p>
+                        </div>
+                        <div class="progress-container">
+                            <progress max="100" value="0"></progress>
+                            <span>1/2 Subtasks</span>
 
+                        </div>
+
+                        <div class="single-task-bottom">
+                            <div class="task-assignee">
+                                <div class="assignee"><span>BT</span>
+                                </div>
+                                <div class="assignee"><span>BT</span>
+                                </div>
+                                <div class="assignee"><span>BT</span>
+                                </div>
+                            </div>
+                            <div class="task-prio">
+                                <img [src]="getPriorityIcon(task.priority)" alt="{{task.priority}} priority icon">
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    }
+                    }
                 </div>
             </div>
             <div class="board-column-container">
@@ -69,8 +107,45 @@
                     <button class="add-btn" (click)="handleShowAddTaskOverlay('awaitFeedback')"><img
                             src="/assets/img/icons/add_task_blue.png"></button>
                 </div>
-                <div class="board-column-bottom">
+                <div class="board-column-bottom" (dragover)="onDragOver($event, 'awaitFeedback')"
+                    (drop)="onDrop($event, 'awaitFeedback')">
+                    @if ("awaitFeedbackTasks") {
+                    @for (task of awaitFeedbackTasks; track task; let index = $index) {
+                    @if (task.status == 'awaitFeedback' ) {
+                    <div class="single-task" (dragstart)="onDrag($event, index, task.id, 'awaitFeedback')"
+                        draggable="true">
+                        <div class="task-category">
+                            <h4 class="{{task.category}}">{{task.category}}</h4>
+                        </div>
+                        <div class="task-title">
+                            <span>{{task.title}}</span>
+                        </div>
+                        <div class="task-description">
+                            <p>{{task.description}}</p>
+                        </div>
+                        <div class="progress-container">
+                            <progress max="100" value="0"></progress>
+                            <span>1/2 Subtasks</span>
 
+                        </div>
+
+                        <div class="single-task-bottom">
+                            <div class="task-assignee">
+                                <div class="assignee"><span>BT</span>
+                                </div>
+                                <div class="assignee"><span>BT</span>
+                                </div>
+                                <div class="assignee"><span>BT</span>
+                                </div>
+                            </div>
+                            <div class="task-prio">
+                                <img [src]="getPriorityIcon(task.priority)" alt="{{task.priority}} priority icon">
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    }
+                    }
                 </div>
             </div>
             <div class="board-column-container">
@@ -78,8 +153,44 @@
                     <h3>Done</h3>
                     <button class="add-btn"><img src="/assets/img/icons/add_task_blue.png"></button>
                 </div>
-                <div class="board-column-bottom">
+                <div class="board-column-bottom" (dragover)="onDragOver($event, 'done')"
+                    (drop)="onDrop($event, 'done')">
+                    @if ("doneTasks") {
+                    @for (task of doneTasks; track task; let index = $index) {
+                    @if (task.status == 'done' ) {
+                    <div class="single-task" (dragstart)="onDrag($event, index, task.id, 'done')" draggable="true">
+                        <div class="task-category">
+                            <h4 class="{{task.category}}">{{task.category}}</h4>
+                        </div>
+                        <div class="task-title">
+                            <span>{{task.title}}</span>
+                        </div>
+                        <div class="task-description">
+                            <p>{{task.description}}</p>
+                        </div>
+                        <div class="progress-container">
+                            <progress max="100" value="0"></progress>
+                            <span>1/2 Subtasks</span>
 
+                        </div>
+
+                        <div class="single-task-bottom">
+                            <div class="task-assignee">
+                                <div class="assignee"><span>BT</span>
+                                </div>
+                                <div class="assignee"><span>BT</span>
+                                </div>
+                                <div class="assignee"><span>BT</span>
+                                </div>
+                            </div>
+                            <div class="task-prio">
+                                <img [src]="getPriorityIcon(task.priority)" alt="{{task.priority}} priority icon">
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    }
+                    }
                 </div>
             </div>
         </div>
