@@ -22,7 +22,8 @@ export class ContactsComponent implements OnInit {
   contactDetail: any | null = null;
   addContactForm!: FormGroup;
   editContactForm!: FormGroup;
-
+  showAddContactOverlay = false;
+  showEditContactOverlay = false;
   constructor(
     private databaseService: DatabaseService,
     private fb: FormBuilder
@@ -51,17 +52,22 @@ export class ContactsComponent implements OnInit {
     console.log(this.contactDetail);
   }
   handleEditContact() {
-    const contactOverlay = document.querySelector(
-      '.add-contact-overlay'
-    ) as HTMLElement;
-    if (contactOverlay) {
-      contactOverlay.style.display = 'block';
-    }
+    this.showEditContactOverlay = true;
     this.editContactForm.setValue({
       editedName: this.contactDetail.name,
       editedEmail: this.contactDetail.email,
       editedPhone: this.contactDetail.phone,
     });
+  }
+
+  extractInitials(name: string) {
+    const nameParts = name.split(' ');
+    const initials = nameParts.map((part) => part[0]).join('');
+    return initials;
+  }
+
+  assignRandomColor() {
+    return '#' + Math.floor(Math.random() * 16777215).toString(16);
   }
 
   onSubmit() {
@@ -71,6 +77,8 @@ export class ContactsComponent implements OnInit {
         name: this.addContactForm.value.name,
         email: this.addContactForm.value.email,
         phone: this.addContactForm.value.phone,
+        initials: this.extractInitials(this.addContactForm.value.name),
+        color: this.assignRandomColor(),
         createdAt: '',
         createdBy: '',
       };
@@ -78,7 +86,8 @@ export class ContactsComponent implements OnInit {
       this.databaseService.createContact(newContact).subscribe({
         next: (contact) => {
           console.log('Contact created:', contact);
-          // todo show success message / reset form
+          // todo show success message / reset form / refresh contact list
+          this.handleCloseAddContactOverlay();
         },
         error: (error) => {
           console.error('Error creating contact:', error);
@@ -89,9 +98,7 @@ export class ContactsComponent implements OnInit {
       });
     }
   }
-  onClear() {
-    this.addContactForm.reset();
-  }
+
   onSubmitEditContactForm() {
     if (this.editContactForm.valid) {
       const oldContact = this.contactDetail;
@@ -126,7 +133,19 @@ export class ContactsComponent implements OnInit {
       }
     }
   }
-  onClearEditContactForm() {
+  onDeleteEditContactForm() {
+    // todo : delete contact
+  }
+
+  handleAddContact() {
+    this.showAddContactOverlay = true;
+  }
+  handleCloseAddContactOverlay() {
+    this.showAddContactOverlay = false;
+    this.addContactForm.reset();
+  }
+  handleCloseEditContactOverlay() {
+    this.showEditContactOverlay = false;
     this.editContactForm.reset();
   }
 }
