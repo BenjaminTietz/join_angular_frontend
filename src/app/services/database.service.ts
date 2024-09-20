@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
@@ -26,10 +26,19 @@ export class DatabaseService {
     this.loadContacts();
   }
 
+  get headers() {
+    return new HttpHeaders().set(
+      'Authorization',
+      'Token ' + localStorage.getItem('token')
+    );
+  }
+
   private loadTasks() {
-    this.http.get<Task[]>(this.tasksUrl).subscribe((tasks) => {
-      this.tasksSubject.next(tasks);
-    });
+    this.http
+      .get<Task[]>(this.tasksUrl, { headers: this.headers })
+      .subscribe((tasks) => {
+        this.tasksSubject.next(tasks);
+      });
   }
 
   public getTasks(): Observable<Task[]> {
@@ -47,13 +56,17 @@ export class DatabaseService {
       assigned_to: task.assignedTo,
     };
 
-    return this.http.post<Task>(this.tasksUrl, formattedTask);
+    return this.http.post<Task>(this.tasksUrl, formattedTask, {
+      headers: this.headers,
+    });
   }
 
   private loadContacts() {
-    this.http.get<Contact[]>(this.contactsUrl).subscribe((contacts) => {
-      this.contactsSubject.next(contacts);
-    });
+    this.http
+      .get<Contact[]>(this.contactsUrl, { headers: this.headers })
+      .subscribe((contacts) => {
+        this.contactsSubject.next(contacts);
+      });
   }
 
   public getContacts(): Observable<Contact[]> {
@@ -62,7 +75,7 @@ export class DatabaseService {
 
   public getContactById(id: string): Observable<Contact> {
     const url = `${this.contactsUrl}${id}/`;
-    return this.http.get<Contact>(url).pipe(
+    return this.http.get<Contact>(url, { headers: this.headers }).pipe(
       map((contact) => {
         this.contactDetailSubject.next(contact);
         return contact;
@@ -76,7 +89,9 @@ export class DatabaseService {
       phone: contact.phone,
     };
 
-    return this.http.post<Contact>(this.contactsUrl, formattedContact);
+    return this.http.post<Contact>(this.contactsUrl, formattedContact, {
+      headers: this.headers,
+    });
   }
 
   public updateContact(
@@ -84,6 +99,8 @@ export class DatabaseService {
     updatedContact: Partial<Contact>
   ): Observable<Contact> {
     const url = `${this.contactsUrl}${id}/`;
-    return this.http.put<Contact>(url, updatedContact);
+    return this.http.put<Contact>(url, updatedContact, {
+      headers: this.headers,
+    });
   }
 }
