@@ -87,8 +87,10 @@ export class DatabaseService {
       name: contact.name,
       email: contact.email,
       phone: contact.phone,
+      initials: contact.initials,
+      color: contact.color,
     };
-
+    console.log('Creating contact:', formattedContact);
     return this.http.post<Contact>(this.contactsUrl, formattedContact, {
       headers: this.headers,
     });
