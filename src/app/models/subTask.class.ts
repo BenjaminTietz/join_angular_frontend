@@ -1,7 +1,7 @@
 import { Task } from './task.class';
 
 export class SubTask {
-  taskId: Task['taskId'];
+  taskId: Task['id'];
   subTaskId: string;
   title: string;
   checked: boolean;

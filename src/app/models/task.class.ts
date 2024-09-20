@@ -2,7 +2,7 @@ import { Contact } from './contact.class';
 import { SubTask } from './subTask.class';
 
 export class Task {
-  taskId: string;
+  id: string;
   title: string;
   description: string;
   category: string;
@@ -15,7 +15,7 @@ export class Task {
   createdBy: string;
 
   constructor(obj?: any) {
-    this.taskId = obj ? obj.id : '';
+    this.id = obj ? obj.id : '';
     this.title = obj ? obj.title : '';
     this.description = obj ? obj.description : '';
     this.category = obj ? obj.category : '';

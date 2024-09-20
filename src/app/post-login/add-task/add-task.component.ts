@@ -53,7 +53,7 @@ export class AddTaskComponent implements OnInit {
   onSubmit() {
     if (this.addTaskForm.valid) {
       const newTask: Task = {
-        taskId: '',
+        id: '',
         title: this.addTaskForm.value.taskTitle,
         description: this.addTaskForm.value.taskDescription,
         dueDate: this.addTaskForm.value.taskDueDate,
