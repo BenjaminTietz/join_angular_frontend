@@ -33,7 +33,7 @@ export class DatabaseService {
     );
   }
 
-  private loadTasks() {
+  public loadTasks() {
     this.http
       .get<Task[]>(this.tasksUrl, { headers: this.headers })
       .subscribe((tasks) => {
@@ -57,6 +57,13 @@ export class DatabaseService {
     };
 
     return this.http.post<Task>(this.tasksUrl, formattedTask, {
+      headers: this.headers,
+    });
+  }
+
+  public updateTask(id: string, updatedTask: Partial<Task>): Observable<Task> {
+    const url = `${this.tasksUrl}${id}/`;
+    return this.http.put<Task>(url, updatedTask, {
       headers: this.headers,
     });
   }
