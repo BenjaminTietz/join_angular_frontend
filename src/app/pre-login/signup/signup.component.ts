@@ -6,6 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -17,7 +18,11 @@ import {
 export class SignupComponent {
   signupForm!: FormGroup;
 
-  constructor(private router: Router, private fb: FormBuilder) {
+  constructor(
+    private router: Router,
+    private fb: FormBuilder,
+    private authService: AuthService
+  ) {
     this.createSignupForm();
   }
 
@@ -46,7 +51,18 @@ export class SignupComponent {
   onSubmit() {
     if (this.signupForm.valid) {
       console.log(this.signupForm.value);
-      // connect with auth service to communicate with backend
+      const { name, email, password } = this.signupForm.value;
+      this.authService.signup(name, email, password).subscribe({
+        next: (response) => {
+          console.log('Signup successful:', response);
+          // todo  : show success message
+          this.router.navigate(['/']);
+        },
+        error: (error) => {
+          console.error('Signup failed:', error);
+          // todo: implement error handling
+        },
+      });
     } else {
       console.log('Invalid Form');
     }
