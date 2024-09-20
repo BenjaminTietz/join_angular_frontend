@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -15,8 +16,12 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class LoginComponent {
   loginForm!: FormGroup;
-
-  constructor(private router: Router, private fb: FormBuilder) {
+  injectAuthService!: AuthService;
+  constructor(
+    private router: Router,
+    private fb: FormBuilder,
+    private authService: AuthService
+  ) {
     this.createLoginForm();
   }
 
@@ -30,7 +35,18 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
+      this.authService
+        .login(this.loginForm.value.email, this.loginForm.value.password)
+        .subscribe({
+          next: (response) => {
+            console.log('Login successful:', response);
+            this.router.navigate(['/home']);
+          },
+          error: (error) => {
+            console.error('Login failed:', error);
+            // todo: implement error handling
+          },
+        });
     } else {
       console.log('Invalid Form');
     }
