@@ -21,7 +21,7 @@ export class BoardComponent implements OnInit {
   };
   showAddTaskOverlay = false;
   selectedStaus = '';
-
+  selectedCategory = '';
   daggedTaskId = '';
   draggedTaskIndex = 0;
 
@@ -38,6 +38,7 @@ export class BoardComponent implements OnInit {
 
   handleShowAddTaskOverlay(status: string) {
     this.showAddTaskOverlay = true;
+    this.selectedStaus = status;
     console.log(status);
   }
   handleCloseAddTaskOverlay() {

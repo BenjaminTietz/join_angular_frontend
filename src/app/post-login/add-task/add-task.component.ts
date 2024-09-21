@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -31,6 +31,8 @@ export class AddTaskComponent implements OnInit {
   ];
   contacts$!: Observable<Contact[]>;
   selectedPriority: string = '';
+  @Input() category: string = '';
+
   constructor(
     private fb: FormBuilder,
     private databaseService: DatabaseService
@@ -60,7 +62,7 @@ export class AddTaskComponent implements OnInit {
         assignedTo: this.addTaskForm.value.taskAssignedTo,
         category: this.addTaskForm.value.category,
         priority: this.addTaskForm.value.taskPriority,
-        status: 'todo',
+        status: this.category || 'todo',
         subTasks: this.addTaskForm.value,
         createdAt: new Date().toISOString(),
         createdBy: '',

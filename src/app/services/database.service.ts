@@ -78,8 +78,8 @@ export class DatabaseService {
       description: task.description,
       category: task.category.toLowerCase(),
       priority: task.priority.toLowerCase(),
-      status: 'todo',
-      due_date: task.dueDate,
+      status: task.status,
+      dueDate: task.dueDate,
       assigned_to: task.assignedTo,
     };
 

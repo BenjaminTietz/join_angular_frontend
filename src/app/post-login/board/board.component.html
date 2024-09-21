@@ -151,7 +151,6 @@
             <div class="board-column-container">
                 <div class="board-column-top">
                     <h3>Done</h3>
-                    <button class="add-btn"><img src="/assets/img/icons/add_task_blue.png"></button>
                 </div>
                 <div class="board-column-bottom" (dragover)="onDragOver($event, 'done')"
                     (drop)="onDrop($event, 'done')">
@@ -204,7 +203,7 @@
             <button class="close-btn" (click)="handleCloseAddTaskOverlay()"><img
                     src="/assets/img/icons/close_btn_blue.png"></button>
         </div>
-        <app-add-task></app-add-task>
+        <app-add-task [category]="this.selectedStaus"></app-add-task>
     </div>
 </div>
 }
