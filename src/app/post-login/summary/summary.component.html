@@ -1,6 +1,6 @@
 <div class="summary-wrapper">
 
-    <h1>Good morning,<span>Sofia Müller</span></h1>
+    <h1>{{ greetingMessage }}<span>Sofia Müller</span></h1>
 
     <div class="tasks-overview">
         <div class="task-overview-top">
@@ -8,7 +8,7 @@
                 <div class="task-category">
                     <div class="task-category-top">
                         <img src="assets/img/icons/board_summary_icon.png" alt="icon">
-                        <span>6</span>
+                        <span>{{this.databaseService.urgentTasks}}</span>
                     </div>
                     <div class="task-category-bottom">
                         <span>Task in Board</span>
@@ -16,7 +16,7 @@
                 </div>
                 <div class="vertical-line"></div>
                 <div class="task-deadline">
-                    <p>October 13, 2024</p>
+                    <p>{{this.databaseService.nextDueDate}}</p>
                     <span>Upcomming Dealine</span>
 
                 </div>
@@ -24,7 +24,7 @@
             <div class="task-category pointer" [routerLink]="['/home/board']">
                 <div class="task-category-top">
                     <img src="assets/img/icons/board_summary_icon.png" alt="icon">
-                    <span>5</span>
+                    <span>{{this.databaseService.tasksCount}}</span>
                 </div>
                 <div class="task-category-bottom">
                     <span>Task in Board</span>
@@ -35,7 +35,7 @@
             <div class="task-category pointer" [routerLink]="['/home/board']">
                 <div class="task-category-top">
                     <img src="assets/img/icons/todo_tasks_summary_icon.png" alt="icon">
-                    <span>3</span>
+                    <span>{{this.databaseService.todoTasks.length}}</span>
                 </div>
                 <div class="task-category-bottom">
                     <span>Tasks To-do</span>
@@ -44,7 +44,7 @@
             <div class="task-category pointer" [routerLink]="['/home/board']">
                 <div class="task-category-top">
                     <img src="assets/img/icons/in_progress_tasks_summary_icon.png" alt="icon">
-                    <span>2</span>
+                    <span>{{this.databaseService.inProgressTasks.length}}</span>
                 </div>
                 <div class="task-category-bottom">
                     <span>Task in Progress</span>
@@ -53,7 +53,7 @@
             <div class="task-category pointer" [routerLink]="['/home/board']">
                 <div class="task-category-top">
                     <img src="assets/img/icons/awaiting_feedback_tasks_summary_icon.png" alt="icon">
-                    <span>1</span>
+                    <span>{{this.databaseService.awaitFeedbackTasks.length}}</span>
                 </div>
                 <div class="task-category-bottom">
                     <span>Awaiting Feedback</span>
@@ -62,7 +62,7 @@
             <div class="task-category pointer" [routerLink]="['/home/board']">
                 <div class="task-category-top">
                     <img src="assets/img/icons/done_tasks_summary_icon.png" alt="icon">
-                    <span>0</span>
+                    <span>{{this.databaseService.doneTasks.length}}</span>
                 </div>
                 <div class="task-category-bottom">
                     <span>Tasks Done</span>

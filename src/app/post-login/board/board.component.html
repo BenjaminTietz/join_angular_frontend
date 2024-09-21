@@ -17,7 +17,7 @@
                 <div class="board-column-bottom" (dragover)="onDragOver($event, 'todo')"
                     (drop)="onDrop($event, 'todo')">
                     @if ("todoTasks") {
-                    @for (task of todoTasks; track task; let index = $index) {
+                    @for (task of this.databaseService.todoTasks; track task; let index = $index) {
                     @if (task.status == 'todo' ) {
                     <div class="single-task" (dragstart)="onDrag($event, index, task.id , 'todo')" draggable="true">
                         <div class="task-category">
@@ -63,7 +63,7 @@
                 <div class="board-column-bottom" (dragover)="onDragOver($event, 'inProgress')"
                     (drop)="onDrop($event, 'inProgress')">
                     @if ("inProgressTasks") {
-                    @for (task of inProgressTasks; track task; let index = $index) {
+                    @for (task of this.databaseService.inProgressTasks; track task; let index = $index) {
                     @if (task.status == 'inProgress' ) {
                     <div class="single-task" (dragstart)="onDrag($event, index, task.id, 'inProgress')"
                         draggable="true">
@@ -110,7 +110,7 @@
                 <div class="board-column-bottom" (dragover)="onDragOver($event, 'awaitFeedback')"
                     (drop)="onDrop($event, 'awaitFeedback')">
                     @if ("awaitFeedbackTasks") {
-                    @for (task of awaitFeedbackTasks; track task; let index = $index) {
+                    @for (task of this.databaseService.awaitFeedbackTasks; track task; let index = $index) {
                     @if (task.status == 'awaitFeedback' ) {
                     <div class="single-task" (dragstart)="onDrag($event, index, task.id, 'awaitFeedback')"
                         draggable="true">
@@ -156,7 +156,7 @@
                 <div class="board-column-bottom" (dragover)="onDragOver($event, 'done')"
                     (drop)="onDrop($event, 'done')">
                     @if ("doneTasks") {
-                    @for (task of doneTasks; track task; let index = $index) {
+                    @for (task of this.databaseService.doneTasks; track task; let index = $index) {
                     @if (task.status == 'done' ) {
                     <div class="single-task" (dragstart)="onDrag($event, index, task.id, 'done')" draggable="true">
                         <div class="task-category">

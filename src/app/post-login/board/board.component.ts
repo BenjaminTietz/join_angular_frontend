@@ -21,35 +21,13 @@ export class BoardComponent implements OnInit {
   };
   showAddTaskOverlay = false;
   selectedStaus = '';
-  todoTasks: Task[] = [];
-  inProgressTasks: Task[] = [];
-  awaitFeedbackTasks: Task[] = [];
-  doneTasks: Task[] = [];
+
   daggedTaskId = '';
   draggedTaskIndex = 0;
 
-  ngOnInit(): void {
-    this.tasks$ = this.databaseService.getTasks();
-    this.tasks$.subscribe((tasks) => {
-      console.log('Tasks received:', tasks);
+  ngOnInit(): void {}
 
-      this.todoTasks = tasks.filter((task) => task.status === 'todo');
-      this.inProgressTasks = tasks.filter(
-        (task) => task.status === 'inProgress'
-      );
-      this.awaitFeedbackTasks = tasks.filter(
-        (task) => task.status === 'awaitFeedback'
-      );
-      this.doneTasks = tasks.filter((task) => task.status === 'done');
-
-      console.log('Todo Tasks:', this.todoTasks);
-      console.log('In Progress Tasks:', this.inProgressTasks);
-      console.log('Await Feedback Tasks:', this.awaitFeedbackTasks);
-      console.log('Done Tasks:', this.doneTasks);
-    });
-  }
-
-  constructor(private databaseService: DatabaseService) {}
+  constructor(public databaseService: DatabaseService) {}
 
   getPriorityIcon(priority: string): string {
     return (
@@ -103,27 +81,33 @@ export class BoardComponent implements OnInit {
     console.log('onDragOver', status);
   }
   getSourceArrayByTaskId(taskId: string): Task[] {
-    if (this.todoTasks.some((task) => task.id === taskId)) {
-      return this.todoTasks;
-    } else if (this.inProgressTasks.some((task) => task.id === taskId)) {
-      return this.inProgressTasks;
-    } else if (this.awaitFeedbackTasks.some((task) => task.id === taskId)) {
-      return this.awaitFeedbackTasks;
-    } else if (this.doneTasks.some((task) => task.id === taskId)) {
-      return this.doneTasks;
+    if (this.databaseService.todoTasks.some((task) => task.id === taskId)) {
+      return this.databaseService.todoTasks;
+    } else if (
+      this.databaseService.inProgressTasks.some((task) => task.id === taskId)
+    ) {
+      return this.databaseService.inProgressTasks;
+    } else if (
+      this.databaseService.awaitFeedbackTasks.some((task) => task.id === taskId)
+    ) {
+      return this.databaseService.awaitFeedbackTasks;
+    } else if (
+      this.databaseService.doneTasks.some((task) => task.id === taskId)
+    ) {
+      return this.databaseService.doneTasks;
     }
     return [];
   }
   moveTaskBetweenArrays(index: number, sourceArray: Task[], status: string) {
     let targetArray: Task[] = [];
     if (status === 'todo') {
-      targetArray = this.todoTasks;
+      targetArray = this.databaseService.todoTasks;
     } else if (status === 'inProgress') {
-      targetArray = this.inProgressTasks;
+      targetArray = this.databaseService.inProgressTasks;
     } else if (status === 'awaitFeedback') {
-      targetArray = this.awaitFeedbackTasks;
+      targetArray = this.databaseService.awaitFeedbackTasks;
     } else if (status === 'done') {
-      targetArray = this.doneTasks;
+      targetArray = this.databaseService.doneTasks;
     }
     const [task] = sourceArray.splice(index, 1);
     console.log('old Task status:', task.status);

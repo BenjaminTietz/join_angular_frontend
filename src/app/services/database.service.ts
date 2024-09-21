@@ -21,9 +21,36 @@ export class DatabaseService {
   private contactDetailSubject = new BehaviorSubject<Contact | null>(null);
   public contactDetail$ = this.contactDetailSubject.asObservable();
 
+  public todoTasks: Task[] = [];
+  public inProgressTasks: Task[] = [];
+  public awaitFeedbackTasks: Task[] = [];
+  public doneTasks: Task[] = [];
+  public tasksCount = 0;
+  public urgentTasks = 0;
+  public nextDueDate: string | null = null;
+
   constructor(private http: HttpClient) {
     this.loadTasks();
     this.loadContacts();
+    this.tasks$ = this.getTasks();
+    this.tasks$.subscribe((tasks) => {
+      console.log('Tasks received:', tasks);
+
+      this.todoTasks = tasks.filter((task) => task.status === 'todo');
+      this.inProgressTasks = tasks.filter(
+        (task) => task.status === 'inProgress'
+      );
+      this.awaitFeedbackTasks = tasks.filter(
+        (task) => task.status === 'awaitFeedback'
+      );
+      this.urgentTasks = tasks.filter(
+        (task) => task.priority === 'urgent'
+      ).length;
+      this.doneTasks = tasks.filter((task) => task.status === 'done');
+      this.nextDueDate = this.getNextDueDateForUrgentTasks(tasks);
+      console.log('Next due date for urgent tasks:', this.nextDueDate);
+      this.tasksCount = tasks.length;
+    });
   }
 
   get headers() {
@@ -111,5 +138,14 @@ export class DatabaseService {
     return this.http.put<Contact>(url, updatedContact, {
       headers: this.headers,
     });
+  }
+
+  // Helper function to get the next due date for urgent tasks
+  public getNextDueDateForUrgentTasks(tasks: Task[]): string | null {
+    const urgentTasks = tasks.filter((task) => task.priority === 'urgent');
+    urgentTasks.sort(
+      (a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
+    );
+    return urgentTasks.length > 0 ? urgentTasks[0].dueDate : null;
   }
 }

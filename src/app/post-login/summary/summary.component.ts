@@ -13,9 +13,10 @@ import { HttpClient } from '@angular/common/http';
 export class SummaryComponent implements OnInit {
   public tasks: any[] = [];
   public contacts: any[] = [];
+  public greetingMessage: string | undefined;
   constructor(
     private router: Router,
-    private databaseService: DatabaseService,
+    public databaseService: DatabaseService,
     private http: HttpClient
   ) {}
 
@@ -26,5 +27,20 @@ export class SummaryComponent implements OnInit {
     this.databaseService.getContacts().subscribe((contacts) => {
       console.log(contacts);
     });
+    this.greetingMessage = this.getGreetingMessage();
+  }
+
+  //Helper function to show greeting message based on time
+
+  public getGreetingMessage(): string {
+    const date = new Date();
+    const hours = date.getHours();
+    if (hours < 12) {
+      return 'Good Morning, ';
+    } else if (hours < 17) {
+      return 'Good Afternoon, ';
+    } else {
+      return 'Good Evening, ';
+    }
   }
 }
