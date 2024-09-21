@@ -26,6 +26,7 @@ export class BoardComponent implements OnInit {
   awaitFeedbackTasks: Task[] = [];
   doneTasks: Task[] = [];
   daggedTaskId = '';
+  draggedTaskIndex = 0;
 
   ngOnInit(): void {
     this.tasks$ = this.databaseService.getTasks();
@@ -72,24 +73,62 @@ export class BoardComponent implements OnInit {
     console.log('taskId', taskId);
     console.log('status', status);
     this.daggedTaskId = taskId;
+    this.draggedTaskIndex = index;
   }
 
   onDrop(event: DragEvent, status: string) {
     event.preventDefault();
-
     console.log('Dropped status:', status);
-    this.databaseService
-      .updateTask(this.daggedTaskId, {
-        status: status,
-      })
-      .subscribe((updatedTask) => {
-        console.log('Task updated:', updatedTask);
-      });
-    this.databaseService.loadTasks();
+    const sourceArray = this.getSourceArrayByTaskId(this.daggedTaskId);
+    if (sourceArray.length > 0) {
+      this.databaseService
+        .updateTask(this.daggedTaskId, {
+          status: status,
+        })
+        .subscribe((updatedTask) => {
+          console.log('Task updated:', updatedTask);
+          this.moveTaskBetweenArrays(
+            this.draggedTaskIndex,
+            sourceArray,
+            status
+          );
+        });
+    } else {
+      console.error('Task not found in any array.');
+    }
   }
 
   onDragOver(event: any, status: string) {
     event.preventDefault();
     console.log('onDragOver', status);
+  }
+  getSourceArrayByTaskId(taskId: string): Task[] {
+    if (this.todoTasks.some((task) => task.id === taskId)) {
+      return this.todoTasks;
+    } else if (this.inProgressTasks.some((task) => task.id === taskId)) {
+      return this.inProgressTasks;
+    } else if (this.awaitFeedbackTasks.some((task) => task.id === taskId)) {
+      return this.awaitFeedbackTasks;
+    } else if (this.doneTasks.some((task) => task.id === taskId)) {
+      return this.doneTasks;
+    }
+    return [];
+  }
+  moveTaskBetweenArrays(index: number, sourceArray: Task[], status: string) {
+    let targetArray: Task[] = [];
+    if (status === 'todo') {
+      targetArray = this.todoTasks;
+    } else if (status === 'inProgress') {
+      targetArray = this.inProgressTasks;
+    } else if (status === 'awaitFeedback') {
+      targetArray = this.awaitFeedbackTasks;
+    } else if (status === 'done') {
+      targetArray = this.doneTasks;
+    }
+    const [task] = sourceArray.splice(index, 1);
+    console.log('old Task status:', task.status);
+    task.status = status;
+    console.log('new Task status:', task.status);
+    targetArray.push(task);
   }
 }
