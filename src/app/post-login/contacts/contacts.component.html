@@ -1,13 +1,14 @@
 <div class="contacts-wrapper">
     <div class="contacts-left">
-        <button class="blue-btn">Add new contact<img src="/assets/img/icons/add_contact_white.png"></button>
+        <button class="blue-btn" (click)="handleAddContact()">Add new contact<img
+                src="/assets/img/icons/add_contact_white.png"></button>
 
         <div class="contacts-list">
             @if ("contacts$ | async as contacts") {
             @for (contact of contacts$ | async; track contact; let index = $index) {
             <div class="contact" (click)="handleShowContactDetails(contact.id)">
-                <div class="contact-left">
-                    BT
+                <div class="contact-left" [style.backgroundColor]="contact.color">
+                    {{contact.initials}}
                 </div>
                 <div class="contact-right">
                     <div class="contact-name">{{contact.name}}</div>
@@ -22,7 +23,7 @@
 
         @if (contactDetail) {
         <div class="contact-detail-view">
-            <div class="detail-view-left">BT</div>
+            <div class="detail-view-left" [style.backgroundColor]="contactDetail.color">{{contactDetail.initials}}</div>
             <div class="detail-view-right">
 
                 <div class="detail-view-right-top">
@@ -48,10 +49,13 @@
     </div>
 </div>
 <!-- add contact overlay -->
-<!--
+@if (showAddContactOverlay) {
 <div class="add-contact-overlay">
     <div class="add-contact-overlay-content">
         <div class="add-contact-overlay-top">
+            <div class="close-btn" (click)="handleCloseAddContactOverlay()"><img
+                    src="/assets/img/icons/close_btn_blue.png">
+            </div>
             <img src="/assets/img/logos/join_logo_white.png">
             <h2>Add Contact</h2>
             <h3>Tasks are better with a team!</h3>
@@ -73,22 +77,24 @@
                     </div>
                 </div>
                 <div class="submit-btn-container">
-                    <button class="white-btn" type="button" (click)="onClear()">Cancel<img
+                    <button class="white-btn" type="button" (click)="handleCloseAddContactOverlay()">Cancel<img
                             src="/assets/img/icons/cancel_btn.png"></button>
                     <button class="blue-btn" type="submit">Create Contact<img
                             src="/assets/img/icons/create_btn.png"></button>
                 </div>
             </form>
-
         </div>
     </div>
-
 </div>
--->
+}
 <!-- edit contact overlay -->
+@if (showEditContactOverlay) {
 <div class="add-contact-overlay">
     <div class="add-contact-overlay-content">
         <div class="add-contact-overlay-top">
+            <div class="close-btn" (click)="handleCloseEditContactOverlay()"><img
+                    src="/assets/img/icons/close_btn_blue.png">
+            </div>
             <img src="/assets/img/logos/join_logo_white.png">
             <h2>Edit Contact</h2>
         </div>
@@ -109,12 +115,11 @@
                     </div>
                 </div>
                 <div class="submit-btn-container">
-                    <button class="white-btn" type="button" (click)="onClearEditContactForm()">Delete</button>
+                    <button class="white-btn" type="button" (click)="onDeleteEditContactForm()">Delete</button>
                     <button class="blue-btn" type="submit">Save<img src="/assets/img/icons/create_btn.png"></button>
                 </div>
             </form>
-
         </div>
     </div>
-
 </div>
+}
