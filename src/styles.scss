@@ -142,3 +142,11 @@ body {
         background-color: $main-blue-light;
     }
 }
+
+
+textarea:focus,
+input:focus,
+select:focus,
+option:focus {
+    outline: none;
+}

@@ -64,7 +64,7 @@ export class AddTaskComponent implements OnInit {
         title: this.addTaskForm.value.taskTitle,
         description: this.addTaskForm.value.taskDescription,
         dueDate: this.addTaskForm.value.taskDueDate,
-        assignedTo: this.addTaskForm.value.taskAssignedTo,
+        assignedTo: [],
         category: this.addTaskForm.value.category,
         priority: this.addTaskForm.value.taskPriority,
         status: this.category || 'todo',
@@ -81,6 +81,13 @@ export class AddTaskComponent implements OnInit {
             .addSubtasks(task.id, this.subTasks)
             .subscribe(() => {
               console.log('Subtasks added successfully');
+            });
+        }
+        if (this.assignedContacts.length > 0) {
+          this.databaseService
+            .addAssignees(task.id, this.assignedContacts)
+            .subscribe(() => {
+              console.log('Assignees added successfully');
             });
         }
       });

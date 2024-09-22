@@ -22,7 +22,7 @@
     <div class="contacts-right">
 
         @if (contactDetail) {
-        <div class="contact-detail-view">
+        <div class="contact-detail-view" [ngClass]="{ 'slide-in-right': contactDetail }">
             <div class="detail-view-left" [style.backgroundColor]="contactDetail.color">{{contactDetail.initials}}</div>
             <div class="detail-view-right">
 

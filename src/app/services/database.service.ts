@@ -102,6 +102,11 @@ export class DatabaseService {
     return this.http.post<any>(url, { subtasks }, { headers: this.headers });
   }
 
+  public addAssignees(taskId: string, assignedTo: Contact[]): Observable<any> {
+    const url = `${this.tasksUrl}${taskId}/add_assignees/`;
+    return this.http.post<any>(url, { assignedTo }, { headers: this.headers });
+  }
+
   private loadContacts() {
     this.http
       .get<Contact[]>(this.contactsUrl, { headers: this.headers })

@@ -49,6 +49,7 @@
             >.contact-right {
                 width: 140px;
                 height: 47px;
+
                 @include dFlex(column, flex-start, flex-start);
 
                 >.contact-name {
@@ -67,9 +68,14 @@
     width: 500px;
     height: 100%;
     @include dFlex(row, flex-start, flex-start);
+    position: relative;
 
     >.contact-detail-view {
         @include dFlex(row, flex-start, flex-start);
+        position: absolute;
+        left: 64px;
+        top: 32px;
+
 
         >.detail-view-left {
             width: 120px;
@@ -126,6 +132,7 @@
         }
     }
 }
+
 
 // add contact form overlay
 .add-contact-overlay {
