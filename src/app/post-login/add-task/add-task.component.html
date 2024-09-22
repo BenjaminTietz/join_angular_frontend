@@ -3,7 +3,7 @@
 
         <form [formGroup]="addTaskForm" (ngSubmit)="onSubmit()">
             <input type="text" placeholder="Enter a title" formControlName="taskTitle">
-            <span>Description(optional)</span>
+            <span>Description (optional)</span>
             <textarea placeholder="Enter a description" formControlName="taskDescription"></textarea>
             <span>Due date</span>
             <input type="date" formControlName="taskDueDate">
@@ -27,27 +27,35 @@
                     <img src="/assets/img/icons/task_prio_low.png">
                 </div>
             </div>
-            <span>Assigned to(optional)</span>
-            <div class="drop-down">
-                <div class="input-container">
-                    @for (contact of contacts$ | async; track index; let index = $index) {
-                    <label>{{ contact.name }}</label>
-                    <input type="checkbox" [value]="contact.id" (change)="onCheckboxChange($event)">
-                    }
+            <span>Assigned to (optional)</span>
+            <div class="drop-down-contacts">
+                @for (contact of contacts$ | async; track contact; let index = $index) {
+                <div class="contact-container">
+                    <div class="contact-left">
+                        <div class="contact-initials" [style.backgroundColor]="contact.color">
+                            <span>{{ contact.initials}}</span>
+                        </div>
+                        <label>{{ contact.name }}</label>
+                    </div>
+                    <div class="contact-right">
+                        <input type="checkbox" [value]="contact.id" (change)="onCheckboxChange($event, contact)">
+                    </div>
                 </div>
+                }
             </div>
-            @if ("addTaskForm.get('taskAssignedTo')?.value?.length > 0") {
+            @if (assignedContacts.length > 0) {
             <div class="selected-contacts">
-                <div class="selected-contact">
-                    @for (contactId of addTaskForm.get('taskAssignedTo')?.value; track contactId; let index = $index) {
-                    <span>{{contactId }}</span>
-                    }
+                @for (contact of this.assignedContacts; track contact; let index = $index) {
+                <div class="contact-initials" [style.backgroundColor]="contact.color">
+                    <span>{{ contact.initials}}</span>
                 </div>
+                }
             </div>
             }
             <span>Category</span>
             <div class="input-container">
                 <select formControlName="category">
+                    <option value="" disabled selected hidden>Select task category</option>
                     @for (cat of categories; track index; let index = $index) {
                     <option [value]="cat.value" [ngClass]="cat.class">
                         {{ cat.label }}
@@ -55,10 +63,26 @@
                     }
                 </select>
             </div>
-            <span>Subtasks(optional)</span>
-            <div class="input-container">
-                <input type="text" placeholder="Add new subtask" formControlName="subtask"><img
-                    src="/assets/img/icons/add_blue.png">
+            <span>Subtasks (optional)</span>
+            <div class="input-container input-subtasks">
+                <div class="subtask-input">
+                    <input type="text" placeholder="Add new subtask" formControlName="subtask"><img
+                        src="/assets/img/icons/add_blue.png" (click)="pushSubtaskToArray()">
+                </div>
+
+                @for (subtask of subTasks; track subtask; let index = $index) {
+                <div class="subtask-container pointer">
+                    <li (click)="handleEditSubtask(subtask.title, index)">{{subtask.title}}</li>
+                    <input type="text" value="{{subtask.title}}">
+                    <div class="icon-container">
+                        <img src="/assets/img/icons/delete_subtask_blue.png" (click)="removeSubtaskFromArray(index)"
+                            class="pointer"> ´
+                        <div class="vertical-line"></div>
+                        <img src="/assets/img/icons/save_subtask_blue.png"
+                            (click)="saveEditedSubtask(subtask.title,index)" class="pointer">
+                    </div>
+                </div>
+                }
             </div>
             <div class="add-task-right">
                 <div class="submit-btn-container">

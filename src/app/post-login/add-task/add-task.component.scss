@@ -1,8 +1,9 @@
 @import "../../../styles.scss";
 
 .add-task-wrapper {
-    width: 100%;
-    height: 100%;
+    position: relative;
+    width: calc(100svw - 96px);
+    height: calc(100vh - 96px);
     position: absolute;
     top: 96px;
     left: 232px;
@@ -10,18 +11,17 @@
 }
 
 .add-task-left {
-    width: 488px;
-    height: 928px;
+    width: 496px;
+    height: 100%;
     padding: 64px 24px 0px 24px;
-    overflow-y: scroll;
+    overflow-y: auto;
     box-sizing: content-box;
     background-color: $white;
 }
 
 .add-task-right {
-    width: 488px;
-    height: 928px;
-    position: relative;
+    width: 100%;
+    height: 100%;
 
     >.submit-btn-container {
         width: 335px;
@@ -29,16 +29,18 @@
         gap: 4px;
         @include dFlex(row, flex-start, flex-start);
         position: absolute;
-        bottom: 0;
-        right: 0;
+        bottom: 296px;
+        right: 128px;
     }
 }
 
 form {
     width: 440px;
-    height: 928px;
+    min-height: 100%;
+    height: fit-content;
     gap: 24px;
     @include dFlex(column, flex-start, flex-start);
+    overflow-x: hidden;
 
     input {
         width: 440px;
@@ -101,17 +103,141 @@ form {
 
 
 
-.drop-down {
-    width: 440px;
-    height: 48px;
+.drop-down-contacts {
+    width: 100%;
+    height: fit-content;
     border: 0px 0px 1px 0px;
     border-color: $border-color;
     padding: 12px 16px;
+    @include dFlex(column, flex-start, center);
+
+
+    >.contact-container {
+        width: 416px;
+        height: 56px;
+        gap: 16px;
+        @include dFlex(row, space-between, center);
+
+        >.contact-left {
+            width: fit-content;
+            height: 42px;
+            @include dFlex(row, flex-start, center);
+            gap: 16px;
+        }
+
+        >.contact-right {
+            >input {
+                width: 16px;
+                height: 16px;
+                border-radius: 3px;
+                box-sizing: border-box;
+                border: none;
+                border-bottom: 1px solid $border-color;
+                cursor: pointer;
+            }
+
+        }
+    }
+
+}
+
+.contact-initials {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    gap: 10px;
+    border: 2px solid $white;
+    @include dFlex(column, center, center);
+
+    span {
+        @include Inter(400, 12px, 14.4px, $white);
+    }
+
 }
 
 .input-container {
     width: 440px;
     height: 64px;
     gap: 16px;
+    @include dFlex(row, flex-start, center);
+
+    >select {
+        width: 100%;
+        height: 64px;
+        border-radius: 0px 0px 0px 0px;
+        padding: 13px 16px;
+        box-sizing: border-box;
+        border: none;
+        border-bottom: 1px solid $border-color;
+        cursor: pointer;
+        background-color: $white;
+    }
+}
+
+.input-subtasks {
+    @include dFlex(column, flex-start, center);
+
+    >.subtask-input {
+        @include dFlex(row, flex-start, center);
+
+        img {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            margin-left: -16px;
+        }
+    }
+
+    >.subtask-container {
+        width: 440px;
+        height: 56px;
+        gap: 16px;
+        @include dFlex(row, space-between, center);
+
+        >input {
+            width: 100%;
+            height: 32px;
+            border: 0px 0px 1px 0px;
+            padding: 4px 16px;
+            border-color: $light-blue;
+            display: none;
+        }
+
+        &:hover {
+            >.icon-container {
+                display: flex;
+            }
+        }
+
+        .icon-container {
+            gap: 8px;
+            @include dFlex(row, flex-start, center);
+            display: none;
+        }
+
+        .vertical-line {
+            width: 1px;
+            height: 24px;
+            background-color: $input-border;
+        }
+    }
+}
+
+.drop-down {
+    @include dFlex(row, center, center);
+
+    >.input-container {
+        width: 440px;
+        height: 56px;
+        gap: 16px;
+        @include dFlex(row, center, center);
+    }
+}
+
+
+.selected-contacts {
+    width: 440px;
+    height: 64px;
+    gap: 8px;
     @include dFlex(row, flex-start, center);
 }
