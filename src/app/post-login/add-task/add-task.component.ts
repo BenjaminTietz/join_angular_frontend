@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { Contact } from '../../models/contact.class';
 import { DatabaseService } from '../../services/database.service';
 import { Task } from '../../models/task.class';
+import { SubTask } from '../../models/subTask.class';
 
 @Component({
   selector: 'app-add-task',
@@ -31,6 +32,9 @@ export class AddTaskComponent implements OnInit {
   ];
   contacts$!: Observable<Contact[]>;
   selectedPriority: string = '';
+  subTasks: SubTask[] = [];
+  assignedContacts: Contact[] = [];
+  editSubTaskTitle: string = '';
   @Input() category: string = '';
 
   constructor(
@@ -45,6 +49,7 @@ export class AddTaskComponent implements OnInit {
       taskAssignedTo: this.fb.array([], Validators.required),
       category: ['', Validators.required],
       subtask: [''],
+      subTasks: this.fb.array([]),
     });
   }
 
@@ -63,14 +68,21 @@ export class AddTaskComponent implements OnInit {
         category: this.addTaskForm.value.category,
         priority: this.addTaskForm.value.taskPriority,
         status: this.category || 'todo',
-        subTasks: this.addTaskForm.value,
+        subTasks: [],
         createdAt: new Date().toISOString(),
-        createdBy: '',
+        createdBy: '', // todo : get current user id
       };
       console.log('New Task:', newTask);
       this.databaseService.createTask(newTask).subscribe((task) => {
         console.log('Task created:', task);
         // todo : show "task added to board" message
+        if (this.subTasks.length > 0) {
+          this.databaseService
+            .addSubtasks(task.id, this.subTasks)
+            .subscribe(() => {
+              console.log('Subtasks added successfully');
+            });
+        }
       });
     }
   }
@@ -78,22 +90,89 @@ export class AddTaskComponent implements OnInit {
     this.addTaskForm.reset();
   }
 
-  onCheckboxChange(event: any) {
-    const taskAssignedTo: FormArray = this.addTaskForm.get(
-      'taskAssignedTo'
-    ) as FormArray;
-
+  onCheckboxChange(event: any, contact: Contact) {
     if (event.target.checked) {
-      taskAssignedTo.push(new FormControl(event.target.value));
+      const formArray: FormArray = this.addTaskForm.get(
+        'taskAssignedTo'
+      ) as FormArray;
+      formArray.push(new FormControl(contact.id));
+      this.assignedContacts.push(contact);
     } else {
-      const index = taskAssignedTo.controls.findIndex(
-        (x) => x.value === event.target.value
+      const formArray: FormArray = this.addTaskForm.get(
+        'taskAssignedTo'
+      ) as FormArray;
+      for (let i = 0; i < formArray.length; i++) {
+        if (formArray.at(i).value === contact.id) {
+          formArray.removeAt(i);
+          break;
+        }
+      }
+      this.assignedContacts = this.assignedContacts.filter(
+        (c) => c.id !== contact.id
       );
-      taskAssignedTo.removeAt(index);
     }
+    console.log('Assigned Contacts:', this.assignedContacts);
   }
+
   setPriority(priority: string) {
     this.addTaskForm.patchValue({ taskPriority: priority });
     this.selectedPriority = priority;
+  }
+  pushSubtaskToArray() {
+    if (this.addTaskForm.value.subtask) {
+      this.subTasks.push({
+        title: this.addTaskForm.value.subtask,
+        taskId: '',
+        subTaskId: '',
+        checked: false,
+        createdAt: '',
+        createdBy: '', // todo : get current user id
+      });
+      this.addTaskForm.patchValue({ subtask: '' });
+    }
+    console.log('Subtasks:', this.subTasks);
+  }
+  removeSubtaskFromArray(index: number) {
+    this.subTasks.splice(index, 1);
+  }
+  handleEditSubtask(subtaskTitle: string, index: number) {
+    console.log('Edit subtask index', index);
+    this.editSubTaskTitle = subtaskTitle;
+    const listElement = document.querySelector(
+      `.subtask-container:nth-child(${index + 2}) > li`
+    ) as HTMLElement;
+
+    const inputElement = document.querySelector(
+      `.subtask-container:nth-child(${index + 2}) > input`
+    ) as HTMLElement;
+
+    if (inputElement) {
+      inputElement.style.display = 'flex';
+      listElement.style.display = 'none';
+    }
+  }
+  saveEditedSubtask(originalTitle: string, index: number) {
+    const inputElement = document.querySelector(
+      `.subtask-container:nth-child(${index + 2}) > input`
+    ) as HTMLInputElement;
+
+    if (inputElement) {
+      const newTitle = inputElement.value;
+      if (newTitle !== originalTitle) {
+        this.subTasks[index].title = newTitle;
+        console.log('Updated subtask title:', newTitle);
+      } else {
+        console.log('No changes made.');
+      }
+      const listElement = document.querySelector(
+        `.subtask-container:nth-child(${index + 2}) > li`
+      ) as HTMLElement;
+
+      if (listElement) {
+        inputElement.style.display = 'none';
+        listElement.style.display = 'flex';
+      }
+    }
+    console.log('Subtasks:', this.subTasks);
   }
 }

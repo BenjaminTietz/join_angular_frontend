@@ -9,7 +9,7 @@ export class Task {
   assignedTo: Contact['id'][];
   dueDate: string;
   priority: string;
-  subTasks: SubTask['subTaskId'][];
+  subTasks: SubTask[];
   status: string;
   createdAt: string;
   createdBy: string;
