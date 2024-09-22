@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Contact } from '../models/contact.class';
 import { Task } from '../models/task.class';
+import { SubTask } from '../models/subTask.class';
 
 @Injectable({
   providedIn: 'root',
@@ -80,7 +81,8 @@ export class DatabaseService {
       priority: task.priority.toLowerCase(),
       status: task.status,
       dueDate: task.dueDate,
-      assigned_to: task.assignedTo,
+      assignedTo: task.assignedTo,
+      subTasks: task.subTasks,
     };
 
     return this.http.post<Task>(this.tasksUrl, formattedTask, {
@@ -93,6 +95,11 @@ export class DatabaseService {
     return this.http.put<Task>(url, updatedTask, {
       headers: this.headers,
     });
+  }
+
+  public addSubtasks(taskId: string, subtasks: SubTask[]): Observable<any> {
+    const url = `${this.tasksUrl}${taskId}/add_subtasks/`;
+    return this.http.post<any>(url, { subtasks }, { headers: this.headers });
   }
 
   private loadContacts() {
