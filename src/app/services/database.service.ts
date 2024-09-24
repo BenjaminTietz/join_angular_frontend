@@ -22,6 +22,9 @@ export class DatabaseService {
   private contactDetailSubject = new BehaviorSubject<Contact | null>(null);
   public contactDetail$ = this.contactDetailSubject.asObservable();
 
+  private taskIdSubject = new BehaviorSubject<string | null>(null);
+  private taskDataSubject = new BehaviorSubject<Task | null>(null);
+
   public todoTasks: Task[] = [];
   public inProgressTasks: Task[] = [];
   public awaitFeedbackTasks: Task[] = [];
@@ -101,7 +104,18 @@ export class DatabaseService {
     const url = `${this.tasksUrl}${taskId}/add_subtasks/`;
     return this.http.post<any>(url, { subtasks }, { headers: this.headers });
   }
+  public updateSubtaskStatus(
+    taskId: string,
+    id: string,
+    checked: boolean
+  ): Observable<any> {
+    const url = `${this.tasksUrl}${taskId}/subtask/${id}/`;
+    const body = { checked: checked };
 
+    return this.http.patch<any>(url, body, {
+      headers: this.headers,
+    });
+  }
   public addAssignees(taskId: string, assignedTo: Contact[]): Observable<any> {
     const url = `${this.tasksUrl}${taskId}/add_assignees/`;
     return this.http.post<any>(url, { assignedTo }, { headers: this.headers });
@@ -159,5 +173,23 @@ export class DatabaseService {
       (a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
     );
     return urgentTasks.length > 0 ? urgentTasks[0].dueDate : null;
+  }
+
+  // Getter and Setter for taskId
+  setTaskId(taskId: string | null) {
+    this.taskIdSubject.next(taskId);
+  }
+
+  getTaskId(): Observable<string | null> {
+    return this.taskIdSubject.asObservable();
+  }
+
+  // Getter and Setter for taskData
+  setTaskData(task: Task | null) {
+    this.taskDataSubject.next(task);
+  }
+
+  getTaskData(): Observable<Task | null> {
+    return this.taskDataSubject.asObservable();
   }
 }
