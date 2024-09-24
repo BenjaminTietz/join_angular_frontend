@@ -19,7 +19,8 @@
                     @if ("todoTasks") {
                     @for (task of this.databaseService.todoTasks; track task; let index = $index) {
                     @if (task.status == 'todo' ) {
-                    <div class="single-task" (dragstart)="onDrag($event, index, task.id , 'todo')" draggable="true">
+                    <div class="single-task" (dragstart)="onDrag($event, index, task.id , 'todo')" draggable="true"
+                        (click)="handleShowTaskDetailOverlay(task)">
                         <div class="task-category">
                             <h4 class="{{task.category}}">{{task.category}}</h4>
                         </div>
@@ -65,8 +66,8 @@
                     @if ("inProgressTasks") {
                     @for (task of this.databaseService.inProgressTasks; track task; let index = $index) {
                     @if (task.status == 'inProgress' ) {
-                    <div class="single-task" (dragstart)="onDrag($event, index, task.id, 'inProgress')"
-                        draggable="true">
+                    <div class="single-task" (dragstart)="onDrag($event, index, task.id, 'inProgress')" draggable="true"
+                        (click)="handleShowTaskDetailOverlay(task)">
                         <div class="task-category">
                             <h4 class="{{task.category}}">{{task.category}}</h4>
                         </div>
@@ -113,7 +114,7 @@
                     @for (task of this.databaseService.awaitFeedbackTasks; track task; let index = $index) {
                     @if (task.status == 'awaitFeedback' ) {
                     <div class="single-task" (dragstart)="onDrag($event, index, task.id, 'awaitFeedback')"
-                        draggable="true">
+                        draggable="true" (click)="handleShowTaskDetailOverlay(task)">
                         <div class="task-category">
                             <h4 class="{{task.category}}">{{task.category}}</h4>
                         </div>
@@ -157,7 +158,8 @@
                     @if ("doneTasks") {
                     @for (task of this.databaseService.doneTasks; track task; let index = $index) {
                     @if (task.status == 'done' ) {
-                    <div class="single-task" (dragstart)="onDrag($event, index, task.id, 'done')" draggable="true">
+                    <div class="single-task" (dragstart)="onDrag($event, index, task.id, 'done')" draggable="true"
+                        (click)="handleShowTaskDetailOverlay(task)">
                         <div class="task-category">
                             <h4 class="{{task.category}}">{{task.category}}</h4>
                         </div>
@@ -206,4 +208,70 @@
         <app-add-task [category]="this.selectedStaus"></app-add-task>
     </div>
 </div>
+}
+
+<!--Task Detail View  Overlay-->
+@if (showTaskDetailOverlay) {
+@for (task of this.databaseService.todoTasks; track task; let index = $index) {
+
+<div class="floating-task-detail-wrapper">
+    <div class="task-detail-content">
+        <div class="task-detail-header">
+            <div class="task-category">
+                <h4 class="{{task.category}}">{{task.category}}</h4>
+            </div>
+            <div class="close-btn" (click)="handleCloseTaskDetailOverlay()"><img
+                    src="/assets/img/icons/close_btn_blue.png"></div>
+        </div>
+        <div class="task-title">
+            <h2>{{task.title}}</h2>
+        </div>
+        <div class="task-description">
+            <p>{{task.description}}</p>
+        </div>
+        <div class="task-due-date">
+            <h3>Due date:</h3>
+            <p>{{task.dueDate}}</p>
+        </div>
+        <div class="task-prirority">
+            <h4>Priority:</h4>
+            <span>{{task.priority}}</span>
+            <img [src]="getPriorityIcon(task.priority)" alt="{{task.priority}} priority icon">
+        </div>
+        <div class="task-assignee">
+            <h4>Assigned To:</h4>
+            @for (assignee of task.assignedTo; track assignee; let index = $index) {
+            <div class="assigned-container">
+                <div class="assigned-contact" [style.backgroundColor]="assignee.color">
+                    <span>{{assignee.initials}}</span>
+                </div>
+                <span>{{assignee.name}}</span>
+            </div>
+
+            }
+        </div>
+        <div class="task-subtasks">
+            <h4>Subtasks</h4>
+            @for (subtask of task.subTasks; track subtask; let index = $index) {
+            <div class="subtask">
+                <input type="checkbox" [checked]="subtask.checked" id="subtask1" name="subtask1"
+                    (change)="toggleCheckBox(task,subtask)">
+                <h5>{{subtask.title}}</h5>
+            </div>
+            }
+        </div>
+        <div class="task-actions">
+            <button class="contact-action-btn"><img src="/assets/img/icons/delete_contact.png">Delete</button>
+            <div class="vertical-line"></div>
+            <button class="contact-action-btn" type="button" (click)="openTaskEditor(task)"><img
+                    src="/assets/img/icons/edit_contact.png">Edit</button>
+        </div>
+    </div>
+</div>
+}
+}
+
+<!--floating edit task overlay -->
+@if (showEditTaskOverlay) {
+<app-add-task></app-add-task>
 }

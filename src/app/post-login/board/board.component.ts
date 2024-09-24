@@ -4,6 +4,7 @@ import { Task } from '../../models/task.class';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AddTaskComponent } from '../add-task/add-task.component';
+import { SubTask } from '../../models/subTask.class';
 
 @Component({
   selector: 'app-board',
@@ -20,10 +21,14 @@ export class BoardComponent implements OnInit {
     low: '/assets/img/icons/task_prio_low.png',
   };
   showAddTaskOverlay = false;
+  showTaskDetailOverlay = false;
+  showEditTaskOverlay = false;
   selectedStaus = '';
   selectedCategory = '';
   daggedTaskId = '';
   draggedTaskIndex = 0;
+  selectedTaskId: string | null = null;
+  selectedTask: Task | null = null;
 
   ngOnInit(): void {}
 
@@ -115,5 +120,52 @@ export class BoardComponent implements OnInit {
     task.status = status;
     console.log('new Task status:', task.status);
     targetArray.push(task);
+  }
+
+  handleShowTaskDetailOverlay(task: Task) {
+    this.selectedTask = task;
+    this.showTaskDetailOverlay = true;
+  }
+
+  handleCloseTaskDetailOverlay() {
+    this.showTaskDetailOverlay = false;
+  }
+
+  openTaskEditor(task: Task) {
+    this.showTaskDetailOverlay = false;
+    this.selectedTaskId = task.id;
+    this.selectedTask = task;
+
+    // Set the taskId and taskData in the DatabaseService
+    this.databaseService.setTaskId(this.selectedTaskId);
+    this.databaseService.setTaskData(this.selectedTask);
+
+    console.log('Task to edit:', task);
+    console.log('Task id:', this.selectedTaskId);
+    this.showAddTaskOverlay = true;
+  }
+
+  handleTaskSaved(updatedTask: Task) {
+    console.log('Task wurde gespeichert:', updatedTask);
+    this.showAddTaskOverlay = false;
+    // todo : update task in the array
+  }
+
+  toggleCheckBox(task: Task, subTask: SubTask) {
+    console.log('Task to be updated:', task);
+    console.log('Subtask checked:', subTask.id);
+    this.databaseService
+      .updateSubtaskStatus(task.id, subTask.id, true)
+      .subscribe({
+        next: (response) => {
+          console.log('Subtask status updated', response);
+        },
+        error: (error) => {
+          console.error('Error updating subtask status', error);
+        },
+        complete: () => {
+          console.log('Update complete');
+        },
+      });
   }
 }
