@@ -2,7 +2,7 @@ import { Task } from './task.class';
 
 export class SubTask {
   taskId: Task['id'];
-  subTaskId: string;
+  id: string;
   title: string;
   checked: boolean;
   createdAt: string;
@@ -10,7 +10,7 @@ export class SubTask {
 
   constructor(obj?: any) {
     this.taskId = obj ? obj.id : '';
-    this.subTaskId = obj ? obj.subTaskId : '';
+    this.id = obj ? obj.id : '';
     this.title = obj ? obj.title : '';
     this.checked = obj ? obj.checked : false;
     this.createdAt = obj ? obj.createdAt : '';
