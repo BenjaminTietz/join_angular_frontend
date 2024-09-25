@@ -9,20 +9,20 @@
             <input type="date" formControlName="taskDueDate">
             <span>Priority</span>
             <div class="btn-container">
-                <div class="prio-btn pointer urgent" [ngClass]="{ 'urgent': selectedPriority === 'Urgent' }"
-                    (click)="setPriority('Urgent')">
+                <div class="prio-btn pointer urgent" [ngClass]="{ 'urgent': selectedPriority === 'urgent' }"
+                    (click)="setPriority('urgent')">
                     Urgent
                     <img src="/assets/img/icons/task_prio_urgent.png">
                 </div>
 
-                <div class="prio-btn pointer medium" [ngClass]="{ 'medium': selectedPriority === 'Medium' }"
-                    (click)="setPriority('Medium')">
+                <div class="prio-btn pointer medium" [ngClass]="{ 'medium': selectedPriority === 'medium' }"
+                    (click)="setPriority('medium')">
                     Medium
                     <img src="/assets/img/icons/task_prio_medium.png">
                 </div>
 
-                <div class="prio-btn pointer low" [ngClass]="{ 'low': selectedPriority === 'Low' }"
-                    (click)="setPriority('Low')">
+                <div class="prio-btn pointer low" [ngClass]="{ 'low': selectedPriority === 'low' }"
+                    (click)="setPriority('low')">
                     Low
                     <img src="/assets/img/icons/task_prio_low.png">
                 </div>

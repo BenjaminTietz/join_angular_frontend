@@ -23,7 +23,7 @@ export class DatabaseService {
   public contactDetail$ = this.contactDetailSubject.asObservable();
 
   private taskIdSubject = new BehaviorSubject<string | null>(null);
-  private taskDataSubject = new BehaviorSubject<Task | null>(null);
+  public taskDataSubject = new BehaviorSubject<Task | null>(null);
 
   public todoTasks: Task[] = [];
   public inProgressTasks: Task[] = [];

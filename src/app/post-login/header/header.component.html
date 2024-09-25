@@ -5,11 +5,22 @@
     <div class="header-right">
         <span>Kanban Project Management Tool</span>
         <img src="assets/img/icons/help_white.png" alt="join-logo" class="join-logo">
-        <div class="user-profile">
+        <div class="user-profile" (click)="toggleUserMenu()">
             <div class="circle-outside">
                 <div class="circle-inside">
                     <span>BT</span>
                 </div>
+            </div>
+        </div>
+        <div class="user-menu" [ngStyle]="{'display': isUserMenuVisible ? 'flex' : 'none'}">
+            <div class="menu-item" [routerLink]="['/imprint']">
+                <span>Legal Notice</span>
+            </div>
+            <div class="menu-item" [routerLink]="['/privacy-policy']">
+                <span>Privacy Policy</span>
+            </div>
+            <div class="menu-item" (click)="handleLogout()">
+                <span>Log out</span>
             </div>
         </div>
     </div>

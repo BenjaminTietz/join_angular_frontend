@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, output } from '@angular/core';
 import { DatabaseService } from '../../services/database.service';
 import { Task } from '../../models/task.class';
 import { Observable } from 'rxjs';
@@ -154,8 +154,9 @@ export class BoardComponent implements OnInit {
   toggleCheckBox(task: Task, subTask: SubTask) {
     console.log('Task to be updated:', task);
     console.log('Subtask checked:', subTask.id);
+    subTask.checked = !subTask.checked;
     this.databaseService
-      .updateSubtaskStatus(task.id, subTask.id, true)
+      .updateSubtaskStatus(task.id, subTask.id, subTask.checked)
       .subscribe({
         next: (response) => {
           console.log('Subtask status updated', response);

@@ -122,3 +122,22 @@ h1 {
         text-align: center;
     }
 }
+
+@media only screen and (max-width: 1200px) {
+
+    .summary-wrapper {
+        width: 100%;
+        height: calc(100% - 186px);
+        position: unset;
+        @include dFlex(column, center, center);
+    }
+
+}
+
+@media only screen and (max-width: 950px) {
+    .summary-wrapper {
+        h1 {
+            display: none;
+        }
+    }
+}

@@ -241,3 +241,5 @@ form {
     gap: 8px;
     @include dFlex(row, flex-start, center);
 }
+
+@media only screen and (max-width: 1200px) {}

@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  SimpleChanges,
+} from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -36,10 +43,12 @@ export class AddTaskComponent implements OnInit {
   assignedContacts: Contact[] = [];
   editSubTaskTitle: string = '';
   @Input() category: string = '';
-
+  taskId: string | null = null;
+  taskData: Task | null = null;
+  isTaskgettingEdited: boolean = false;
   constructor(
     private fb: FormBuilder,
-    private databaseService: DatabaseService
+    public databaseService: DatabaseService
   ) {
     this.addTaskForm = this.fb.group({
       taskTitle: ['', Validators.required],
@@ -55,12 +64,24 @@ export class AddTaskComponent implements OnInit {
 
   ngOnInit(): void {
     this.contacts$ = this.databaseService.getContacts();
+    this.databaseService.getTaskId().subscribe((taskId) => {
+      this.taskId = taskId;
+      console.log('TaskId in add-task:', this.taskId);
+    });
+
+    this.databaseService.getTaskData().subscribe((taskData) => {
+      this.taskData = taskData;
+      if (this.taskData) {
+        this.loadTaskData(this.taskData);
+      }
+      console.log('TaskData in add-task:', this.taskData);
+    });
   }
 
   onSubmit() {
     if (this.addTaskForm.valid) {
       const newTask: Task = {
-        id: '',
+        id: this.taskId || '',
         title: this.addTaskForm.value.taskTitle,
         description: this.addTaskForm.value.taskDescription,
         dueDate: this.addTaskForm.value.taskDueDate,
@@ -73,26 +94,37 @@ export class AddTaskComponent implements OnInit {
         createdBy: '', // todo : get current user id
       };
       console.log('New Task:', newTask);
-      this.databaseService.createTask(newTask).subscribe((task) => {
-        console.log('Task created:', task);
-        // todo : show "task added to board" message
-        if (this.subTasks.length > 0) {
-          this.databaseService
-            .addSubtasks(task.id, this.subTasks)
-            .subscribe(() => {
-              console.log('Subtasks added successfully');
-            });
-        }
-        if (this.assignedContacts.length > 0) {
-          this.databaseService
-            .addAssignees(task.id, this.assignedContacts)
-            .subscribe(() => {
-              console.log('Assignees added successfully');
-            });
-        }
-      });
+      if (this.taskId) {
+        // Update Task
+        this.databaseService
+          .updateTask(this.taskId, newTask)
+          .subscribe((updatedTask) => {
+            console.log('Task updated:', updatedTask);
+            // todo : show "task updated" message
+          });
+      } else {
+        this.databaseService.createTask(newTask).subscribe((task) => {
+          console.log('Task created:', task);
+          // todo : show "task added to board" message
+          if (this.subTasks.length > 0) {
+            this.databaseService
+              .addSubtasks(task.id, this.subTasks)
+              .subscribe(() => {
+                console.log('Subtasks added successfully');
+              });
+          }
+          if (this.assignedContacts.length > 0) {
+            this.databaseService
+              .addAssignees(task.id, this.assignedContacts)
+              .subscribe(() => {
+                console.log('Assignees added successfully');
+              });
+          }
+        });
+      }
     }
   }
+
   onClear() {
     this.addTaskForm.reset();
   }
@@ -130,7 +162,7 @@ export class AddTaskComponent implements OnInit {
       this.subTasks.push({
         title: this.addTaskForm.value.subtask,
         taskId: '',
-        subTaskId: '',
+        id: '',
         checked: false,
         createdAt: '',
         createdBy: '', // todo : get current user id
@@ -181,5 +213,49 @@ export class AddTaskComponent implements OnInit {
       }
     }
     console.log('Subtasks:', this.subTasks);
+  }
+
+  loadTaskData(task: Task) {
+    this.isTaskgettingEdited = true;
+    this.addTaskForm.patchValue({
+      taskTitle: task.title,
+      taskDescription: task.description,
+      taskDueDate: task.dueDate,
+      taskPriority: task.priority,
+      category: task.category,
+    });
+    task.assignedTo.forEach((contact: Contact) => {
+      this.addAssignedContact(contact);
+    });
+    task.subTasks.forEach((subTask: SubTask) => {
+      this.addSubtask(subTask);
+    });
+  }
+
+  get taskAssignedToArray() {
+    return this.addTaskForm.get('taskAssignedTo') as FormArray;
+  }
+
+  addAssignedContact(contact: Contact) {
+    const contactGroup = this.fb.group({
+      id: [contact.id],
+      name: [contact.name],
+      email: [contact.email],
+      initials: [contact.initials],
+      color: [contact.color],
+    });
+    this.taskAssignedToArray.push(contactGroup);
+  }
+
+  get subTasksArray() {
+    return this.addTaskForm.get('subTasks') as FormArray;
+  }
+
+  addSubtask(subTask: SubTask) {
+    const subtaskGroup = this.fb.group({
+      title: [subTask.title, Validators.required],
+      completed: [subTask.checked],
+    });
+    this.subTasksArray.push(subtaskGroup);
   }
 }
