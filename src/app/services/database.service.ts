@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Contact } from '../models/contact.class';
 import { Task } from '../models/task.class';
@@ -204,5 +204,140 @@ export class DatabaseService {
 
   getTaskData(): Observable<Task | null> {
     return this.taskDataSubject.asObservable();
+  }
+
+  // init functions to create demo
+  public taskInit() {
+    const demoTasks: Task[] = [
+      new Task({
+        title: 'Task 1',
+        description: 'Description for Task 1',
+        category: 'purchase',
+        priority: 'medium',
+        status: 'todo',
+        dueDate: this.randomDate(),
+        assignedTo: [],
+        subTasks: [],
+        createdAt: new Date().toISOString(),
+        createdBy: 'system',
+      }),
+      new Task({
+        title: 'Task 2',
+        description: 'Description for Task 2',
+        category: 'sales',
+        priority: 'urgent',
+        status: 'inProgress',
+        dueDate: this.randomDate(),
+        assignedTo: [],
+        subTasks: [],
+        createdAt: new Date().toISOString(),
+        createdBy: 'system',
+      }),
+      new Task({
+        title: 'Task 3',
+        description: 'Description for Task 3',
+        category: 'development',
+        priority: 'low',
+        status: 'awaitFeedback',
+        dueDate: this.randomDate(),
+        assignedTo: [],
+        subTasks: [],
+        createdAt: new Date().toISOString(),
+        createdBy: 'system',
+      }),
+      new Task({
+        title: 'Task 4',
+        description: 'Description for Task 4',
+        category: 'accounting',
+        priority: 'urgent',
+        status: 'done',
+        dueDate: this.randomDate(),
+        assignedTo: [],
+        subTasks: [],
+        createdAt: new Date().toISOString(),
+        createdBy: 'system',
+      }),
+    ];
+
+    demoTasks.forEach((task) => {
+      this.createTask(task)
+        .pipe(
+          tap((response) => {
+            console.log('Demo Task created:', response);
+          })
+        )
+        .subscribe({
+          error: (error) => {
+            console.error('Error creating demo task:', error);
+          },
+        });
+    });
+  }
+
+  public contactInit() {
+    const demoContacts: Contact[] = [
+      new Contact({
+        id: '1',
+        name: 'John Doe',
+        email: 'john.doe@example.com',
+        phone: '123-456-7890',
+        initials: 'JD',
+        color: '#FF5733',
+        createdAt: new Date().toISOString(),
+        createdBy: 'system',
+      }),
+      new Contact({
+        id: '2',
+        name: 'Jane Smith',
+        email: 'jane.smith@example.com',
+        phone: '987-654-3210',
+        initials: 'JS',
+        color: '#33FF57',
+        createdAt: new Date().toISOString(),
+        createdBy: 'system',
+      }),
+      new Contact({
+        id: '3',
+        name: 'Alice Johnson',
+        email: 'alice.johnson@example.com',
+        phone: '555-555-5555',
+        initials: 'AJ',
+        color: '#3377FF',
+        createdAt: new Date().toISOString(),
+        createdBy: 'system',
+      }),
+      new Contact({
+        id: '4',
+        name: 'Bob Brown',
+        email: 'bob.brown@example.com',
+        phone: '444-444-4444',
+        initials: 'BB',
+        color: '#FF33AA',
+        createdAt: new Date().toISOString(),
+        createdBy: 'system',
+      }),
+    ];
+
+    demoContacts.forEach((contact) => {
+      this.createContact(contact)
+        .pipe(
+          tap((response) => {
+            console.log('Demo Contact created:', response);
+          })
+        )
+        .subscribe({
+          error: (error) => {
+            console.error('Error creating demo contact:', error);
+          },
+        });
+    });
+  }
+
+  // helper function to create random date
+  private randomDate(): string {
+    const start = new Date();
+    const end = new Date();
+    end.setDate(start.getDate() + Math.floor(Math.random() * 30));
+    return end.toISOString().split('T')[0];
   }
 }
