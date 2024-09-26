@@ -46,6 +46,9 @@ export class AddTaskComponent implements OnInit {
   taskId: string | null = null;
   taskData: Task | null = null;
   isTaskgettingEdited: boolean = false;
+  lowPrioColor: string = '#7AE229';
+  mediumPrioColor: string = '#FFA800';
+  urgentPrioColor: string = '#FF3D00';
   constructor(
     private fb: FormBuilder,
     public databaseService: DatabaseService
@@ -156,6 +159,7 @@ export class AddTaskComponent implements OnInit {
   setPriority(priority: string) {
     this.addTaskForm.patchValue({ taskPriority: priority });
     this.selectedPriority = priority;
+    console.log('Priority:', this.selectedPriority);
   }
   pushSubtaskToArray() {
     if (this.addTaskForm.value.subtask) {

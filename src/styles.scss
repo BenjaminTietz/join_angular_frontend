@@ -43,6 +43,23 @@ $orange : #FF7A00;
 $light-green : #1FD7C1;
 $red : #FF4646;
 
+.low {
+    background-color: $low !important;
+    color: $white !important;
+    font-weight: bold;
+}
+
+.medium {
+    background-color: $medium !important;
+    color: $white !important;
+    font-weight: bold;
+}
+
+.urgent {
+    background-color: $urgent !important;
+    color: $white !important;
+    font-weight: bold;
+}
 
 html {
     scroll-behavior: smooth;
