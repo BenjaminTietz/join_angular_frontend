@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { DatabaseService } from '../../services/database.service';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -20,7 +21,8 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private databaseService: DatabaseService
   ) {
     this.createLoginForm();
   }
@@ -50,5 +52,9 @@ export class LoginComponent {
     } else {
       console.log('Invalid Form');
     }
+  }
+
+  handleGuestLogin() {
+    this.authService.loginAsGuest();
   }
 }
