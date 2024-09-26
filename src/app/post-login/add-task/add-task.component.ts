@@ -20,6 +20,7 @@ import { Contact } from '../../models/contact.class';
 import { DatabaseService } from '../../services/database.service';
 import { Task } from '../../models/task.class';
 import { SubTask } from '../../models/subTask.class';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-task',
@@ -51,14 +52,15 @@ export class AddTaskComponent implements OnInit {
   urgentPrioColor: string = '#FF3D00';
   constructor(
     private fb: FormBuilder,
-    public databaseService: DatabaseService
+    public databaseService: DatabaseService,
+    private router: Router
   ) {
     this.addTaskForm = this.fb.group({
       taskTitle: ['', Validators.required],
       taskDescription: [''],
       taskDueDate: ['', Validators.required],
       taskPriority: ['', Validators.required],
-      taskAssignedTo: this.fb.array([], Validators.required),
+      taskAssignedTo: this.fb.array([]),
       category: ['', Validators.required],
       subtask: [''],
       subTasks: this.fb.array([]),
@@ -109,6 +111,13 @@ export class AddTaskComponent implements OnInit {
         this.databaseService.createTask(newTask).subscribe((task) => {
           console.log('Task created:', task);
           // todo : show "task added to board" message
+          setTimeout(() => {
+            this.databaseService.loadTasks();
+          }, 500);
+          setTimeout(() => {
+            this.router.navigate(['/home/board']);
+          }, 500);
+          this.addTaskForm.reset();
           if (this.subTasks.length > 0) {
             this.databaseService
               .addSubtasks(task.id, this.subTasks)

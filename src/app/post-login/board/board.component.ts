@@ -183,4 +183,11 @@ export class BoardComponent implements OnInit {
       },
     });
   }
+
+  getCompletedSubtasks(task: Task): number {
+    if (task.subTasks && task.subTasks.length > 0) {
+      return task.subTasks.filter((subtask) => subtask.checked).length;
+    }
+    return 0;
+  }
 }

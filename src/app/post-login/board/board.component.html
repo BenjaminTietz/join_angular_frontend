@@ -30,20 +30,19 @@
                         <div class="task-description">
                             <p>{{task.description}}</p>
                         </div>
+                        @if (task.subTasks.length > 0) {
                         <div class="progress-container">
-                            <progress max="100" value="0"></progress>
-                            <span>1 / {{task.subTasks.length}} Subtasks</span>
-
+                            <progress [max]="task.subTasks.length" [value]="getCompletedSubtasks(task)"></progress>
+                            <span>{{getCompletedSubtasks(task)}} / {{task.subTasks.length}} Subtasks</span>
                         </div>
-
+                        }
                         <div class="single-task-bottom">
                             <div class="task-assignee">
-                                <div class="assignee"><span>BT</span>
+                                @for (assignee of task.assignedTo; track assignee; let index = $index) {
+                                <div class="assignee" [style.backgroundColor]="assignee.color">
+                                    <span>{{assignee.initials}}</span>
                                 </div>
-                                <div class="assignee"><span>BT</span>
-                                </div>
-                                <div class="assignee"><span>BT</span>
-                                </div>
+                                }
                             </div>
                             <div class="task-prio">
                                 <img [src]="getPriorityIcon(task.priority)" alt="{{task.priority}} priority icon">
@@ -77,20 +76,19 @@
                         <div class="task-description">
                             <p>{{task.description}}</p>
                         </div>
+                        @if (task.subTasks.length > 0) {
                         <div class="progress-container">
-                            <progress max="100" value="0"></progress>
-                            <span>1 / {{task.subTasks.length}} Subtasks</span>
-
+                            <progress [max]="task.subTasks.length" [value]="getCompletedSubtasks(task)"></progress>
+                            <span>{{getCompletedSubtasks(task)}} / {{task.subTasks.length}} Subtasks</span>
                         </div>
-
+                        }
                         <div class="single-task-bottom">
                             <div class="task-assignee">
-                                <div class="assignee"><span>BT</span>
+                                @for (assignee of task.assignedTo; track assignee; let index = $index) {
+                                <div class="assignee" [style.backgroundColor]="assignee.color">
+                                    <span>{{assignee.initials}}</span>
                                 </div>
-                                <div class="assignee"><span>BT</span>
-                                </div>
-                                <div class="assignee"><span>BT</span>
-                                </div>
+                                }
                             </div>
                             <div class="task-prio">
                                 <img [src]="getPriorityIcon(task.priority)" alt="{{task.priority}} priority icon">
@@ -124,20 +122,19 @@
                         <div class="task-description">
                             <p>{{task.description}}</p>
                         </div>
+                        @if (task.subTasks.length > 0) {
                         <div class="progress-container">
-                            <progress max="100" value="0"></progress>
-                            <span>1 / {{task.subTasks.length}} Subtasks</span>
-
+                            <progress [max]="task.subTasks.length" [value]="getCompletedSubtasks(task)"></progress>
+                            <span>{{getCompletedSubtasks(task)}} / {{task.subTasks.length}} Subtasks</span>
                         </div>
-
+                        }
                         <div class="single-task-bottom">
                             <div class="task-assignee">
-                                <div class="assignee"><span>BT</span>
+                                @for (assignee of task.assignedTo; track assignee; let index = $index) {
+                                <div class="assignee" [style.backgroundColor]="assignee.color">
+                                    <span>{{assignee.initials}}</span>
                                 </div>
-                                <div class="assignee"><span>BT</span>
-                                </div>
-                                <div class="assignee"><span>BT</span>
-                                </div>
+                                }
                             </div>
                             <div class="task-prio">
                                 <img [src]="getPriorityIcon(task.priority)" alt="{{task.priority}} priority icon">
@@ -169,20 +166,19 @@
                         <div class="task-description">
                             <p>{{task.description}}</p>
                         </div>
+                        @if (task.subTasks.length > 0) {
                         <div class="progress-container">
-                            <progress max="100" value="0"></progress>
-                            <span>1 / {{task.subTasks.length}} Subtasks</span>
-
+                            <progress [max]="task.subTasks.length" [value]="getCompletedSubtasks(task)"></progress>
+                            <span>{{getCompletedSubtasks(task)}} / {{task.subTasks.length}} Subtasks</span>
                         </div>
-
+                        }
                         <div class="single-task-bottom">
                             <div class="task-assignee">
-                                <div class="assignee"><span>BT</span>
+                                @for (assignee of task.assignedTo; track assignee; let index = $index) {
+                                <div class="assignee" [style.backgroundColor]="assignee.color">
+                                    <span>{{assignee.initials}}</span>
                                 </div>
-                                <div class="assignee"><span>BT</span>
-                                </div>
-                                <div class="assignee"><span>BT</span>
-                                </div>
+                                }
                             </div>
                             <div class="task-prio">
                                 <img [src]="getPriorityIcon(task.priority)" alt="{{task.priority}} priority icon">
