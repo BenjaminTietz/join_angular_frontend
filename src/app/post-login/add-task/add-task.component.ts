@@ -50,6 +50,7 @@ export class AddTaskComponent implements OnInit {
   lowPrioColor: string = '#7AE229';
   mediumPrioColor: string = '#FFA800';
   urgentPrioColor: string = '#FF3D00';
+  assignedContactIds: string[] = [];
   constructor(
     private fb: FormBuilder,
     public databaseService: DatabaseService,
@@ -85,55 +86,75 @@ export class AddTaskComponent implements OnInit {
 
   onSubmit() {
     if (this.addTaskForm.valid) {
-      const newTask: Task = {
-        id: this.taskId || '',
-        title: this.addTaskForm.value.taskTitle,
-        description: this.addTaskForm.value.taskDescription,
-        dueDate: this.addTaskForm.value.taskDueDate,
-        assignedTo: [],
-        category: this.addTaskForm.value.category,
-        priority: this.addTaskForm.value.taskPriority,
-        status: this.category || 'todo',
-        subTasks: [],
-        createdAt: new Date().toISOString(),
-        createdBy: '', // todo : get current user id
-      };
+      const newTask = this.createTaskObject();
       console.log('New Task:', newTask);
+
       if (this.taskId) {
-        // Update Task
-        this.databaseService
-          .updateTask(this.taskId, newTask)
-          .subscribe((updatedTask) => {
-            console.log('Task updated:', updatedTask);
-            // todo : show "task updated" message
-          });
+        this.updateTask(newTask);
       } else {
-        this.databaseService.createTask(newTask).subscribe((task) => {
-          console.log('Task created:', task);
-          // todo : show "task added to board" message
-          setTimeout(() => {
-            this.databaseService.loadTasks();
-          }, 500);
-          setTimeout(() => {
-            this.router.navigate(['/home/board']);
-          }, 500);
-          this.addTaskForm.reset();
-          if (this.subTasks.length > 0) {
-            this.databaseService
-              .addSubtasks(task.id, this.subTasks)
-              .subscribe(() => {
-                console.log('Subtasks added successfully');
-              });
-          }
-          if (this.assignedContacts.length > 0) {
-            this.databaseService
-              .addAssignees(task.id, this.assignedContacts)
-              .subscribe(() => {
-                console.log('Assignees added successfully');
-              });
-          }
-        });
+        this.createNewTask(newTask);
       }
+    }
+  }
+
+  private createTaskObject(): Task {
+    return {
+      id: this.taskId || '',
+      title: this.addTaskForm.value.taskTitle,
+      description: this.addTaskForm.value.taskDescription,
+      dueDate: this.addTaskForm.value.taskDueDate,
+      assignedTo: [],
+      category: this.addTaskForm.value.category,
+      priority: this.addTaskForm.value.taskPriority,
+      status: this.category || 'todo',
+      subTasks: [],
+      createdAt: new Date().toISOString(),
+      createdBy: '', // todo: get current user id
+    };
+  }
+
+  private updateTask(task: Task) {
+    if (this.taskId) {
+      this.databaseService
+        .updateTask(this.taskId, task)
+        .subscribe((updatedTask) => {
+          console.log('Task updated:', updatedTask);
+          this.handleAdditionalUpdates(task.id);
+          this.databaseService.showEditTaskOverlay = false;
+          // todo: show "task updated" message
+        });
+    }
+  }
+
+  private createNewTask(task: Task) {
+    this.databaseService.createTask(task).subscribe((createdTask) => {
+      console.log('Task created:', createdTask);
+      // todo: show "task added to board" message
+      setTimeout(() => {
+        this.databaseService.loadTasks();
+        this.router.navigate(['/home/board']);
+      }, 500);
+      this.addTaskForm.reset();
+      this.handleAdditionalUpdates(createdTask.id);
+    });
+  }
+
+  private handleAdditionalUpdates(taskId: string) {
+    const newSubtasks = this.subTasks.filter((subTask) => !subTask.id);
+    const newAssignees = this.assignedContacts.filter(
+      (contact) => !this.assignedContactIds.includes(contact.id)
+    ); // Nur neue Assignees
+
+    if (newSubtasks.length > 0) {
+      this.databaseService.addSubtasks(taskId, newSubtasks).subscribe(() => {
+        console.log('Neue Subtasks erfolgreich hinzugefügt');
+      });
+    }
+
+    if (newAssignees.length > 0) {
+      this.databaseService.addAssignees(taskId, newAssignees).subscribe(() => {
+        console.log('Neue Assignees erfolgreich hinzugefügt');
+      });
     }
   }
 
@@ -237,6 +258,11 @@ export class AddTaskComponent implements OnInit {
       taskPriority: task.priority,
       category: task.category,
     });
+    this.category = task.status;
+    this.selectedPriority = task.priority;
+    this.subTasks = task.subTasks;
+    this.assignedContacts = task.assignedTo;
+    this.assignedContactIds = task.assignedTo.map((contact) => contact.id);
     task.assignedTo.forEach((contact: Contact) => {
       this.addAssignedContact(contact);
     });
@@ -270,5 +296,19 @@ export class AddTaskComponent implements OnInit {
       completed: [subTask.checked],
     });
     this.subTasksArray.push(subtaskGroup);
+  }
+
+  deleteSubtask(subtaskId: string, index: string) {
+    this.subTasks.splice(Number(index), 1);
+    console.log('Subtasks:', this.subTasks);
+    if (this.taskId) {
+      this.databaseService
+        .deleteSubtask(this.taskId, subtaskId)
+        .subscribe((res) => {
+          console.log('Subtask deleted:', res);
+        });
+    } else {
+      console.error('Task ID is null, cannot delete subtask.');
+    }
   }
 }

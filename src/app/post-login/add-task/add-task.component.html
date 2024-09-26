@@ -29,7 +29,6 @@
                         </defs>
                     </svg>
                 </div>
-
                 <div class="prio-btn pointer" [ngClass]="{ 'medium': selectedPriority === 'medium' }"
                     (click)="setPriority('medium')">
                     Medium
@@ -50,7 +49,6 @@
                         </defs>
                     </svg>
                 </div>
-
                 <div class="prio-btn pointer" [ngClass]="{ 'low': selectedPriority === 'low' }"
                     (click)="setPriority('low')">
                     Low
@@ -73,7 +71,12 @@
                         <label>{{ contact.name }}</label>
                     </div>
                     <div class="contact-right">
+                        @if (!this.databaseService.showEditTaskOverlay) {
                         <input type="checkbox" [value]="contact.id" (change)="onCheckboxChange($event, contact)">
+                        } @else {
+                        <input type="checkbox" [value]="contact.id" [checked]="assignedContactIds.includes(contact.id)"
+                            (change)="onCheckboxChange($event, contact)">
+                        }
                     </div>
                 </div>
                 }
@@ -110,8 +113,14 @@
                     <li (click)="handleEditSubtask(subtask.title, index)">{{subtask.title}}</li>
                     <input type="text" value="{{subtask.title}}">
                     <div class="icon-container">
+                        @if (!this.databaseService.showEditTaskOverlay) {
                         <img src="/assets/img/icons/delete_subtask_blue.png" (click)="removeSubtaskFromArray(index)"
-                            class="pointer"> ´
+                            class="pointer">
+                        } @else {
+                        <img src="/assets/img/icons/delete_subtask_blue.png"
+                            (click)="this.deleteSubtask(subtask.id, index.toString())" class="pointer">
+                        }
+
                         <div class="vertical-line"></div>
                         <img src="/assets/img/icons/save_subtask_blue.png"
                             (click)="saveEditedSubtask(subtask.title,index)" class="pointer">
