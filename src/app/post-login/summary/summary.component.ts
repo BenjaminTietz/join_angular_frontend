@@ -3,6 +3,7 @@ import { Router, RouterModule } from '@angular/router';
 import { DatabaseService } from '../../services/database.service';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-summary',
   standalone: true,
@@ -17,7 +18,8 @@ export class SummaryComponent implements OnInit {
   constructor(
     private router: Router,
     public databaseService: DatabaseService,
-    private http: HttpClient
+    private http: HttpClient,
+    public authService: AuthService
   ) {}
 
   ngOnInit() {

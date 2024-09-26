@@ -1,6 +1,6 @@
 <div class="summary-wrapper">
 
-    <h1>{{ greetingMessage }}<span>Sofia Müller</span></h1>
+    <h1>{{ greetingMessage }}<span>{{this.authService.currentUser?.username}}</span></h1>
 
     <div class="tasks-overview">
         <div class="task-overview-top">
