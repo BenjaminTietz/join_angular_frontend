@@ -121,7 +121,7 @@ export class DatabaseService {
     return this.http.post<any>(url, { assignedTo }, { headers: this.headers });
   }
 
-  private loadContacts() {
+  public loadContacts() {
     this.http
       .get<Contact[]>(this.contactsUrl, { headers: this.headers })
       .subscribe((contacts) => {
@@ -164,6 +164,10 @@ export class DatabaseService {
     return this.http.put<Contact>(url, updatedContact, {
       headers: this.headers,
     });
+  }
+  public deleteContact(id: string): Observable<any> {
+    const url = `${this.contactsUrl}${id}/`;
+    return this.http.delete(url, { headers: this.headers });
   }
 
   // Helper function to get the next due date for urgent tasks
