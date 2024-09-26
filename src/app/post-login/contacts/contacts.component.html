@@ -29,9 +29,10 @@
                 <div class="detail-view-right-top">
                     <h2>{{contactDetail.name}}</h2>
                     <div class="contact-actions">
-                        <button class="contact-action-btn" type="button" (click)="handleEditContact()"><img
+                        <button class="contact-action-btn pointer" type="button" (click)="handleEditContact()"><img
                                 src="/assets/img/icons/edit_contact.png">Edit</button>
-                        <button class="contact-action-btn"><img
+                        <button class="contact-action-btn pointer" type="button"
+                            (click)="handleDeleteContact(contactDetail.id)"><img
                                 src="/assets/img/icons/delete_contact.png">Delete</button>
                     </div>
                 </div>
@@ -115,8 +116,10 @@
                     </div>
                 </div>
                 <div class="submit-btn-container">
-                    <button class="white-btn" type="button" (click)="onDeleteEditContactForm()">Delete</button>
-                    <button class="blue-btn" type="submit">Save<img src="/assets/img/icons/create_btn.png"></button>
+                    <button class="white-btn pointer" type="button"
+                        (click)="handleDeleteContact(contactDetail.id)">Delete</button>
+                    <button class="blue-btn pointer" type="submit">Save<img
+                            src="/assets/img/icons/create_btn.png"></button>
                 </div>
             </form>
         </div>

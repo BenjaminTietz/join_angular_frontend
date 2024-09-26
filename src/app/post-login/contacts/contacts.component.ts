@@ -88,6 +88,7 @@ export class ContactsComponent implements OnInit {
           console.log('Contact created:', contact);
           // todo show success message / reset form / refresh contact list
           this.handleCloseAddContactOverlay();
+          this.databaseService.loadContacts();
         },
         error: (error) => {
           console.error('Error creating contact:', error);
@@ -119,6 +120,8 @@ export class ContactsComponent implements OnInit {
           .subscribe({
             next: (updatedContact) => {
               console.log('Contact updated:', updatedContact);
+              this.databaseService.loadContacts();
+              this.handleCloseEditContactOverlay();
               // Todo: refresh contact list / show success message
             },
             error: (error) => {
@@ -133,8 +136,22 @@ export class ContactsComponent implements OnInit {
       }
     }
   }
-  onDeleteEditContactForm() {
-    // todo : delete contact
+
+  handleDeleteContact(contactId: string): void {
+    this.databaseService.deleteContact(contactId).subscribe({
+      next: () => {
+        console.log('Contact deleted successfully');
+        // todo: show success message / refresh contact list
+        this.contactDetail = null;
+        this.databaseService.loadContacts();
+      },
+      error: (error) => {
+        console.error('Error deleting contact:', error);
+      },
+      complete: () => {
+        console.log('Delete operation completed');
+      },
+    });
   }
 
   handleAddContact() {
