@@ -33,6 +33,7 @@ export class DatabaseService {
   public urgentTasks = 0;
   public nextDueDate: string | null = null;
 
+  public showEditTaskOverlay = false;
   constructor(private http: HttpClient) {
     this.loadTasks();
     this.loadContacts();
@@ -118,12 +119,16 @@ export class DatabaseService {
     id: string,
     checked: boolean
   ): Observable<any> {
-    const url = `${this.tasksUrl}${taskId}/subtask/${id}/`;
+    const url = `${this.tasksUrl}${taskId}/subtask/${id}/update/`;
     const body = { checked: checked };
 
     return this.http.patch<any>(url, body, {
       headers: this.headers,
     });
+  }
+  public deleteSubtask(taskId: string, subtaskId: string): Observable<any> {
+    const url = `${this.tasksUrl}${taskId}/subtask/${subtaskId}/`;
+    return this.http.delete<any>(url, { headers: this.headers });
   }
   public addAssignees(taskId: string, assignedTo: Contact[]): Observable<any> {
     const url = `${this.tasksUrl}${taskId}/add_assignees/`;
