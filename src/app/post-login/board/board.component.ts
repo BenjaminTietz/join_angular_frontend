@@ -123,7 +123,9 @@ export class BoardComponent implements OnInit {
   }
 
   handleShowTaskDetailOverlay(task: Task) {
+    console.log('Task to be shown:', task);
     this.selectedTask = task;
+    this.selectedTaskId = task.id;
     this.showTaskDetailOverlay = true;
   }
 
@@ -135,11 +137,8 @@ export class BoardComponent implements OnInit {
     this.showTaskDetailOverlay = false;
     this.selectedTaskId = task.id;
     this.selectedTask = task;
-
-    // Set the taskId and taskData in the DatabaseService
     this.databaseService.setTaskId(this.selectedTaskId);
     this.databaseService.setTaskData(this.selectedTask);
-
     console.log('Task to edit:', task);
     console.log('Task id:', this.selectedTaskId);
     this.showAddTaskOverlay = true;
@@ -168,5 +167,20 @@ export class BoardComponent implements OnInit {
           console.log('Update complete');
         },
       });
+  }
+
+  handleDeleteTask(task: Task) {
+    console.log('Task to be deleted:', task);
+    this.databaseService.deleteTask(task.id).subscribe({
+      next: (response) => {
+        console.log('Task deleted:', response);
+      },
+      error: (error) => {
+        console.error('Error deleting task', error);
+      },
+      complete: () => {
+        console.log('Delete complete');
+      },
+    });
   }
 }
