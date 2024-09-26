@@ -122,6 +122,7 @@ export class ContactsComponent implements OnInit {
               console.log('Contact updated:', updatedContact);
               this.databaseService.loadContacts();
               this.handleCloseEditContactOverlay();
+              this.contactDetail = updatedContact;
               // Todo: refresh contact list / show success message
             },
             error: (error) => {
