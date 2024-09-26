@@ -99,6 +99,15 @@ export class DatabaseService {
       headers: this.headers,
     });
   }
+  public deleteTask(id: string): Observable<any> {
+    const url = `${this.tasksUrl}${id}/`;
+    return this.http.delete(url, { headers: this.headers }).pipe(
+      map((response) => {
+        this.loadTasks();
+        return response;
+      })
+    );
+  }
 
   public addSubtasks(taskId: string, subtasks: SubTask[]): Observable<any> {
     const url = `${this.tasksUrl}${taskId}/add_subtasks/`;
