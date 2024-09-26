@@ -22,7 +22,6 @@ export class BoardComponent implements OnInit {
   };
   showAddTaskOverlay = false;
   showTaskDetailOverlay = false;
-  showEditTaskOverlay = false;
   selectedStaus = '';
   selectedCategory = '';
   daggedTaskId = '';
@@ -141,7 +140,7 @@ export class BoardComponent implements OnInit {
     this.databaseService.setTaskData(this.selectedTask);
     console.log('Task to edit:', task);
     console.log('Task id:', this.selectedTaskId);
-    this.showAddTaskOverlay = true;
+    this.databaseService.showEditTaskOverlay = true;
   }
 
   handleTaskSaved(updatedTask: Task) {
@@ -183,7 +182,11 @@ export class BoardComponent implements OnInit {
       },
     });
   }
-
+  handleCloseEditTaskOverlay() {
+    this.databaseService.showEditTaskOverlay = false;
+    this.selectedTaskId = null;
+    this.selectedTask = null;
+  }
   getCompletedSubtasks(task: Task): number {
     if (task.subTasks && task.subTasks.length > 0) {
       return task.subTasks.filter((subtask) => subtask.checked).length;

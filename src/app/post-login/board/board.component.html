@@ -270,6 +270,12 @@
 }
 
 <!--floating edit task overlay -->
-@if (showEditTaskOverlay) {
-<app-add-task></app-add-task>
+@if (this.databaseService.showEditTaskOverlay) {
+<div class="floating-edit-task-wrapper">
+    <div class="close-btn" (click)="handleCloseEditTaskOverlay()"><img src="/assets/img/icons/close_btn_blue.png"></div>
+    <div class="edit-task-content">
+        <app-add-task></app-add-task>
+    </div>
+</div>
+
 }

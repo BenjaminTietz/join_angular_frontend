@@ -332,3 +332,27 @@
     }
 
 }
+
+// floating edit Task Overlay
+.floating-edit-task-wrapper {
+    width: 100svw;
+    height: 100svh;
+    border-radius: 30px 0px 30px 30px;
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    @include dFlex(column, center, center);
+
+    >.edit-task-content {
+        width: 100%;
+        height: 100%;
+    }
+
+    >.close-btn {
+        position: absolute;
+        top: 104px;
+        left: 728px;
+        z-index: 6;
+        cursor: pointer;
+    }
+}
