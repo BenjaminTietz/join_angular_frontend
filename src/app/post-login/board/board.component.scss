@@ -71,7 +71,6 @@
     width: 252px;
     height: fit-content;
     min-height: 500px;
-    background-color: lightcyan;
     gap: 16px;
     @include dFlex(column, space-between, flex-start);
 }
@@ -96,7 +95,8 @@
     background-color: $white;
 
     &:hover {
-        transform: scale(1.05);
+        transform: rotate(5deg) scale(1.02);
+        transition: transform 0.2s ease;
     }
 
     h4 {
@@ -158,7 +158,6 @@
             width: 80px;
             height: 32px;
 
-
             >.assignee {
                 @include dFlex(row, center, center);
                 width: 32px;
@@ -172,7 +171,27 @@
                 }
             }
 
+            >.assignee:nth-child(2),
+            >.assignee:nth-child(3) {
+                margin-left: -8px;
+            }
+
         }
+
+    }
+}
+
+.no-task {
+    width: 252px;
+    height: 48px;
+    border-radius: 10px;
+    gap: 10px;
+    border: 1px solid #A8A8A8 dotted;
+    box-shadow: 0px 0px 4px 0px #00000029;
+    @include dFlex(row, center, center);
+
+    h3 {
+        @include OpenSans(400, 16px, 19.2px, $input-border);
     }
 }
 

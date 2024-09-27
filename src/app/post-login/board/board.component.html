@@ -39,159 +39,178 @@
                         <div class="single-task-bottom">
                             <div class="task-assignee">
                                 @for (assignee of task.assignedTo; track assignee; let index = $index) {
-                                <div class="assignee" [style.backgroundColor]="assignee.color">
+                                @if(index<=2){ <div class="assignee" [style.backgroundColor]="assignee.color">
                                     <span>{{assignee.initials}}</span>
-                                </div>
-                                }
                             </div>
-                            <div class="task-prio">
-                                <img [src]="getPriorityIcon(task.priority)" alt="{{task.priority}} priority icon">
-                            </div>
+                            }
+                            }
+                        </div>
+                        <div class="task-prio">
+                            <img [src]="getPriorityIcon(task.priority)" alt="{{task.priority}} priority icon">
                         </div>
                     </div>
-                    }
-                    }
-                    }
                 </div>
+                }
+                }
+                } @if (this.databaseService.todoTasks.length == 0) {
+                <div class="no-task">
+                    <h3>No tasks To do</h3>
+                </div>
+                }
             </div>
-            <div class="board-column-container">
-                <div class="board-column-top">
-                    <h3>In progress</h3>
-                    <button class="add-btn" (click)="handleShowAddTaskOverlay('inProgress')"><img
-                            src="/assets/img/icons/add_task_blue.png"></button>
-                </div>
-                <div class="board-column-bottom" (dragover)="onDragOver($event, 'inProgress')"
-                    (drop)="onDrop($event, 'inProgress')">
-                    @if ("inProgressTasks") {
-                    @for (task of this.databaseService.inProgressTasks; track task; let index = $index) {
-                    @if (task.status == 'inProgress' ) {
-                    <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id, 'inProgress')"
-                        draggable="true" (click)="handleShowTaskDetailOverlay(task)">
-                        <div class="task-category">
-                            <h4 class="{{task.category}}">{{task.category}}</h4>
-                        </div>
-                        <div class="task-title">
-                            <span>{{task.title}}</span>
-                        </div>
-                        <div class="task-description">
-                            <p>{{task.description}}</p>
-                        </div>
-                        @if (task.subTasks.length > 0) {
-                        <div class="progress-container">
-                            <progress [max]="task.subTasks.length" [value]="getCompletedSubtasks(task)"></progress>
-                            <span>{{getCompletedSubtasks(task)}} / {{task.subTasks.length}} Subtasks</span>
+        </div>
+        <div class="board-column-container">
+            <div class="board-column-top">
+                <h3>In progress</h3>
+                <button class="add-btn" (click)="handleShowAddTaskOverlay('inProgress')"><img
+                        src="/assets/img/icons/add_task_blue.png"></button>
+            </div>
+            <div class="board-column-bottom" (dragover)="onDragOver($event, 'inProgress')"
+                (drop)="onDrop($event, 'inProgress')">
+                @if ("inProgressTasks") {
+                @for (task of this.databaseService.inProgressTasks; track task; let index = $index) {
+                @if (task.status == 'inProgress' ) {
+                <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id, 'inProgress')"
+                    draggable="true" (click)="handleShowTaskDetailOverlay(task)">
+                    <div class="task-category">
+                        <h4 class="{{task.category}}">{{task.category}}</h4>
+                    </div>
+                    <div class="task-title">
+                        <span>{{task.title}}</span>
+                    </div>
+                    <div class="task-description">
+                        <p>{{task.description}}</p>
+                    </div>
+                    @if (task.subTasks.length > 0) {
+                    <div class="progress-container">
+                        <progress [max]="task.subTasks.length" [value]="getCompletedSubtasks(task)"></progress>
+                        <span>{{getCompletedSubtasks(task)}} / {{task.subTasks.length}} Subtasks</span>
+                    </div>
+                    }
+                    <div class="single-task-bottom">
+                        <div class="task-assignee">
+                            @for (assignee of task.assignedTo; track assignee; let index = $index) {
+                            @if(index<=2){ <div class="assignee" [style.backgroundColor]="assignee.color">
+                                <span>{{assignee.initials}}</span>
                         </div>
                         }
-                        <div class="single-task-bottom">
-                            <div class="task-assignee">
-                                @for (assignee of task.assignedTo; track assignee; let index = $index) {
-                                <div class="assignee" [style.backgroundColor]="assignee.color">
-                                    <span>{{assignee.initials}}</span>
-                                </div>
-                                }
-                            </div>
-                            <div class="task-prio">
-                                <img [src]="getPriorityIcon(task.priority)" alt="{{task.priority}} priority icon">
-                            </div>
-                        </div>
+                        }
                     </div>
-                    }
-                    }
-                    }
+                    <div class="task-prio">
+                        <img [src]="getPriorityIcon(task.priority)" alt="{{task.priority}} priority icon">
+                    </div>
                 </div>
             </div>
-            <div class="board-column-container">
-                <div class="board-column-top">
-                    <h3>Await feedback</h3>
-                    <button class="add-btn" (click)="handleShowAddTaskOverlay('awaitFeedback')"><img
-                            src="/assets/img/icons/add_task_blue.png"></button>
-                </div>
-                <div class="board-column-bottom" (dragover)="onDragOver($event, 'awaitFeedback')"
-                    (drop)="onDrop($event, 'awaitFeedback')">
-                    @if ("awaitFeedbackTasks") {
-                    @for (task of this.databaseService.awaitFeedbackTasks; track task; let index = $index) {
-                    @if (task.status == 'awaitFeedback' ) {
-                    <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id, 'awaitFeedback')"
-                        draggable="true" (click)="handleShowTaskDetailOverlay(task)">
-                        <div class="task-category">
-                            <h4 class="{{task.category}}">{{task.category}}</h4>
-                        </div>
-                        <div class="task-title">
-                            <span>{{task.title}}</span>
-                        </div>
-                        <div class="task-description">
-                            <p>{{task.description}}</p>
-                        </div>
-                        @if (task.subTasks.length > 0) {
-                        <div class="progress-container">
-                            <progress [max]="task.subTasks.length" [value]="getCompletedSubtasks(task)"></progress>
-                            <span>{{getCompletedSubtasks(task)}} / {{task.subTasks.length}} Subtasks</span>
-                        </div>
-                        }
-                        <div class="single-task-bottom">
-                            <div class="task-assignee">
-                                @for (assignee of task.assignedTo; track assignee; let index = $index) {
-                                <div class="assignee" [style.backgroundColor]="assignee.color">
-                                    <span>{{assignee.initials}}</span>
-                                </div>
-                                }
-                            </div>
-                            <div class="task-prio">
-                                <img [src]="getPriorityIcon(task.priority)" alt="{{task.priority}} priority icon">
-                            </div>
-                        </div>
-                    </div>
-                    }
-                    }
-                    }
-                </div>
+            }
+            }
+            } @if (this.databaseService.inProgressTasks.length == 0) {
+            <div class="no-task">
+                <h3>No tasks In progress</h3>
             </div>
-            <div class="board-column-container">
-                <div class="board-column-top">
-                    <h3>Done</h3>
+            }
+        </div>
+    </div>
+    <div class="board-column-container">
+        <div class="board-column-top">
+            <h3>Await feedback</h3>
+            <button class="add-btn" (click)="handleShowAddTaskOverlay('awaitFeedback')"><img
+                    src="/assets/img/icons/add_task_blue.png"></button>
+        </div>
+        <div class="board-column-bottom" (dragover)="onDragOver($event, 'awaitFeedback')"
+            (drop)="onDrop($event, 'awaitFeedback')">
+            @if ("awaitFeedbackTasks") {
+            @for (task of this.databaseService.awaitFeedbackTasks; track task; let index = $index) {
+            @if (task.status == 'awaitFeedback' ) {
+            <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id, 'awaitFeedback')"
+                draggable="true" (click)="handleShowTaskDetailOverlay(task)">
+                <div class="task-category">
+                    <h4 class="{{task.category}}">{{task.category}}</h4>
                 </div>
-                <div class="board-column-bottom" (dragover)="onDragOver($event, 'done')"
-                    (drop)="onDrop($event, 'done')">
-                    @if ("doneTasks") {
-                    @for (task of this.databaseService.doneTasks; track task; let index = $index) {
-                    @if (task.status == 'done' ) {
-                    <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id, 'done')"
-                        draggable="true" (click)="handleShowTaskDetailOverlay(task)">
-                        <div class="task-category">
-                            <h4 class="{{task.category}}">{{task.category}}</h4>
-                        </div>
-                        <div class="task-title">
-                            <span>{{task.title}}</span>
-                        </div>
-                        <div class="task-description">
-                            <p>{{task.description}}</p>
-                        </div>
-                        @if (task.subTasks.length > 0) {
-                        <div class="progress-container">
-                            <progress [max]="task.subTasks.length" [value]="getCompletedSubtasks(task)"></progress>
-                            <span>{{getCompletedSubtasks(task)}} / {{task.subTasks.length}} Subtasks</span>
-                        </div>
-                        }
-                        <div class="single-task-bottom">
-                            <div class="task-assignee">
-                                @for (assignee of task.assignedTo; track assignee; let index = $index) {
-                                <div class="assignee" [style.backgroundColor]="assignee.color">
-                                    <span>{{assignee.initials}}</span>
-                                </div>
-                                }
-                            </div>
-                            <div class="task-prio">
-                                <img [src]="getPriorityIcon(task.priority)" alt="{{task.priority}} priority icon">
-                            </div>
-                        </div>
+                <div class="task-title">
+                    <span>{{task.title}}</span>
+                </div>
+                <div class="task-description">
+                    <p>{{task.description}}</p>
+                </div>
+                @if (task.subTasks.length > 0) {
+                <div class="progress-container">
+                    <progress [max]="task.subTasks.length" [value]="getCompletedSubtasks(task)"></progress>
+                    <span>{{getCompletedSubtasks(task)}} / {{task.subTasks.length}} Subtasks</span>
+                </div>
+                }
+                <div class="single-task-bottom">
+                    <div class="task-assignee">
+                        @for (assignee of task.assignedTo; track assignee; let index = $index) {
+                        @if(index<=2){ <div class="assignee" [style.backgroundColor]="assignee.color">
+                            <span>{{assignee.initials}}</span>
                     </div>
                     }
                     }
-                    }
+                </div>
+                <div class="task-prio">
+                    <img [src]="getPriorityIcon(task.priority)" alt="{{task.priority}} priority icon">
                 </div>
             </div>
         </div>
+        }
+        }
+        } @if (this.databaseService.awaitFeedbackTasks.length == 0) {
+        <div class="no-task">
+            <h3>No tasks Await feedback</h3>
+        </div>
+        }
     </div>
+</div>
+<div class="board-column-container">
+    <div class="board-column-top">
+        <h3>Done</h3>
+    </div>
+    <div class="board-column-bottom" (dragover)="onDragOver($event, 'done')" (drop)="onDrop($event, 'done')">
+        @if ("doneTasks") {
+        @for (task of this.databaseService.doneTasks; track task; let index = $index) {
+        @if (task.status == 'done' ) {
+        <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id, 'done')" draggable="true"
+            (click)="handleShowTaskDetailOverlay(task)">
+            <div class="task-category">
+                <h4 class="{{task.category}}">{{task.category}}</h4>
+            </div>
+            <div class="task-title">
+                <span>{{task.title}}</span>
+            </div>
+            <div class="task-description">
+                <p>{{task.description}}</p>
+            </div>
+            @if (task.subTasks.length > 0) {
+            <div class="progress-container">
+                <progress [max]="task.subTasks.length" [value]="getCompletedSubtasks(task)"></progress>
+                <span>{{getCompletedSubtasks(task)}} / {{task.subTasks.length}} Subtasks</span>
+            </div>
+            }
+            <div class="single-task-bottom">
+                <div class="task-assignee">
+                    @for (assignee of task.assignedTo; track assignee; let index = $index) {
+                    @if(index<=2){ <div class="assignee" [style.backgroundColor]="assignee.color">
+                        <span>{{assignee.initials}}</span>
+                </div>
+                }
+                }
+            </div>
+            <div class="task-prio">
+                <img [src]="getPriorityIcon(task.priority)" alt="{{task.priority}} priority icon">
+            </div>
+        </div>
+    </div>
+    }
+    }
+    } @if (this.databaseService.doneTasks.length == 0) {
+    <div class="no-task">
+        <h3>No tasks Done</h3>
+    </div>
+    }
+</div>
+</div>
+</div>
+</div>
 </div>
 @if (showAddTaskOverlay) {
 <div class="floating-add-task-wrapper">
