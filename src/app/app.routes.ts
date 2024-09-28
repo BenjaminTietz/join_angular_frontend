@@ -9,6 +9,7 @@ import { ContactsComponent } from './post-login/contacts/contacts.component';
 import { ImprintComponent } from './legal/imprint/imprint.component';
 import { PrivacyPolicyComponent } from './legal/privacy-policy/privacy-policy.component';
 import { authGuard } from './guards/auth.guard';
+import { InstructionsComponent } from './post-login/instructions/instructions.component';
 export const routes: Routes = [
   // pre-login component routes
   {
@@ -31,6 +32,7 @@ export const routes: Routes = [
       { path: 'add-task', component: AddTaskComponent },
       { path: 'board', component: BoardComponent },
       { path: 'contacts', component: ContactsComponent },
+      { path: 'instructions', component: InstructionsComponent },
     ],
   },
   // public routes
