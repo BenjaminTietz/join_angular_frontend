@@ -14,6 +14,7 @@
     width: 186px;
     height: 205px;
     gap: 15px;
+    @include dFlex(column, space-between, center);
 }
 
 .nav-container {
@@ -26,8 +27,24 @@
     transition: all 0.175s ease-in-out;
 
     &:hover {
+        background-color: $hover-blue;
+    }
+
+    &.active {
         background-color: $main-blue-light;
     }
+
+    span {
+        @include OpenSans(400, 16px, 19.2px, $menu-color);
+    }
+}
+
+.sidena-bottom {
+    width: 150px;
+    height: 108px;
+    padding: 16px 20px;
+    gap: 10px;
+    @include dFlex(column, space-between, center);
 }
 
 @media only screen and (max-width: 1200px) {
