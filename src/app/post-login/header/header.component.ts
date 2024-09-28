@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +11,7 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router, public authService: AuthService) {}
   isUserMenuVisible = false;
   toggleUserMenu() {
     this.isUserMenuVisible = !this.isUserMenuVisible;
