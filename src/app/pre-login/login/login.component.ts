@@ -35,20 +35,17 @@ export class LoginComponent {
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.loginForm.valid) {
-      this.authService
-        .login(this.loginForm.value.email, this.loginForm.value.password)
-        .subscribe({
-          next: (response) => {
-            console.log('Login successful:', response);
-            this.router.navigate(['/summary']);
-          },
-          error: (error) => {
-            console.error('Login failed:', error);
-            // todo: implement error handling
-          },
-        });
+      try {
+        const { email, password } = this.loginForm.value;
+        const response = await this.authService.login(email, password);
+        console.log('Login successful:', response);
+        this.router.navigate(['/summary']);
+      } catch (error) {
+        console.error('Login failed:', error);
+        // todo: implement error handling
+      }
     } else {
       console.log('Invalid Form');
     }
