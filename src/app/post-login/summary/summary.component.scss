@@ -1,11 +1,7 @@
 @import "../../../styles.scss";
 
+
 .summary-wrapper {
-    width: calc(100% - 186px);
-    height: 100%;
-    position: absolute;
-    top: 96px;
-    left: 186px;
     @include dFlex(column, flex-start, center);
 }
 
@@ -126,10 +122,7 @@ h1 {
 @media only screen and (max-width: 1200px) {
 
     .summary-wrapper {
-        width: 100%;
-        height: calc(100% - 186px);
-        position: unset;
-        @include dFlex(column, center, center);
+        @include dFlex(column, flex-start, center);
     }
 
 }

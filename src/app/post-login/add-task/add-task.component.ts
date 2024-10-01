@@ -21,11 +21,18 @@ import { DatabaseService } from '../../services/database.service';
 import { Task } from '../../models/task.class';
 import { SubTask } from '../../models/subTask.class';
 import { Router } from '@angular/router';
+import { HeaderComponent } from '../header/header.component';
+import { SidenavComponent } from '../sidenav/sidenav.component';
 
 @Component({
   selector: 'app-add-task',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    HeaderComponent,
+    SidenavComponent,
+  ],
   templateUrl: './add-task.component.html',
   styleUrl: './add-task.component.scss',
 })

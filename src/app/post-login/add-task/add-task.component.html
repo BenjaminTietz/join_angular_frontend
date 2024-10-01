@@ -1,6 +1,9 @@
-<div class="add-task-wrapper">
-    <div class="add-task-left">
+<section>
+    <app-header></app-header>
+</section>
 
+<section class="add-task-wrapper content-wrapper">
+    <div class="add-task-left">
         <form [formGroup]="addTaskForm" (ngSubmit)="onSubmit()">
             <input type="text" placeholder="Enter a title" formControlName="taskTitle">
             <span>Description (optional)</span>
@@ -139,4 +142,7 @@
         </form>
 
     </div>
-</div>
+</section>
+<section>
+    <app-sidenav></app-sidenav>
+</section>

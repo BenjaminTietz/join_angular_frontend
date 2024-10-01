@@ -1,11 +1,6 @@
 @import "../../../styles.scss";
 
 .contacts-wrapper {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 96px;
-    left: 232px;
     @include dFlex(row, flex-start, flex-start);
 }
 
@@ -213,5 +208,11 @@
                 }
             }
         }
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .contacts-wrapper {
+        @include dFlex(row, flex-start, center);
     }
 }

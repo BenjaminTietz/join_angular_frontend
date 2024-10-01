@@ -1,18 +1,11 @@
 @import "../../../styles.scss";
 
 .add-task-wrapper {
-    position: relative;
-    width: calc(100svw - 96px);
-    height: calc(100vh - 96px);
-    position: absolute;
-    top: 96px;
-    left: 232px;
     @include dFlex(row, flex-start, flex-start);
 }
 
 .add-task-left {
     width: 496px;
-    height: 100%;
     padding: 64px 24px 0px 24px;
     overflow-y: auto;
     box-sizing: content-box;
@@ -242,4 +235,8 @@ form {
     @include dFlex(row, flex-start, center);
 }
 
-@media only screen and (max-width: 1200px) {}
+@media only screen and (max-width: 1200px) {
+    .add-task-wrapper {
+        @include dFlex(column, flex-start, center);
+    }
+}

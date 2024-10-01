@@ -4,10 +4,12 @@ import { DatabaseService } from '../../services/database.service';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
+import { HeaderComponent } from '../header/header.component';
+import { SidenavComponent } from '../sidenav/sidenav.component';
 @Component({
   selector: 'app-summary',
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, HeaderComponent, SidenavComponent],
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.scss',
 })

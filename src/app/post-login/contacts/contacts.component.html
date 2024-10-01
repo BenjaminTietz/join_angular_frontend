@@ -1,4 +1,7 @@
-<div class="contacts-wrapper">
+<section>
+    <app-header></app-header>
+</section>
+<section class="contacts-wrapper content-wrapper">
     <div class="contacts-left">
         <button class="blue-btn" (click)="handleAddContact()">Add new contact<img
                 src="/assets/img/icons/add_contact_white.png"></button>
@@ -48,7 +51,10 @@
         }
 
     </div>
-</div>
+</section>
+<section>
+    <app-sidenav></app-sidenav>
+</section>
 <!-- add contact overlay -->
 @if (showAddContactOverlay) {
 <div class="add-contact-overlay">

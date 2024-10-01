@@ -5,11 +5,13 @@ import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AddTaskComponent } from '../add-task/add-task.component';
 import { SubTask } from '../../models/subTask.class';
+import { HeaderComponent } from '../header/header.component';
+import { SidenavComponent } from '../sidenav/sidenav.component';
 
 @Component({
   selector: 'app-board',
   standalone: true,
-  imports: [CommonModule, AddTaskComponent],
+  imports: [CommonModule, AddTaskComponent, HeaderComponent, SidenavComponent],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss',
 })

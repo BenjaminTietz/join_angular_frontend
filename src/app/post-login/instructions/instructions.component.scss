@@ -1,15 +1,7 @@
 @import "../../../styles.scss";
 
 .instructions-wrapper {
-    width: calc(100% - 232px);
-    height: calc(100vh - 96px);
-    position: absolute;
-    top: 96px;
-    left: 232px;
-    padding: 16px 64px 16px 64px;
     @include dFlex(column, flex-start, flex-start);
-    overflow-y: auto;
-    gap: 24px;
 }
 
 h1 {
@@ -65,9 +57,6 @@ span {
 @media only screen and (max-width: 1200px) {
 
     .instructions-wrapper {
-        width: 100%;
-        height: calc(100% - 186px);
-        position: unset;
         @include dFlex(column, flex-start, flex-start);
     }
 

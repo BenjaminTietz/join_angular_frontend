@@ -9,11 +9,18 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { HeaderComponent } from '../header/header.component';
+import { SidenavComponent } from '../sidenav/sidenav.component';
 
 @Component({
   selector: 'app-contacts',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    HeaderComponent,
+    SidenavComponent,
+  ],
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.scss',
 })

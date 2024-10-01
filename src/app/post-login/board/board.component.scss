@@ -1,11 +1,7 @@
 @import "../../../styles.scss";
 
 .board-wrapper {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 96px;
-    left: 232px;
+    @include dFlex(column, flex-start, flex-start);
 }
 
 .board-top-section {
@@ -42,16 +38,22 @@
             background-color: $border-color;
         }
     }
+}
 
-
+.board-bottom-section {
+    width: 100%;
+    height: 100%;
+    @include dFlex(row, flex-start, flex-start);
 }
 
 .board-column {
     width: 1208px;
     height: 28px;
     @include dFlex(row, space-between, flex-start);
-    box-sizing: content-box;
+    flex: 1 1 25%;
     padding: 0px 64px;
+    flex-wrap: wrap;
+    gap: 32px;
 }
 
 .board-column-top {
@@ -69,8 +71,8 @@
 
 .board-column-bottom {
     width: 252px;
+    min-height: 263px;
     height: fit-content;
-    min-height: 500px;
     gap: 16px;
     @include dFlex(column, space-between, flex-start);
 }
@@ -373,5 +375,25 @@
         left: 728px;
         z-index: 6;
         cursor: pointer;
+    }
+}
+
+@media only screen and (max-width: 1500px) {
+
+    .board-column {
+        flex: 1 1 50%;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .board-wrapper {
+        @include dFlex(column, flex-start, center);
+    }
+}
+
+@media only screen and (max-width: 950px) {
+
+    .board-column {
+        flex: 1 1 100%;
     }
 }
