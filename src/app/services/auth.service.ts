@@ -59,7 +59,7 @@ export class AuthService {
       this.databaseService.contactInit();
       this.databaseService.taskInit();
       setTimeout(() => {
-        this.router.navigate(['/home']);
+        this.router.navigate(['/summary']);
       }, 1500);
     } catch (error) {
       console.error('Error during guest login:', error);
@@ -76,7 +76,7 @@ export class AuthService {
             this.login('guest@guest.com', '12345678')
           );
           console.log('Guest Login Response:', loginResponse);
-          this.router.navigate(['/home']);
+          this.router.navigate(['/summary']);
         } catch (loginError) {
           console.error('Error during guest login attempt:', loginError);
         }
