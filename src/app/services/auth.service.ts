@@ -36,15 +36,7 @@ export class AuthService {
       if (response.token) {
         localStorage.setItem('token', response.token);
         localStorage.setItem('user', JSON.stringify(response.user));
-
-        const user = response.user;
-        const initials = this.generateInitials(user.username);
-
-        this.currentUser.set({
-          ...user,
-          initials: initials,
-        });
-
+        this.currentUser.set(response.user);
         console.log('Login Successful', response.token);
         console.log('CurrentUser Object', this.currentUser());
       }
@@ -98,8 +90,15 @@ export class AuthService {
   private loadCurrentUser() {
     const user = localStorage.getItem('user');
     if (user) {
-      this.currentUser.set(JSON.parse(user));
+      const parsedUser = JSON.parse(user);
+      const initials = this.generateInitials(parsedUser.username);
+
+      this.currentUser.set({
+        ...parsedUser,
+        initials: initials,
+      });
     }
+    console.log('CurrentUser Object', this.currentUser());
   }
 
   private generateInitials(username: string): string {
