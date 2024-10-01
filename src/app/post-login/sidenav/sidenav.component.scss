@@ -2,12 +2,19 @@
 
 .sidenav-wrapper {
     width: 232px;
-    height: calc(100% - 96px);
+    height: calc(100vh - 96px);
     padding: 66px 0px;
     gap: 235px;
     background-color: $white;
     box-shadow: 0px 0px 4px 0px #00000029;
     @include dFlex(column, space-between, center);
+    position: absolute;
+    top: 96px;
+    left: 0;
+}
+
+.legal-bottom-aligined {
+    @include dFlex(column, flex-end !important, center);
 }
 
 .sidenav-top {
@@ -49,10 +56,10 @@
 
 @media only screen and (max-width: 1200px) {
     .sidenav-wrapper {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
+        top: unset;
+        bottom: 0 !important;
+        left: 0 !important;
+        width: 100vw;
         height: 76px;
         padding: 0 16px;
         gap: 0;

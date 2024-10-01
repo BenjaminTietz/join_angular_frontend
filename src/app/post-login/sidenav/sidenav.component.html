@@ -1,22 +1,24 @@
-<div class="sidenav-wrapper">
+<div [ngClass]="{'legal-bottom-aligined': !isLoggedIn }" class="sidenav-wrapper">
+    @if (isLoggedIn) {
     <div class="sidenav-top">
-        <div class="nav-container pointer" [routerLink]="['/home/summary']" routerLinkActive="active">
+        <div class="nav-container pointer" [routerLink]="['/summary']" routerLinkActive="active">
             <img src="assets/img/icons/summary_menu_icon.png" alt="nav_icon" class="nav-icon">
             <span>Summary</span>
         </div>
-        <div class="nav-container pointer" [routerLink]="['/home/add-task']" routerLinkActive="active">
+        <div class="nav-container pointer" [routerLink]="['/add-task']" routerLinkActive="active">
             <img src="../../../assets/img/icons/add_task_menu_icon.png" alt="nav_icon" class="nav-icon">
             <span>Add Task</span>
         </div>
-        <div class="nav-container pointer" [routerLink]="['/home/board']" routerLinkActive="active">
+        <div class="nav-container pointer" [routerLink]="['/board']" routerLinkActive="active">
             <img src="../../../assets/img/icons/board_menu_icon.png" alt="nav_icon" class="nav-icon">
             <span>Board</span>
         </div>
-        <div class="nav-container pointer" [routerLink]="['/home/contacts']" routerLinkActive="active">
+        <div class="nav-container pointer" [routerLink]="['/contacts']" routerLinkActive="active">
             <img src="../../../assets/img/icons/contacts_menu_icon.png" alt="nav_icon" class="nav-icon">
             <span>Contacts</span>
         </div>
     </div>
+    }
     <div class="sidenav-bottom">
         <div class="nav-container pointer" [routerLink]="['/privacy-policy']" routerLinkActive="active">
             <span>Privacy Policy</span>
