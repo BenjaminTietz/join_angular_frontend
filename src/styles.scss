@@ -79,11 +79,45 @@ body {
     font-variation-settings: 'wght' 400;
 }
 
+//custom scrollbar
+::-webkit-scrollbar {
+    width: 6px;
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: $main-blue-dark;
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: $menu-color;
+    border-radius: 8px;
+    margin: 10px;
+}
+
+
 @mixin dFlex($fd: row, $jc: center, $ai: center) {
     display: flex;
     flex-direction: $fd;
     justify-content: $jc;
     align-items: $ai;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('assets/fonts/OpenSans-Variable.ttf') format('truetype');
+    font-weight: 125 950;
+    font-stretch: 75% 125%;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('assets/fonts/Inter-Variable.ttf') format('truetype');
+    font-weight: 125 950;
+    font-stretch: 75% 125%;
+    font-style: normal;
 }
 
 //example : @include dFlex(column, flex-start, center);
@@ -104,6 +138,9 @@ body {
     line-height: $line-height;
     color: $color;
 }
+
+//example : @include Inter(700, 64px, 76.8px, $main-blue-dark);
+
 
 .pointer {
     cursor: pointer;
@@ -167,4 +204,22 @@ input:focus,
 select:focus,
 option:focus {
     outline: none;
+}
+
+.content-wrapper {
+    position: relative;
+    width: calc(100vw - 232px);
+    height: calc(100vh - 96px);
+    padding-left: 232px;
+    box-sizing: content-box;
+    overflow-y: auto;
+}
+
+@media only screen and (max-width: 1200px) {
+    .content-wrapper {
+        width: 100vw;
+        height: calc(100vh - 154px);
+        padding-left: unset;
+        box-sizing: border-box;
+    }
 }
