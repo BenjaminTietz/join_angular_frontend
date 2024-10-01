@@ -1,9 +1,31 @@
 @import "../../../styles.scss";
 
 .imprint-wrapper {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 96px;
-    left: 255px;
+    @include dFlex(column, flex-start, flex-start);
+}
+
+h1 {
+    @include OpenSans(700, 61px, 73.2px, $black);
+}
+
+h2 {
+    margin-top: 24px;
+    @include OpenSans(700, 33px, 39.6px, $main-blue-dark);
+}
+
+h3 {
+    margin-top: 24px;
+    @include OpenSans(700, 19px, 22.8px, $main-blue-dark);
+}
+
+p {
+    @include OpenSans(400, 16px, 19.2px, $black);
+}
+
+li {
+    @include OpenSans(400, 16px, 19.2px, $black);
+}
+
+.highlight {
+    @include OpenSans(400, 16px, 19.2px, $main-blue-dark);
 }
