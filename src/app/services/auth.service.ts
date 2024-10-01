@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -17,44 +17,64 @@ export class AuthService {
     private http: HttpClient,
     private router: Router,
     private databaseService: DatabaseService
-  ) {}
-  public currentUser: any | null = null;
-
-  login(email: string, password: string): Observable<any> {
-    const body = { email, password };
-    return this.http.post<any>(this.loginUrl, body).pipe(
-      tap((response) => {
-        if (response.token) {
-          localStorage.setItem('token', response.token);
-          localStorage.setItem('user', response.user);
-          this.currentUser = response.user;
-          console.log('Login Successful', response.token);
-          console.log('Login Successful', response);
-          console.log('CurrentUser Object', this.currentUser);
-        }
-      })
-    );
+  ) {
+    this.loadCurrentUser();
   }
-  signup(username: string, email: string, password: string): Observable<any> {
+  public currentUser = signal<{
+    id: number;
+    email: string;
+    username: string;
+    initials: string;
+  } | null>(null);
+
+  async login(email: string, password: string) {
+    const body = { email, password };
+    try {
+      const response = await firstValueFrom(
+        this.http.post<any>(this.loginUrl, body)
+      );
+      if (response.token) {
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
+
+        const user = response.user;
+        const initials = this.generateInitials(user.username);
+
+        this.currentUser.set({
+          ...user,
+          initials: initials,
+        });
+
+        console.log('Login Successful', response.token);
+        console.log('CurrentUser Object', this.currentUser());
+      }
+    } catch (error) {
+      console.error('Login Error:', error);
+    }
+  }
+
+  async signup(username: string, email: string, password: string) {
     const body = { username, email, password };
-    return this.http.post<any>(this.signupUrl, body).pipe(
-      tap((response) => {
-        console.log('Signup Successful', response);
-      })
-    );
+    try {
+      const response = await firstValueFrom(
+        this.http.post<any>(this.signupUrl, body)
+      );
+      console.log('Signup Successful', response);
+    } catch (error) {
+      console.error('Signup Error:', error);
+    }
   }
 
   //temporary login as guest aslong as the backend is locally hosteted --> todo refactor befor projekt is live
-  public async loginAsGuest() {
+  async loginAsGuest() {
     try {
-      const signupResponse = await firstValueFrom(
-        this.signup('Max Mustermann', 'guest@guest.com', '12345678')
+      const signupResponse = await this.signup(
+        'Max Mustermann',
+        'guest@guest.com',
+        '12345678'
       );
       console.log('Guest Signup Response:', signupResponse);
-
-      const loginResponse = await firstValueFrom(
-        this.login('guest@guest.com', '12345678')
-      );
+      const loginResponse = await this.login('guest@guest.com', '12345678');
       console.log('Guest Login Response:', loginResponse);
       this.databaseService.contactInit();
       this.databaseService.taskInit();
@@ -63,24 +83,28 @@ export class AuthService {
       }, 1500);
     } catch (error) {
       console.error('Error during guest login:', error);
-
+      const err = error as { status: number; error: { email: string[] } };
       if (
-        (error as any).status === 400 &&
-        (error as any).error?.email?.[0] ===
-          'user with this email already exists.'
+        err?.status === 400 &&
+        err?.error?.email?.[0] === 'user with this email already exists.'
       ) {
         console.log('User already exists, logging in instead.');
-
-        try {
-          const loginResponse = await firstValueFrom(
-            this.login('guest@guest.com', '12345678')
-          );
-          console.log('Guest Login Response:', loginResponse);
-          this.router.navigate(['/summary']);
-        } catch (loginError) {
-          console.error('Error during guest login attempt:', loginError);
-        }
+        await this.login('guest@guest.com', '12345678');
+        this.router.navigate(['/summary']);
       }
     }
+  }
+
+  private loadCurrentUser() {
+    const user = localStorage.getItem('user');
+    if (user) {
+      this.currentUser.set(JSON.parse(user));
+    }
+  }
+
+  private generateInitials(username: string): string {
+    const names = username.split(' ');
+    const initials = names.map((name) => name.charAt(0).toUpperCase()).join('');
+    return initials;
   }
 }
