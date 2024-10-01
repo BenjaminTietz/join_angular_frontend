@@ -48,21 +48,19 @@ export class SignupComponent {
     return password === confirmPassword ? null : { mismatch: true };
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.signupForm.valid) {
       console.log(this.signupForm.value);
       const { name, email, password } = this.signupForm.value;
-      this.authService.signup(name, email, password).subscribe({
-        next: (response) => {
-          console.log('Signup successful:', response);
-          // todo  : show success message
-          this.router.navigate(['/']);
-        },
-        error: (error) => {
-          console.error('Signup failed:', error);
-          // todo: implement error handling
-        },
-      });
+      try {
+        const response = await this.authService.signup(name, email, password);
+        console.log('Signup successful:', response);
+        // todo: show success message
+        this.router.navigate(['/']);
+      } catch (error) {
+        console.error('Signup failed:', error);
+        // todo: implement error handling
+      }
     } else {
       console.log('Invalid Form');
     }
