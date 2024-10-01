@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { HomescreenComponent } from './post-login/homescreen/homescreen.component';
 import { LoginComponent } from './pre-login/login/login.component';
 import { SignupComponent } from './pre-login/signup/signup.component';
 import { SummaryComponent } from './post-login/summary/summary.component';
@@ -23,18 +22,31 @@ export const routes: Routes = [
 
   // post-login component routes
   {
-    path: 'home',
-    component: HomescreenComponent,
+    path: 'summary',
+    component: SummaryComponent,
     canActivate: [authGuard],
-    children: [
-      { path: '', component: SummaryComponent },
-      { path: 'summary', component: SummaryComponent },
-      { path: 'add-task', component: AddTaskComponent },
-      { path: 'board', component: BoardComponent },
-      { path: 'contacts', component: ContactsComponent },
-      { path: 'instructions', component: InstructionsComponent },
-    ],
   },
+  {
+    path: 'add-task',
+    component: AddTaskComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'board',
+    component: BoardComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'contacts',
+    component: ContactsComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'instructions',
+    component: InstructionsComponent,
+    canActivate: [authGuard],
+  },
+
   // public routes
   {
     path: 'privacy-policy',

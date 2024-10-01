@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { HomescreenComponent } from './post-login/homescreen/homescreen.component';
 import { HeaderComponent } from './post-login/header/header.component';
 import { SidenavComponent } from './post-login/sidenav/sidenav.component';
 import { LoginComponent } from './pre-login/login/login.component';
@@ -17,7 +16,6 @@ import { ContactsComponent } from './post-login/contacts/contacts.component';
   standalone: true,
   imports: [
     RouterOutlet,
-    HomescreenComponent,
     HeaderComponent,
     SidenavComponent,
     HeaderComponent,
