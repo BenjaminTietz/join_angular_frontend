@@ -42,7 +42,7 @@ export class LoginComponent {
         .subscribe({
           next: (response) => {
             console.log('Login successful:', response);
-            this.router.navigate(['/home']);
+            this.router.navigate(['/summary']);
           },
           error: (error) => {
             console.error('Login failed:', error);
