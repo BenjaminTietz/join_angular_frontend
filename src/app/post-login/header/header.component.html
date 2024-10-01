@@ -9,7 +9,9 @@
         <div class="user-profile" (click)="toggleUserMenu()">
             <div class="circle-outside">
                 <div class="circle-inside">
-                    <span>{{this.authService.currentUser?.initials}}</span>
+                    <ng-container *ngIf="authService.currentUser() as user">
+                        <span>{{user.initials}}</span>
+                    </ng-container>
                 </div>
             </div>
         </div>
