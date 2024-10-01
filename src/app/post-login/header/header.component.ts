@@ -11,8 +11,18 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  constructor(private router: Router, public authService: AuthService) {}
+  constructor(private router: Router, public authService: AuthService) {
+    if (
+      (this.router.url === '/imprint' ||
+        this.router.url === '/privacy-policy') &&
+      this.authService.currentUser === null
+    ) {
+      this.isLoggedIn = false;
+    }
+  }
   isUserMenuVisible = false;
+  isLoggedIn: boolean = true;
+
   toggleUserMenu() {
     this.isUserMenuVisible = !this.isUserMenuVisible;
   }

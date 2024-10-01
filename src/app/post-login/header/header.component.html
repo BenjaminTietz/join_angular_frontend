@@ -4,8 +4,8 @@
     </div>
     <div class="header-right">
         <span>Kanban Project Management Tool</span>
-        <img src="assets/img/icons/help_white.png" [routerLink]="['/home/instructions']" alt="join-logo"
-            class="join-logo">
+        @if (isLoggedIn) {
+        <img src="assets/img/icons/help_white.png" [routerLink]="['/instructions']" alt="join-logo" class="join-logo">
         <div class="user-profile" (click)="toggleUserMenu()">
             <div class="circle-outside">
                 <div class="circle-inside">
@@ -13,6 +13,7 @@
                 </div>
             </div>
         </div>
+        }
         <div class="user-menu" [ngStyle]="{'display': isUserMenuVisible ? 'flex' : 'none'}">
             <div class="menu-item" [routerLink]="['/imprint']">
                 <span>Legal Notice</span>
