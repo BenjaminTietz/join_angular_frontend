@@ -3,7 +3,9 @@
 </section>
 
 <section class="summary-wrapper content-wrapper">
-    <h1>{{ greetingMessage }}<span>{{this.authService.currentUser?.username}}</span></h1>
+    <ng-container *ngIf="authService.currentUser() as user">
+        <h1>{{ greetingMessage }}<span>{{user.username}}</span></h1>
+    </ng-container>
     <div class="tasks-overview">
         <div class="task-overview-top">
             <div class="urgent-tasks pointer" [routerLink]="['/home/board']">
