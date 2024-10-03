@@ -35,4 +35,4 @@ jobs:
           password: ${{secrets.BENPASSWORD}}
           protocol: ftps
           server-dir: join-angular.benjamin-tietz.com/
-          local-dir: ./dist/join_frontend/browser/
+          local-dir: ./dist/join_angular/browser/
