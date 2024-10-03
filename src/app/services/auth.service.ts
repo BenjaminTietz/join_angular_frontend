@@ -37,8 +37,9 @@ export class AuthService {
         localStorage.setItem('token', response.token);
         localStorage.setItem('user', JSON.stringify(response.user));
         this.currentUser.set(response.user);
-        console.log('Login Successful', response.token);
-        console.log('CurrentUser Object', this.currentUser());
+        this.loadCurrentUser();
+        this.databaseService.loadContacts();
+        this.databaseService.loadTasks();
       }
     } catch (error) {
       console.error('Login Error:', error);

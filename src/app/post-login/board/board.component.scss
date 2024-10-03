@@ -12,7 +12,7 @@
     >.blue-btn {
         width: 138px;
         height: 51px;
-
+        white-space: nowrap;
     }
 
     >.input-container {
@@ -85,6 +85,7 @@
     padding: 3px;
     gap: 10px;
     cursor: pointer;
+    @include dFlex(column, center, center);
 }
 
 .single-task {
