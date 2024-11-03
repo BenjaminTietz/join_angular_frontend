@@ -24,6 +24,10 @@
                     @if (task.status == 'todo' ) {
                     <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id , 'todo')"
                         draggable="true" (click)="handleShowTaskDetailOverlay(task)">
+                        <div class="mobile-btn-container">
+                            <img (click)="this.handleMoveToNewStatus(task.id, index, 'inProgress'); $event.stopPropagation()"
+                                src="/assets/img/icons/arrow_down.png" class="more-btn">
+                        </div>
                         <div class="task-category">
                             <h4 class="{{task.category}}">{{task.category}}</h4>
                         </div>
@@ -75,6 +79,12 @@
                 @if (task.status == 'inProgress' ) {
                 <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id, 'inProgress')"
                     draggable="true" (click)="handleShowTaskDetailOverlay(task)">
+                    <div class="mobile-btn-container">
+                        <img (click)="this.handleMoveToNewStatus(task.id, index, 'todo'); $event.stopPropagation()"
+                            src="/assets/img/icons/arrow_up.png" class="more-btn">
+                        <img (click)="this.handleMoveToNewStatus(task.id, index, 'awaitFeedback'); $event.stopPropagation()"
+                            src="/assets/img/icons/arrow_down.png" class="more-btn">
+                    </div>
                     <div class="task-category">
                         <h4 class="{{task.category}}">{{task.category}}</h4>
                     </div>
@@ -126,6 +136,12 @@
             @if (task.status == 'awaitFeedback' ) {
             <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id, 'awaitFeedback')"
                 draggable="true" (click)="handleShowTaskDetailOverlay(task)">
+                <div class="mobile-btn-container">
+                    <img (click)="this.handleMoveToNewStatus(task.id, index, 'inProgress'); $event.stopPropagation()"
+                        src="/assets/img/icons/arrow_up.png" class="more-btn">
+                    <img (click)="this.handleMoveToNewStatus(task.id, index, 'done'); $event.stopPropagation()"
+                        src="/assets/img/icons/arrow_down.png" class="more-btn">
+                </div>
                 <div class="task-category">
                     <h4 class="{{task.category}}">{{task.category}}</h4>
                 </div>
@@ -174,6 +190,10 @@
             @if (task.status == 'done' ) {
             <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id, 'done')" draggable="true"
                 (click)="handleShowTaskDetailOverlay(task)">
+                <div class="mobile-btn-container">
+                    <img (click)="this.handleMoveToNewStatus(task.id, index, 'awaitFeedback'); $event.stopPropagation()"
+                        src="/assets/img/icons/arrow_up.png" class="more-btn">
+                </div>
                 <div class="task-category">
                     <h4 class="{{task.category}}">{{task.category}}</h4>
                 </div>

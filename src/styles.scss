@@ -207,9 +207,9 @@ option:focus {
 
 .content-wrapper {
     position: relative;
-    width: calc(100vw - 232px);
+    width: calc(100vw - 264px);
     height: calc(100vh - 96px);
-    padding-left: 232px;
+    padding: 32px 32px 32px 264px;
     box-sizing: content-box;
     overflow-y: auto;
 }
@@ -218,7 +218,7 @@ option:focus {
     .content-wrapper {
         width: 100vw;
         height: calc(100vh - 154px);
-        padding-left: unset;
+        padding: 32px 32px 32px 32px;
         box-sizing: border-box;
     }
 }

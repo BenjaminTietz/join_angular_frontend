@@ -8,6 +8,7 @@
 
 h1 {
     @include OpenSans(400, 48px, 57.6px, $board-text);
+    text-align: center;
 
     span {
         @include OpenSans(700, 64px, 76.8px, $main-blue-dark);

@@ -96,6 +96,7 @@
     gap: 10px;
     box-shadow: 0px 0px 10px 3px #00000014;
     background-color: $white;
+    position: relative;
 
     &:hover {
         transform: rotate(5deg) scale(1.02);
@@ -379,6 +380,16 @@
     }
 }
 
+.mobile-btn-container {
+    @include dFlex(column, space-between, center);
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 24px;
+    display: none;
+}
+
 @media only screen and (max-width: 1500px) {
 
     .board-column {
@@ -396,5 +407,20 @@
 
     .board-column {
         flex: 1 1 100%;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+
+    .board-column-container,
+    .board-column-top,
+    .board-column-bottom,
+    .single-task,
+    .single-task-bottom {
+        width: 100% !important;
+    }
+
+    .mobile-btn-container {
+        display: flex;
     }
 }
