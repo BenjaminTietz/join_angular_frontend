@@ -8,7 +8,7 @@
     </ng-container>
     <div class="tasks-overview">
         <div class="task-overview-top">
-            <div class="urgent-tasks pointer" [routerLink]="['/home/board']">
+            <div class="urgent-tasks pointer" [routerLink]="['/board']">
                 <div class="task-category">
                     <div class="task-category-top">
                         <img src="assets/img/icons/urgent_tasks_summary_icon.png" alt="icon">
@@ -24,7 +24,7 @@
                     <span>Upcomming Dealine</span>
                 </div>
             </div>
-            <div class="task-category pointer" [routerLink]="['/home/board']">
+            <div class="task-category pointer" [routerLink]="['/board']">
                 <div class="task-category-top">
                     <img src="assets/img/icons/board_summary_icon.png" alt="icon">
                     <span>{{this.databaseService.tasksCount}}</span>
@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="task-overview-bottom">
-            <div class="task-category pointer" [routerLink]="['/home/board']">
+            <div class="task-category pointer" [routerLink]="['/board']">
                 <div class="task-category-top">
                     <img src="assets/img/icons/todo_tasks_summary_icon.png" alt="icon">
                     <span>{{this.databaseService.todoTasks.length}}</span>
@@ -44,7 +44,7 @@
                     <span>Tasks To-do</span>
                 </div>
             </div>
-            <div class="task-category pointer" [routerLink]="['/home/board']">
+            <div class="task-category pointer" [routerLink]="['/board']">
                 <div class="task-category-top">
                     <img src="assets/img/icons/in_progress_tasks_summary_icon.png" alt="icon">
                     <span>{{this.databaseService.inProgressTasks.length}}</span>
@@ -53,7 +53,7 @@
                     <span>Task in Progress</span>
                 </div>
             </div>
-            <div class="task-category pointer" [routerLink]="['/home/board']">
+            <div class="task-category pointer" [routerLink]="['/board']">
                 <div class="task-category-top">
                     <img src="assets/img/icons/awaiting_feedback_tasks_summary_icon.png" alt="icon">
                     <span>{{this.databaseService.awaitFeedbackTasks.length}}</span>
@@ -62,7 +62,7 @@
                     <span>Awaiting Feedback</span>
                 </div>
             </div>
-            <div class="task-category pointer" [routerLink]="['/home/board']">
+            <div class="task-category pointer" [routerLink]="['/board']">
                 <div class="task-category-top">
                     <img src="assets/img/icons/done_tasks_summary_icon.png" alt="icon">
                     <span>{{this.databaseService.doneTasks.length}}</span>
