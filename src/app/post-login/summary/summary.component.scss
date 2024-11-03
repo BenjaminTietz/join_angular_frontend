@@ -2,7 +2,8 @@
 
 
 .summary-wrapper {
-    @include dFlex(column, flex-start, center);
+    @include dFlex(column, center, center);
+    gap: 72px;
 }
 
 h1 {
@@ -23,10 +24,48 @@ h1 {
     width: 912px;
     height: 219px;
     @include dFlex(row, space-between, center);
+    padding-bottom: 24px;
 
     >.task-category {
         width: 208px;
         height: 191px;
+        transform: 0.1s all ease;
+
+        &:hover {
+            transform: scale(1.05);
+            transition: transform 0.2s ease;
+            border-radius: 0px 30px 30px 30px;
+            background-color: darken($color: $main-blue-dark, $amount: 0.2);
+
+            >.task-category-top {
+                span {
+                    color: $white;
+                }
+            }
+
+            >.task-category-bottom {
+                span {
+                    color: $white;
+                }
+            }
+        }
+
+        .task-category-top {
+            img {
+                width: 76px;
+                height: 76px;
+                border-radius: 50%;
+                border: 3px solid $white;
+            }
+        }
+
+        .task-category-bottom {
+            color: $white;
+        }
+    }
+
+    span {
+        color: $main-blue-dark;
     }
 }
 
@@ -39,11 +78,39 @@ h1 {
     background-color: $main-blue-dark;
     @include dFlex(row, space-between, center);
     box-shadow: 0px 0px 4px 0px #00000029;
+    transform: 0.1s all ease;
+
+
+    &:hover {
+        transform: scale(1.05);
+        transition: transform 0.2s ease;
+        border-radius: 0px 30px 30px 30px;
+        background-color: $white;
+
+        >.task-category .task-category-top span,
+        >.task-category .task-category-bottom span,
+        >.task-deadline p,
+        >.task-deadline span {
+            color: $main-blue-dark !important;
+        }
+
+        .vertical-line {
+            background-color: $main-blue-dark;
+        }
+
+    }
 
     >.task-category {
         box-shadow: unset;
         width: 208px;
         height: 191px;
+
+        &:hover {
+            transform: none;
+            transition: none;
+            border-radius: 20px;
+            background-color: unset;
+        }
 
         .task-category-top {
             span {
@@ -58,7 +125,7 @@ h1 {
             }
         }
 
-        .task-category-bottom {
+        .task-category-bottom span {
             color: $white;
         }
     }
@@ -88,16 +155,52 @@ h1 {
     width: 912px;
     height: 219px;
     @include dFlex(row, space-between, center);
+
+    >.task-category:first-of-type {
+        background-color: $main-blue-light;
+
+        >.task-category-top {
+            span {
+                color: $black !important;
+            }
+        }
+
+        &:hover {
+            background-color: $white;
+
+            >.task-category-top,
+            >.task-category-bottom {
+                span {
+                    color: $main-blue-dark !important;
+                }
+            }
+        }
+    }
 }
 
 .task-category {
     width: 204px;
     height: 219px;
     padding: 0px 40px;
-    gap: 40px;
+    gap: 9px;
     @include dFlex(column, center, center);
     box-shadow: 0px 0px 4px 0px #00000029;
     border-radius: 20px;
+
+    &:hover {
+        transform: scale(1.05);
+        transition: transform 0.2s ease;
+        border-radius: 0px 30px 30px 30px;
+        background-color: darken($color: $main-blue-dark, $amount: 0.2);
+
+        >.task-category-top,
+        >.task-category-bottom {
+            span {
+                color: $white;
+            }
+        }
+    }
+
 
     .task-category-top {
         width: 124px;
@@ -119,13 +222,7 @@ h1 {
     }
 }
 
-@media only screen and (max-width: 1200px) {
-
-    .summary-wrapper {
-        @include dFlex(column, flex-start, center);
-    }
-
-}
+@media only screen and (max-width: 1200px) {}
 
 @media only screen and (max-width: 950px) {
     .summary-wrapper {
