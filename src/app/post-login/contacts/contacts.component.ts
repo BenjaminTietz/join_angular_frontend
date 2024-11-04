@@ -1,19 +1,19 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Contact } from '../../models/contact.class';
-import { DatabaseService } from '../../services/database.service';
+import { CommonModule } from "@angular/common";
+import { Component, OnInit } from "@angular/core";
+import { Observable } from "rxjs";
+import { Contact } from "../../models/contact.class";
+import { DatabaseService } from "../../services/database.service";
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
-} from '@angular/forms';
-import { HeaderComponent } from '../header/header.component';
-import { SidenavComponent } from '../sidenav/sidenav.component';
+} from "@angular/forms";
+import { HeaderComponent } from "../header/header.component";
+import { SidenavComponent } from "../sidenav/sidenav.component";
 
 @Component({
-  selector: 'app-contacts',
+  selector: "app-contacts",
   standalone: true,
   imports: [
     CommonModule,
@@ -21,8 +21,8 @@ import { SidenavComponent } from '../sidenav/sidenav.component';
     HeaderComponent,
     SidenavComponent,
   ],
-  templateUrl: './contacts.component.html',
-  styleUrl: './contacts.component.scss',
+  templateUrl: "./contacts.component.html",
+  styleUrl: "./contacts.component.scss",
 })
 export class ContactsComponent implements OnInit {
   contacts$!: Observable<Contact[]>;
@@ -36,14 +36,14 @@ export class ContactsComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.addContactForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', Validators.required],
-      phone: ['', Validators.required],
+      name: ["", Validators.required],
+      email: ["", Validators.required],
+      phone: ["", Validators.required],
     });
     this.editContactForm = this.fb.group({
-      editedName: ['', Validators.required],
-      editedEmail: ['', Validators.required],
-      editedPhone: ['', Validators.required],
+      editedName: ["", Validators.required],
+      editedEmail: ["", Validators.required],
+      editedPhone: ["", Validators.required],
     });
   }
 
@@ -68,40 +68,40 @@ export class ContactsComponent implements OnInit {
   }
 
   extractInitials(name: string) {
-    const nameParts = name.split(' ');
-    const initials = nameParts.map((part) => part[0]).join('');
+    const nameParts = name.split(" ");
+    const initials = nameParts.map((part) => part[0]).join("");
     return initials;
   }
 
   assignRandomColor() {
-    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+    return "#" + Math.floor(Math.random() * 16777215).toString(16);
   }
 
   onSubmit() {
     if (this.addContactForm.valid) {
       const newContact: Contact = {
-        id: '',
+        id: "",
         name: this.addContactForm.value.name,
         email: this.addContactForm.value.email,
         phone: this.addContactForm.value.phone,
         initials: this.extractInitials(this.addContactForm.value.name),
         color: this.assignRandomColor(),
-        createdAt: '',
-        createdBy: '',
+        createdAt: "",
+        createdBy: "",
       };
-      console.log('Creating contact:', newContact);
+      console.log("Creating contact:", newContact);
       this.databaseService.createContact(newContact).subscribe({
         next: (contact) => {
-          console.log('Contact created:', contact);
+          console.log("Contact created:", contact);
           // todo show success message / reset form / refresh contact list
           this.handleCloseAddContactOverlay();
           this.databaseService.loadContacts();
         },
         error: (error) => {
-          console.error('Error creating contact:', error);
+          console.error("Error creating contact:", error);
         },
         complete: () => {
-          console.log('Contact creation process completed.');
+          console.log("Contact creation process completed.");
         },
       });
     }
@@ -126,21 +126,21 @@ export class ContactsComponent implements OnInit {
           .updateContact(oldContact.id, newContact)
           .subscribe({
             next: (updatedContact) => {
-              console.log('Contact updated:', updatedContact);
+              console.log("Contact updated:", updatedContact);
               this.databaseService.loadContacts();
               this.handleCloseEditContactOverlay();
               this.contactDetail = updatedContact;
               // Todo: refresh contact list / show success message
             },
             error: (error) => {
-              console.error('Error updating contact:', error);
+              console.error("Error updating contact:", error);
             },
             complete: () => {
-              console.log('Contact update process completed.');
+              console.log("Contact update process completed.");
             },
           });
       } else {
-        console.log('No changes detected, contact not updated.');
+        console.log("No changes detected, contact not updated.");
       }
     }
   }
@@ -148,16 +148,16 @@ export class ContactsComponent implements OnInit {
   handleDeleteContact(contactId: string): void {
     this.databaseService.deleteContact(contactId).subscribe({
       next: () => {
-        console.log('Contact deleted successfully');
+        console.log("Contact deleted successfully");
         // todo: show success message / refresh contact list
         this.contactDetail = null;
         this.databaseService.loadContacts();
       },
       error: (error) => {
-        console.error('Error deleting contact:', error);
+        console.error("Error deleting contact:", error);
       },
       complete: () => {
-        console.log('Delete operation completed');
+        console.log("Delete operation completed");
       },
     });
   }

@@ -4,7 +4,7 @@
 
 <section class="add-task-wrapper content-wrapper">
     <div class="add-task-left">
-        <form [formGroup]="addTaskForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="addTaskForm" (ngSubmit)="onSubmit()" (click)="this.showContactsToAssign = false">
             <input type="text" placeholder="Enter a title" formControlName="taskTitle">
             <span>Description (optional)</span>
             <textarea placeholder="Enter a description" formControlName="taskDescription"></textarea>
@@ -64,8 +64,20 @@
                 </div>
             </div>
             <span>Assigned to (optional)</span>
+            <div class="assigned-contacts-menu">
+                @if (!showContactsToAssign) {
+                <p>Select contacts to assign</p>
+                <img (click)="this.toggleShowContactsToAssign(); stopEventPropagation($event)"
+                    src="/assets/img/icons/arrow_drop_down.png">
+                } @else {
+                <input #contactInput type="text" placeholder="Search contacts" (click)="stopEventPropagation($event)"
+                    (input)="onSearch($event)">
+                <img (click)="this.toggleShowContactsToAssign()" src="/assets/img/icons/arrow_drop_up.png">
+                }
+            </div>
+            @if (this.showContactsToAssign) {
             <div class="drop-down-contacts">
-                @for (contact of contacts$ | async; track contact; let index = $index) {
+                @for (contact of filteredContacts; track contact; let index = $index) {
                 <div class="contact-container">
                     <div class="contact-left">
                         <div class="contact-initials" [style.backgroundColor]="contact.color">
@@ -84,6 +96,7 @@
                 </div>
                 }
             </div>
+            }
             @if (assignedContacts.length > 0) {
             <div class="selected-contacts">
                 @for (contact of this.assignedContacts; track contact; let index = $index) {
