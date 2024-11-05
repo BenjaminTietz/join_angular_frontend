@@ -205,6 +205,20 @@ option:focus {
     outline: none;
 }
 
+
+input,
+textarea,
+select {
+    padding: 16px;
+    @include OpenSans(400, 19px, 22.8px, $black);
+}
+
+
+input::placeholder,
+textarea::placeholder {
+    @include OpenSans(400, 19px, 22.8px, $border-color);
+}
+
 .content-wrapper {
     position: relative;
     width: calc(100vw - 264px);

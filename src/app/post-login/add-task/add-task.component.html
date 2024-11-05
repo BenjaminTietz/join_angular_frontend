@@ -64,7 +64,7 @@
                 </div>
             </div>
             <span>Assigned to (optional)</span>
-            <div class="assigned-contacts-menu">
+            <div class="dropdown-menu">
                 @if (!showContactsToAssign) {
                 <p>Select contacts to assign</p>
                 <img (click)="this.toggleShowContactsToAssign(); stopEventPropagation($event)"
@@ -76,9 +76,9 @@
                 }
             </div>
             @if (this.showContactsToAssign) {
-            <div class="drop-down-contacts">
+            <div class="drop-down-content">
                 @for (contact of filteredContacts; track contact; let index = $index) {
-                <div class="contact-container">
+                <div class="contact-container" (click)="stopEventPropagation($event)">
                     <div class="contact-left">
                         <div class="contact-initials" [style.backgroundColor]="contact.color">
                             <span>{{ contact.initials}}</span>
@@ -107,16 +107,26 @@
             </div>
             }
             <span>Category</span>
-            <div class="input-container">
-                <select formControlName="category">
-                    <option value="" disabled selected hidden>Select task category</option>
-                    @for (cat of categories; track index; let index = $index) {
-                    <option [value]="cat.value" [ngClass]="cat.class">
-                        {{ cat.label }}
-                    </option>
-                    }
-                </select>
+            <div class="dropdown-menu">
+                @if (!showCategories && this.addTaskForm.get("category")?.value === "") {
+                <p>Select task category</p>
+                <img (click)="this.toggleShowCategories(); stopEventPropagation($event)"
+                    src="/assets/img/icons/arrow_drop_down.png">
+                } @else {
+                <input formControlName="category" type="text">
+                <img (click)="this.toggleShowCategories(); stopEventPropagation($event)"
+                    src="/assets/img/icons/arrow_drop_up.png">
+                }
             </div>
+            @if (this.showCategories) {
+            <div class="drop-down-content">
+                @for (cat of categories; track index; let index = $index) {
+                <div class="category-container" (click)="selectCategory(cat.value)">
+                    <p>{{cat.label}}</p>
+                </div>
+                }
+            </div>
+            }
             <span>Subtasks (optional)</span>
             <div class="input-container input-subtasks">
                 <div class="subtask-input">

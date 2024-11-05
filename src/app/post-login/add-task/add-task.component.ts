@@ -41,11 +41,11 @@ import { SidenavComponent } from "../sidenav/sidenav.component";
 export class AddTaskComponent implements OnInit {
   addTaskForm!: FormGroup;
   categories = [
-    { value: "marketing", label: "Marketing", class: "marketing" },
-    { value: "sales", label: "Sales", class: "sales" },
-    { value: "development", label: "Development", class: "development" },
-    { value: "accounting", label: "Accounting", class: "accounting" },
-    { value: "purchase", label: "Purchase", class: "purchase" },
+    { value: "marketing", label: "Marketing" },
+    { value: "sales", label: "Sales" },
+    { value: "development", label: "Development" },
+    { value: "accounting", label: "Accounting" },
+    { value: "purchase", label: "Purchase" },
   ];
   contacts$!: Observable<Contact[]>;
   filteredContacts: Contact[] = [];
@@ -63,6 +63,7 @@ export class AddTaskComponent implements OnInit {
   urgentPrioColor: string = "#FF3D00";
   assignedContactIds: string[] = [];
   showContactsToAssign: boolean = false;
+  showCategories: boolean = false;
   @ViewChild("contactInput") contactInput!: ElementRef<HTMLInputElement>;
   constructor(
     private fb: FormBuilder,
@@ -353,5 +354,17 @@ export class AddTaskComponent implements OnInit {
     this.filteredContacts = this.filteredContacts.filter((contact) =>
       contact.name.toLowerCase().includes(this.searchTerm)
     );
+  }
+
+  toggleShowCategories(event?: Event) {
+    if (event) event.stopPropagation();
+    this.showCategories = !this.showCategories;
+  }
+
+  selectCategory(value: string) {
+    const formattedValue = value.charAt(0).toUpperCase() + value.slice(1);
+    this.addTaskForm.get("category")?.setValue(formattedValue);
+    this.showCategories = false;
+    console.log("Selected category:", value);
   }
 }

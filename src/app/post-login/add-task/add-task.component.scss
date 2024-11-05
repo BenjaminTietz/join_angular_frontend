@@ -9,7 +9,7 @@
     width: 496px;
     height: fit-content;
     max-height: 100%;
-    padding: 0 0 64px 0;
+    padding: 0 24px 64px 24px;
     overflow-y: scroll;
     box-sizing: border-box;
     background-color: $white;
@@ -31,11 +31,11 @@
 }
 
 form {
-    width: 440px;
+    width: 100%;
     min-height: 100%;
     height: fit-content;
     gap: 24px;
-    @include dFlex(column, flex-start, flex-start);
+    @include dFlex(column, center, flex-start);
     overflow-x: hidden;
 
     input {
@@ -71,10 +71,10 @@ form {
 }
 
 .btn-container {
-    width: 440px;
+    width: 100%;
     height: 51px;
-    gap: 16px;
-    @include dFlex(row, flex-start, center);
+    gap: 12px;
+    @include dFlex(row, center, center);
 }
 
 .prio-btn {
@@ -94,10 +94,24 @@ form {
     border-top: none;
     border-left: none;
     border-right: none;
+    transition: all 0.1s ease-in;
+
+    &:nth-child(1):hover {
+        border-color: $urgent !important;
+    }
+
+    &:nth-child(2):hover {
+        border-color: $medium !important;
+    }
+
+    &:nth-child(3):hover {
+        border-color: $low !important;
+    }
+
 }
 
 
-.assigned-contacts-menu {
+.dropdown-menu {
     width: 100%;
     height: 48px;
     border-bottom: solid 1px;
@@ -130,19 +144,39 @@ form {
         border: none;
         padding: unset;
     }
+
+    p {
+        @include OpenSans(400, 19px, 22.8px, $black);
+    }
 }
 
-.drop-down-contacts {
+.category-container {
     width: 100%;
-    height: 250px;
+    height: 48px;
+    border-radius: 10px;
+    padding: 12px 16px;
+    @include dFlex(row, space-between, center);
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+
+    &:hover {
+        background-color: $main-blue-light;
+    }
+
+    p {
+        @include OpenSans(400, 19px, 22.8px, $black);
+    }
+}
+
+
+.drop-down-content {
+    width: 100%;
+    height: 224px;
     max-height: 10%;
     overflow-y: scroll;
     overflow-x: hidden;
-    border: 0px 0px 1px 0px;
-    border-color: $border-color;
     padding: 12px 16px;
     @include dFlex(column, flex-start, center);
-
 
     >.contact-container {
         width: 416px;
@@ -155,6 +189,10 @@ form {
             height: 42px;
             @include dFlex(row, flex-start, center);
             gap: 16px;
+
+            label {
+                @include OpenSans(400, 19px, 22.8px, $black);
+            }
         }
 
         >.contact-right {
@@ -184,27 +222,16 @@ form {
     span {
         @include Inter(400, 12px, 14.4px, $white);
     }
-
 }
 
 .input-container {
-    width: 440px;
+    position: relative;
+    width: 100%;
     height: 64px;
     gap: 16px;
     @include dFlex(row, flex-start, center);
-
-    >select {
-        width: 100%;
-        height: 64px;
-        border-radius: 0px 0px 0px 0px;
-        padding: 13px 16px;
-        box-sizing: border-box;
-        border: none;
-        border-bottom: 1px solid $border-color;
-        cursor: pointer;
-        background-color: $white;
-    }
 }
+
 
 .input-subtasks {
     @include dFlex(column, flex-start, center);
