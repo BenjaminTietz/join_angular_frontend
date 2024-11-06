@@ -1,9 +1,14 @@
 <div class="header-wrapper">
     <div class="header-left">
-        <img src="assets/img/logos/join_logo_white.png" alt="join-logo" class="join-logo">
+        @if (isLoggedIn) {
+        <img src="assets/img/logos/join_logo_white.png" alt="join-logo" class="join-logo pointer"
+            [routerLink]="['/summary']">
+        } @else {
+        <img src="assets/img/logos/join_logo_white.png" alt="join-logo" class="join-logo pointer" [routerLink]="['']">
+        }
     </div>
     <div class="header-right">
-        <span>Kanban Project Management Tool</span>
+        <p>Kanban Project Management Tool</p>
         @if (isLoggedIn) {
         <img src="assets/img/icons/help_white.png" [routerLink]="['/instructions']" alt="join-logo" class="join-logo">
         <div class="user-profile" (click)="toggleUserMenu()">

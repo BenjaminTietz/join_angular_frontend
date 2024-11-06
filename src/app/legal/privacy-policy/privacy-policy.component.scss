@@ -6,6 +6,10 @@
     box-sizing: border-box;
 }
 
+.content-wrapper {
+    width: 100%;
+}
+
 h1 {
     @include OpenSans(700, 61px, 73.2px, $main-blue-dark);
 }

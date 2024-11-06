@@ -57,10 +57,14 @@
     gap: 32px;
 }
 
+.board-column-container {
+    @include dFlex(column, flex-start, center);
+}
+
 .board-column-top {
-    width: 244px;
+    width: 100%;
     height: 28px;
-    @include dFlex(row, space-between, flex-start);
+    @include dFlex(row, space-between, center);
 
     h3 {
         @include OpenSans(700, 23px, 27.6px, $menu-color);
@@ -75,7 +79,19 @@
     min-height: 263px;
     height: fit-content;
     gap: 16px;
-    @include dFlex(column, space-between, flex-start);
+    @include dFlex(column, center, flex-start);
+    transition: background-color 0.3s ease-in-out;
+    padding: 16px;
+
+    &.drag-over {
+        background-color: lighten($main-blue-dark, 30%);
+        border: 2px dashed $menu-color;
+    }
+
+    &.drag-from {
+        background-color: lighten($main-blue-dark, 20%);
+        border: 2px dashed $main-blue-dark;
+    }
 }
 
 .add-btn {
@@ -99,10 +115,10 @@
     background-color: $white;
     position: relative;
     @include dFlex(column, space-evenly, flex-start);
+    transition: all 0.175s ease-in-out;
 
     &:hover {
         transform: rotate(5deg) scale(1.02);
-        transition: transform 0.2s ease;
     }
 
     h4 {
@@ -203,8 +219,10 @@
 
 // add task overlay
 .floating-add-task-wrapper {
+    @include dFlex(column, center, center);
     width: 100svw;
-    height: 100svh;
+    height: fit-content;
+
     border-radius: 30px 0px 30px 30px;
     box-shadow: 0px 0px 4px 0px #00000029;
     position: absolute;
@@ -213,8 +231,12 @@
 
     >.add-task-content {
         background-color: $white;
+        width: 100%;
 
         >.add-task-header {
+            width: 100%;
+            @include dFlex(row, space-between, center);
+
             h3 {
                 @include OpenSans(700, 48px, 57.6px, $black);
             }

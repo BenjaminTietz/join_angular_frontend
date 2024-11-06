@@ -17,13 +17,15 @@
                     <button class="add-btn" (click)="handleShowAddTaskOverlay('todo')"><img
                             src="/assets/img/icons/add_task_blue.png"></button>
                 </div>
-                <div class="board-column-bottom" (dragover)="onDragOver($event, 'todo')"
+                <div class="board-column-bottom"
+                    [ngClass]="{ 'drag-over': isDragOver['todo'],'drag-from': isDragFrom === 'todo' }"
+                    (dragover)="onDragOver($event, 'todo')" (dragleave)="onDragLeave($event, 'todo')"
                     (drop)="onDrop($event, 'todo')">
                     @if ("todoTasks") {
                     @for (task of this.databaseService.todoTasks; track task; let index = $index) {
                     @if (task.status == 'todo' ) {
                     <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id , 'todo')"
-                        draggable="true" (click)="handleShowTaskDetailOverlay(task)">
+                        (dragend)="onDragEnd($event)" draggable="true" (click)="handleShowTaskDetailOverlay(task)">
                         <div class="mobile-btn-container">
                             <img (click)="this.handleMoveToNewStatus(task.id, index, 'inProgress'); $event.stopPropagation()"
                                 src="/assets/img/icons/arrow_down.png" class="more-btn">
@@ -72,13 +74,15 @@
                 <button class="add-btn" (click)="handleShowAddTaskOverlay('inProgress')"><img
                         src="/assets/img/icons/add_task_blue.png"></button>
             </div>
-            <div class="board-column-bottom" (dragover)="onDragOver($event, 'inProgress')"
+            <div class="board-column-bottom"
+                [ngClass]="{ 'drag-over': isDragOver['inProgress'], 'drag-from': isDragFrom === 'inProgress' }"
+                (dragover)="onDragOver($event, 'inProgress')" (dragleave)="onDragLeave($event, 'inProgress')"
                 (drop)="onDrop($event, 'inProgress')">
                 @if ("inProgressTasks") {
                 @for (task of this.databaseService.inProgressTasks; track task; let index = $index) {
                 @if (task.status == 'inProgress' ) {
                 <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id, 'inProgress')"
-                    draggable="true" (click)="handleShowTaskDetailOverlay(task)">
+                    (dragend)="onDragEnd($event)" draggable="true" (click)="handleShowTaskDetailOverlay(task)">
                     <div class="mobile-btn-container">
                         <img (click)="this.handleMoveToNewStatus(task.id, index, 'todo'); $event.stopPropagation()"
                             src="/assets/img/icons/arrow_up.png" class="more-btn">
@@ -129,13 +133,15 @@
             <button class="add-btn" (click)="handleShowAddTaskOverlay('awaitFeedback')"><img
                     src="/assets/img/icons/add_task_blue.png"></button>
         </div>
-        <div class="board-column-bottom" (dragover)="onDragOver($event, 'awaitFeedback')"
+        <div class="board-column-bottom"
+            [ngClass]="{ 'drag-over': isDragOver['awaitFeedback'], 'drag-from': isDragFrom === 'awaitFeedback' }"
+            (dragover)="onDragOver($event, 'awaitFeedback')" (dragleave)="onDragLeave($event, 'awaitFeedback')"
             (drop)="onDrop($event, 'awaitFeedback')">
             @if ("awaitFeedbackTasks") {
             @for (task of this.databaseService.awaitFeedbackTasks; track task; let index = $index) {
             @if (task.status == 'awaitFeedback' ) {
             <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id, 'awaitFeedback')"
-                draggable="true" (click)="handleShowTaskDetailOverlay(task)">
+                (dragend)="onDragEnd($event)" draggable="true" (click)="handleShowTaskDetailOverlay(task)">
                 <div class="mobile-btn-container">
                     <img (click)="this.handleMoveToNewStatus(task.id, index, 'inProgress'); $event.stopPropagation()"
                         src="/assets/img/icons/arrow_up.png" class="more-btn">
@@ -184,12 +190,15 @@
         <div class="board-column-top">
             <h3>Done</h3>
         </div>
-        <div class="board-column-bottom" (dragover)="onDragOver($event, 'done')" (drop)="onDrop($event, 'done')">
+        <div class="board-column-bottom"
+            [ngClass]="{ 'drag-over': isDragOver['done'], 'drag-from': isDragFrom === 'done' }"
+            (dragover)="onDragOver($event, 'done')" (dragleave)="onDragLeave($event, 'done')"
+            (drop)="onDrop($event, 'done')">
             @if ("doneTasks") {
             @for (task of this.databaseService.doneTasks; track task; let index = $index) {
             @if (task.status == 'done' ) {
-            <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id, 'done')" draggable="true"
-                (click)="handleShowTaskDetailOverlay(task)">
+            <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id, 'done')"
+                (dragend)="onDragEnd($event)" draggable="true" (click)="handleShowTaskDetailOverlay(task)">
                 <div class="mobile-btn-container">
                     <img (click)="this.handleMoveToNewStatus(task.id, index, 'awaitFeedback'); $event.stopPropagation()"
                         src="/assets/img/icons/arrow_up.png" class="more-btn">

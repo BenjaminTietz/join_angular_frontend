@@ -64,6 +64,7 @@ export class AddTaskComponent implements OnInit {
   assignedContactIds: string[] = [];
   showContactsToAssign: boolean = false;
   showCategories: boolean = false;
+  displayFloatingAddTask: boolean = false;
   @ViewChild("contactInput") contactInput!: ElementRef<HTMLInputElement>;
   constructor(
     private fb: FormBuilder,
@@ -99,6 +100,9 @@ export class AddTaskComponent implements OnInit {
       }
       console.log("TaskData in add-task:", this.taskData);
     });
+    if (this.router.url === "/board") {
+      this.displayFloatingAddTask = true;
+    }
   }
 
   onSubmit() {

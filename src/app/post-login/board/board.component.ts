@@ -28,6 +28,8 @@ export class BoardComponent implements OnInit {
   selectedCategory = "";
   daggedTaskId = "";
   draggedTaskIndex = 0;
+  isDragOver: { [key: string]: boolean } = {};
+  isDragFrom: string | null = null;
   selectedTaskId: string | null = null;
   selectedTask: Task | null = null;
 
@@ -59,10 +61,13 @@ export class BoardComponent implements OnInit {
     console.log("status", status);
     this.daggedTaskId = taskId;
     this.draggedTaskIndex = index;
+    this.isDragFrom = status;
   }
 
   onDrop(event: DragEvent, status: string) {
     event.preventDefault();
+    this.isDragOver[status] = false;
+    this.isDragFrom = null;
     console.log("Dropped status:", status);
     const sourceArray = this.getSourceArrayByTaskId(this.daggedTaskId);
     if (sourceArray.length > 0) {
@@ -83,9 +88,37 @@ export class BoardComponent implements OnInit {
     }
   }
 
-  onDragOver(event: any, status: string) {
+  onDragOver(event: DragEvent, status: string) {
     event.preventDefault();
+
+    // Setze alle Dropzone-Highlights zurück, bevor die aktuelle hervorgehoben wird
+    Object.keys(this.isDragOver).forEach((key) => {
+      this.isDragOver[key] = false;
+    });
+
+    // Setze das aktuelle Dropzone-Highlight auf true
+    this.isDragOver[status] = true;
+
     console.log("onDragOver", status);
+  }
+
+  onDragEnd(event: DragEvent) {
+    // Stelle sicher, dass nach dem Dragging alle Zustände zurückgesetzt werden
+    this.isDragFrom = null;
+    Object.keys(this.isDragOver).forEach((key) => {
+      this.isDragOver[key] = false;
+    });
+    console.log("onDragEnd");
+  }
+
+  onDragLeave(event: DragEvent, status: string) {
+    event.preventDefault();
+
+    // Überprüfe, ob das aktuelle Target verlassen wurde (nicht nur ein untergeordnetes Element)
+    if (event.currentTarget === event.target) {
+      this.isDragOver[status] = false; // Setze den Zustand der Dropzone auf "false", wenn diese verlassen wurde
+      console.log("onDragLeave", status);
+    }
   }
 
   handleMoveToNewStatus(taskId: string, index: number, status: string) {
