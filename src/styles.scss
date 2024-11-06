@@ -210,16 +210,17 @@ body {
 .close-btn {
     width: 32px;
     height: 32px;
-    background-color: $white;
     border-radius: 100%;
     padding: 4px;
     gap: 10px;
     border: unset;
     cursor: pointer;
     @include dFlex(row, center, center);
+    transition: all 0.175s ease-in-out;
 
     &:hover {
         background-color: $main-blue-light;
+        transform: scale(1.15);
     }
 }
 
