@@ -1,19 +1,20 @@
-import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Component } from "@angular/core";
+import { Router, RouterModule } from "@angular/router";
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
-} from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
+} from "@angular/forms";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
-  selector: 'app-signup',
+  selector: "app-signup",
   standalone: true,
   imports: [RouterModule, ReactiveFormsModule],
-  templateUrl: './signup.component.html',
-  styleUrl: './signup.component.scss',
+  templateUrl: "./signup.component.html",
+  styleUrl: "./signup.component.scss",
 })
 export class SignupComponent {
   signupForm!: FormGroup;
@@ -29,40 +30,53 @@ export class SignupComponent {
   createSignupForm() {
     this.signupForm = this.fb.group(
       {
-        name: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ['', Validators.required],
+        firstName: ["", Validators.required],
+        lastName: ["", Validators.required],
+        email: ["", [Validators.required, Validators.email]],
+        phone: ["", [Validators.required, Validators.pattern("^[0-9]*$")]],
+        password: ["", [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ["", Validators.required],
         privacy: [false, Validators.requiredTrue],
       },
-      {
-        validator: this.passwordMatchValidator,
-      }
+      { validators: this.passwordsMatchValidator }
     );
   }
 
-  passwordMatchValidator(form: FormGroup) {
-    const password = form.get('password')?.value;
-    const confirmPassword = form.get('confirmPassword')?.value;
+  passwordsMatchValidator(
+    control: AbstractControl
+  ): { [key: string]: boolean } | null {
+    const password = control.get("password");
+    const confirmPassword = control.get("confirmPassword");
 
-    return password === confirmPassword ? null : { mismatch: true };
+    if (password && confirmPassword) {
+      // Wenn eines der Felder nicht berührt wurde, wird kein Fehler gesetzt
+      if (!password.touched || !confirmPassword.touched) {
+        return null;
+      }
+
+      if (password.value !== confirmPassword.value) {
+        return { passwordsMismatch: true };
+      }
+    }
+    return null;
   }
 
+  //todo :implement logic for signup & contact creation afterwards in backend
   async onSubmit() {
     if (this.signupForm.valid) {
       console.log(this.signupForm.value);
       const { name, email, password } = this.signupForm.value;
       try {
         const response = await this.authService.signup(name, email, password);
-        console.log('Signup successful:', response);
+        console.log("Signup successful:", response);
         // todo: show success message
-        this.router.navigate(['/']);
+        this.router.navigate(["/"]);
       } catch (error) {
-        console.error('Signup failed:', error);
+        console.error("Signup failed:", error);
         // todo: implement error handling
       }
     } else {
-      console.log('Invalid Form');
+      console.log("Invalid Form");
     }
   }
 }

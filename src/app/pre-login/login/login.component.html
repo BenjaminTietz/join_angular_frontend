@@ -1,26 +1,34 @@
 <div class="login-wrapper">
     <header>
         <img src="assets/img/logos/join_logo_big_blue.png" alt="logo" class="logo">
-
         <div class="header-left">
             <p>Not a Join user?</p>
             <button class="blue-btn" [routerLink]="['/signup']">Sign Up</button>
         </div>
     </header>
-
     <div class="login-form">
         <h1>Log in</h1>
 
 
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <div class="input-wrapper">
+            <div class="form-input-container input-wrapper">
                 <input type="text" formControlName="email" placeholder="Email"><img
                     src="assets/img/icons/login_mail.png" alt="logo" class="logo">
+                @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+                <div class="error">
+                    <span>Enter a valid email</span>
+                </div>
+                }
             </div>
 
-            <div class="input-wrapper">
+            <div class="form-input-container input-wrapper">
                 <input type="password" formControlName="password" placeholder="Password"><img
                     src="assets/img/icons/login_password.png" alt="logo" class="logo">
+                @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+                <div class="error">
+                    <span>Enter a valid password</span>
+                </div>
+                }
             </div>
             <div class="checkbox-wrapper">
                 <input type="checkbox" formControlName="remember" id="remember" name="remember">

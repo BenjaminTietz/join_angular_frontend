@@ -53,7 +53,11 @@ header {
 
     }
 
-    >form {
+    form {
+        width: 100%;
+        @include dFlex(column, flex-start, flex-start);
+        gap: 24px;
+
         >.input-wrapper {
             width: 100%;
             @include dFlex(row, center, center);
@@ -93,6 +97,7 @@ header {
         }
 
         >.btn-container {
+            width: 100%;
             gap: 35px;
             @include dFlex(row, center, center);
 

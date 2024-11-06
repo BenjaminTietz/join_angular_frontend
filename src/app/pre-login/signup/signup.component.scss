@@ -3,9 +3,7 @@
 .signup-wrapper {
     width: 100svw;
     height: 100svh;
-
     background-color: $main-blue-dark;
-
     @include dFlex(column, space-between, center);
 }
 
@@ -24,7 +22,7 @@ header {
 
 .signup-form {
     width: 652px;
-    height: 491px;
+    height: 664px;
     border-radius: 30px;
     padding: 48px 115px;
     gap: 39px;
@@ -38,7 +36,11 @@ header {
         border-bottom: 3px solid $main-blue-dark;
     }
 
-    >form {
+    form {
+        width: 100%;
+        @include dFlex(column, flex-start, flex-start);
+        gap: 24px;
+
         >.input-wrapper {
             width: 100%;
             @include dFlex(row, center, center);
@@ -78,6 +80,7 @@ header {
         }
 
         >.btn-container {
+            width: 100%;
             gap: 35px;
             @include dFlex(row, center, center);
 

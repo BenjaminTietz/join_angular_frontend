@@ -288,6 +288,10 @@ textarea::placeholder {
     }
 }
 
+.form-input-container.ng-invalid.ng-touched .error {
+    display: block;
+}
+
 @media only screen and (max-width: 1200px) {
     .content-wrapper {
         width: 100vw;

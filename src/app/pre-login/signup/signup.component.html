@@ -9,21 +9,60 @@
 
         <h1>Sign up</h1>
         <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-            <div class="input-wrapper">
-                <input type="text" formControlName="name" placeholder="Name"><img src="assets/img/icons/login_name.png"
-                    alt="logo" class="logo">
+            <div class="form-input-container input-wrapper">
+                <input type="text" formControlName="firstName" placeholder="First Name"><img
+                    src="assets/img/icons/login_name.png" alt="logo" class="logo">
+                @if (signupForm.get('firstName')?.invalid && signupForm.get('firstName')?.touched) {
+                <div class="error">
+                    <span>Enter a valid first name</span>
+                </div>
+                }
             </div>
-            <div class="input-wrapper">
+            <div class="form-input-container input-wrapper">
+                <input type="text" formControlName="lastName" placeholder="Last Name"><img
+                    src="assets/img/icons/login_name.png" alt="logo" class="logo">
+                @if (signupForm.get('lastName')?.invalid && signupForm.get('lastName')?.touched) {
+                <div class="error">
+                    <span>Enter a valid last name</span>
+                </div>
+                }
+            </div>
+            <div class="form-input-container input-wrapper">
                 <input type="text" formControlName="email" placeholder="Email"><img
                     src="assets/img/icons/login_mail.png" alt="logo" class="logo">
+                @if (signupForm.get('email')?.invalid && signupForm.get('email')?.touched) {
+                <div class="error">
+                    <span>Enter a valid email</span>
+                </div>
+                }
             </div>
-            <div class="input-wrapper">
+            <div class="form-input-container input-wrapper">
+                <input type="number" formControlName="phone" placeholder="Phone Number"><img
+                    src="assets/img/icons/login_mail.png" alt="logo" class="logo">
+                @if (signupForm.get('phone')?.invalid && signupForm.get('phone')?.touched) {
+                <div class="error">
+                    <span>Enter a valid phone number</span>
+                </div>
+                }
+            </div>
+            <div class="form-input-container input-wrapper">
                 <input type="password" formControlName="password" placeholder="Password"><img
                     src="assets/img/icons/login_password.png" alt="logo" class="logo">
+                @if (signupForm.get('password')?.invalid && signupForm.get('password')?.touched) {
+                <div class="error">
+                    <span>Enter a valid password, min 6 characters</span>
+                </div>
+                }
             </div>
-            <div class="input-wrapper">
+            <div class="form-input-container input-wrapper">
                 <input type="password" formControlName="confirmPassword" placeholder="Confirm Password"><img
                     src="assets/img/icons/login_password.png" alt="logo" class="logo">
+                @if (signupForm.hasError('passwordsMismatch') && signupForm.get('password')?.touched &&
+                signupForm.get('confirmPassword')?.touched) {
+                <div class="error">
+                    <span>Passwords do not match</span>
+                </div>
+                }
             </div>
             <div class="checkbox-wrapper">
                 <input type="checkbox" formControlName="privacy" id="privacy" name="privacy">
