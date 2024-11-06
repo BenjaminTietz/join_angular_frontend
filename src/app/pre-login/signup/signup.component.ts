@@ -42,18 +42,20 @@ export class SignupComponent {
     );
   }
 
+  /**
+   * Custom validator to check if the values of the 'password' and 'confirmPassword' controls match.
+   * Returns {passwordsMismatch: true} if they don't match, or null otherwise.
+   * The validator only runs if both controls have been touched.
+   */
   passwordsMatchValidator(
     control: AbstractControl
   ): { [key: string]: boolean } | null {
     const password = control.get("password");
     const confirmPassword = control.get("confirmPassword");
-
     if (password && confirmPassword) {
-      // Wenn eines der Felder nicht berührt wurde, wird kein Fehler gesetzt
       if (!password.touched || !confirmPassword.touched) {
         return null;
       }
-
       if (password.value !== confirmPassword.value) {
         return { passwordsMismatch: true };
       }
