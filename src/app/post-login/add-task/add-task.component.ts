@@ -17,7 +17,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { Contact } from "../../models/contact.class";
 import { DatabaseService } from "../../services/database.service";
 import { Task } from "../../models/task.class";
@@ -65,6 +65,7 @@ export class AddTaskComponent implements OnInit {
   showContactsToAssign: boolean = false;
   showCategories: boolean = false;
   displayFloatingAddTask: boolean = false;
+  private subscriptions: Subscription = new Subscription();
   @ViewChild("contactInput") contactInput!: ElementRef<HTMLInputElement>;
   constructor(
     private fb: FormBuilder,
@@ -83,26 +84,37 @@ export class AddTaskComponent implements OnInit {
     });
   }
 
+  // Kontakte laden und Subscription hinzufügen
   ngOnInit(): void {
     this.contacts$ = this.databaseService.getContacts();
-    this.contacts$.subscribe((contacts) => {
+    const contactsSub = this.contacts$.subscribe((contacts) => {
       this.filteredContacts = contacts;
     });
-    this.databaseService.getTaskId().subscribe((taskId) => {
+    this.subscriptions.add(contactsSub);
+    const taskIdSub = this.databaseService.getTaskId().subscribe((taskId) => {
       this.taskId = taskId;
       console.log("TaskId in add-task:", this.taskId);
     });
+    this.subscriptions.add(taskIdSub);
+    const taskDataSub = this.databaseService
+      .getTaskData()
+      .subscribe((taskData) => {
+        this.taskData = taskData;
+        if (this.taskData) {
+          this.loadTaskData(this.taskData);
+        }
+        console.log("TaskData in add-task:", this.taskData);
+      });
+    this.subscriptions.add(taskDataSub);
 
-    this.databaseService.getTaskData().subscribe((taskData) => {
-      this.taskData = taskData;
-      if (this.taskData) {
-        this.loadTaskData(this.taskData);
-      }
-      console.log("TaskData in add-task:", this.taskData);
-    });
     if (this.router.url === "/board") {
       this.displayFloatingAddTask = true;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+    console.log("AddTaskComponent destroyed and subscriptions unsubscribed.");
   }
 
   onSubmit() {
@@ -164,7 +176,7 @@ export class AddTaskComponent implements OnInit {
     const newSubtasks = this.subTasks.filter((subTask) => !subTask.id);
     const newAssignees = this.assignedContacts.filter(
       (contact) => !this.assignedContactIds.includes(contact.id)
-    ); // Nur neue Assignees
+    );
 
     if (newSubtasks.length > 0) {
       this.databaseService.addSubtasks(taskId, newSubtasks).subscribe(() => {

@@ -179,21 +179,27 @@
     }
 
     >.add-contact-overlay-bottom {
+        width: 100%;
+        height: 100%;
+        @include dFlex(column, flex-start, center);
+
         >form {
             width: 584px;
             height: 362.48px;
             padding: 91px 46px;
-            gap: 12px;
+            gap: 32px;
             @include dFlex(column, center, center);
+            box-sizing: content-box;
 
             >.form-input {
-                width: 422px;
-                height: 193px;
+                width: 100%;
                 gap: 24px;
                 @include dFlex(column, flex-start, center);
 
                 >.input-container {
+                    width: 422px;
                     @include dFlex(row, flex-start, center);
+                    position: relative;
 
                     >input {
                         width: 100%;
@@ -204,19 +210,30 @@
                         cursor: pointer;
                         @include OpenSans(400, 19px, 22.8px, $black);
                     }
+
+                    >img {
+                        width: 24px;
+                        height: 24px;
+                        position: absolute;
+                        top: 16px;
+                        right: 16px;
+                    }
+                }
+
+                >.submit-btn-container {
+                    width: 365px;
+                    height: 61px;
+                    gap: 16px;
+                    margin-top: 32px;
+                    @include dFlex(row, center, center);
+
+                    >.blue-btn {
+                        width: 204px;
+                        white-space: nowrap;
+                    }
                 }
             }
 
-            >.submit-btn-container {
-                width: 365px;
-                height: 61px;
-                gap: 4px;
-                @include dFlex(row, flex-start, center);
-
-                >.blue-btn {
-                    width: 204px;
-                }
-            }
         }
     }
 }

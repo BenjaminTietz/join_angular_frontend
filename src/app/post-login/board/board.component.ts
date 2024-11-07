@@ -1,7 +1,7 @@
-import { Component, OnInit, output } from "@angular/core";
+import { Component, OnDestroy, OnInit, output } from "@angular/core";
 import { DatabaseService } from "../../services/database.service";
 import { Task } from "../../models/task.class";
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { CommonModule } from "@angular/common";
 import { AddTaskComponent } from "../add-task/add-task.component";
 import { SubTask } from "../../models/subTask.class";
@@ -15,8 +15,9 @@ import { SidenavComponent } from "../sidenav/sidenav.component";
   templateUrl: "./board.component.html",
   styleUrl: "./board.component.scss",
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent implements OnInit, OnDestroy {
   tasks$!: Observable<Task[]>;
+  private subscriptions: Subscription = new Subscription();
   priorityIcons: { [key in "urgent" | "medium" | "low"]: string } = {
     urgent: "/assets/img/icons/task_prio_urgent.png",
     medium: "/assets/img/icons/task_prio_medium.png",
@@ -33,7 +34,17 @@ export class BoardComponent implements OnInit {
   selectedTaskId: string | null = null;
   selectedTask: Task | null = null;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const tasksSub = this.databaseService.getTasks().subscribe((tasks) => {
+      console.log(tasks);
+    });
+    this.subscriptions.add(tasksSub);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+    console.log("BoardComponent destroyed and subscriptions unsubscribed.");
+  }
 
   constructor(public databaseService: DatabaseService) {}
 
@@ -49,7 +60,8 @@ export class BoardComponent implements OnInit {
     this.selectedStaus = status;
     console.log(status);
   }
-  handleCloseAddTaskOverlay() {
+  handleCloseAddTaskOverlay(event: Event) {
+    event.stopPropagation();
     this.showAddTaskOverlay = false;
   }
 
@@ -90,20 +102,15 @@ export class BoardComponent implements OnInit {
 
   onDragOver(event: DragEvent, status: string) {
     event.preventDefault();
-
-    // Setze alle Dropzone-Highlights zurück, bevor die aktuelle hervorgehoben wird
     Object.keys(this.isDragOver).forEach((key) => {
       this.isDragOver[key] = false;
     });
-
-    // Setze das aktuelle Dropzone-Highlight auf true
     this.isDragOver[status] = true;
 
     console.log("onDragOver", status);
   }
 
   onDragEnd(event: DragEvent) {
-    // Stelle sicher, dass nach dem Dragging alle Zustände zurückgesetzt werden
     this.isDragFrom = null;
     Object.keys(this.isDragOver).forEach((key) => {
       this.isDragOver[key] = false;
@@ -113,10 +120,8 @@ export class BoardComponent implements OnInit {
 
   onDragLeave(event: DragEvent, status: string) {
     event.preventDefault();
-
-    // Überprüfe, ob das aktuelle Target verlassen wurde (nicht nur ein untergeordnetes Element)
     if (event.currentTarget === event.target) {
-      this.isDragOver[status] = false; // Setze den Zustand der Dropzone auf "false", wenn diese verlassen wurde
+      this.isDragOver[status] = false;
       console.log("onDragLeave", status);
     }
   }
@@ -176,7 +181,8 @@ export class BoardComponent implements OnInit {
     this.showTaskDetailOverlay = true;
   }
 
-  handleCloseTaskDetailOverlay() {
+  handleCloseTaskDetailOverlay(event: Event) {
+    event.stopPropagation();
     this.showTaskDetailOverlay = false;
   }
 
@@ -230,7 +236,8 @@ export class BoardComponent implements OnInit {
       },
     });
   }
-  handleCloseEditTaskOverlay() {
+  handleCloseEditTaskOverlay(event: Event) {
+    event.stopPropagation();
     this.databaseService.showEditTaskOverlay = false;
     this.selectedTaskId = null;
     this.selectedTask = null;
@@ -240,5 +247,9 @@ export class BoardComponent implements OnInit {
       return task.subTasks.filter((subtask) => subtask.checked).length;
     }
     return 0;
+  }
+
+  stopEventPropagation(event: Event) {
+    event.stopPropagation();
   }
 }

@@ -177,7 +177,7 @@
                     <div class="icon-container">
                         @if (!this.databaseService.showEditTaskOverlay) {
                         <img src="/assets/img/icons/delete_subtask_blue.png" (click)="removeSubtaskFromArray(index)"
-                            class="pointer">
+                            class="pointer delete-btn">
                         } @else {
                         <img src="/assets/img/icons/delete_subtask_blue.png"
                             (click)="this.deleteSubtask(subtask.id, index.toString())" class="pointer">
@@ -185,7 +185,7 @@
 
                         <div class="vertical-line"></div>
                         <img src="/assets/img/icons/save_subtask_blue.png"
-                            (click)="saveEditedSubtask(subtask.title,index)" class="pointer">
+                            (click)="saveEditedSubtask(subtask.title,index)" class="pointer edit-btn">
                     </div>
                 </div>
                 }

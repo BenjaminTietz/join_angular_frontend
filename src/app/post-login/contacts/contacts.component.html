@@ -70,6 +70,7 @@
         <div class="add-contact-overlay-bottom">
             <form [formGroup]="addContactForm" (ngSubmit)="onSubmit()">
                 <div class="form-input">
+                    <img src="/assets/img/icons/create_contact.png">
                     <div class="input-container">
                         <input type="text" placeholder="Name" formControlName="name"><img
                             src="/assets/img/icons/login_name.png">
@@ -82,12 +83,12 @@
                         <input type="phone" placeholder="Phone" formControlName="phone"><img
                             src="/assets/img/icons/contact_phone.png">
                     </div>
-                </div>
-                <div class="submit-btn-container">
-                    <button class="white-btn" type="button" (click)="handleCloseAddContactOverlay()">Cancel<img
-                            src="/assets/img/icons/cancel_btn.png"></button>
-                    <button class="blue-btn" type="submit">Create Contact<img
-                            src="/assets/img/icons/create_btn.png"></button>
+                    <div class="submit-btn-container">
+                        <button class="white-btn" type="button" (click)="handleCloseAddContactOverlay()">Cancel<img
+                                src="/assets/img/icons/cancel_btn.png"></button>
+                        <button class="blue-btn" type="submit">Create Contact<img
+                                src="/assets/img/icons/create_btn.png"></button>
+                    </div>
                 </div>
             </form>
         </div>

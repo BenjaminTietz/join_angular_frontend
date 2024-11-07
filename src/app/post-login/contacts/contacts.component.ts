@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
-import { Observable } from "rxjs";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Observable, Subscription } from "rxjs";
 import { Contact } from "../../models/contact.class";
 import { DatabaseService } from "../../services/database.service";
 import {
@@ -24,8 +24,9 @@ import { SidenavComponent } from "../sidenav/sidenav.component";
   templateUrl: "./contacts.component.html",
   styleUrl: "./contacts.component.scss",
 })
-export class ContactsComponent implements OnInit {
+export class ContactsComponent implements OnInit, OnDestroy {
   contacts$!: Observable<Contact[]>;
+  private subscriptions: Subscription = new Subscription();
   contactDetail: any | null = null;
   addContactForm!: FormGroup;
   editContactForm!: FormGroup;
@@ -49,6 +50,11 @@ export class ContactsComponent implements OnInit {
 
   ngOnInit(): void {
     this.contacts$ = this.databaseService.getContacts();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+    console.log("ContactsComponent destroyed and subscriptions unsubscribed.");
   }
 
   handleShowContactDetails(id: string) {
