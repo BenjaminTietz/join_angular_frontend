@@ -39,11 +39,12 @@
                 <button type="button" class="white-btn" (click)="handleGuestLogin()">Guest log in</button>
             </div>
         </form>
-
-
     </div>
 
-
+    <div class="mobile-signup">
+        <p>Not a Join user?</p>
+        <button class="blue-btn" [routerLink]="['/signup']">Sign Up</button>
+    </div>
     <footer>
         <p routerLink="/privacy-policy">Privacy Policy</p>
         <p routerLink="/imprint">Legal Notice</p>

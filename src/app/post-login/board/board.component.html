@@ -3,7 +3,8 @@
 </section>
 <section class="board-wrapper content-wrapper">
     <div class="board-top-section">
-        <div class="input-container"><input type="text" class="board-search" placeholder="Find Task">
+        <div class="input-container"><input type="text" class="board-search" placeholder="Find Task"
+                [(ngModel)]="searchQuery" (input)="filterTasks()">
             <div class="vertical-line"></div><img src="/assets/img/icons/search_task.png" alt="search button">
         </div>
         <button class="blue-btn" (click)="handleShowAddTaskOverlay('todo')">Add Task<img
@@ -22,7 +23,7 @@
                     (dragover)="onDragOver($event, 'todo')" (dragleave)="onDragLeave($event, 'todo')"
                     (drop)="onDrop($event, 'todo')">
                     @if ("todoTasks") {
-                    @for (task of this.databaseService.todoTasks; track task; let index = $index) {
+                    @for (task of this.filteredTasks; track task; let index = $index) {
                     @if (task.status == 'todo' ) {
                     <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id , 'todo')"
                         (dragend)="onDragEnd($event)" draggable="true" (click)="handleShowTaskDetailOverlay(task)">
@@ -79,7 +80,7 @@
                 (dragover)="onDragOver($event, 'inProgress')" (dragleave)="onDragLeave($event, 'inProgress')"
                 (drop)="onDrop($event, 'inProgress')">
                 @if ("inProgressTasks") {
-                @for (task of this.databaseService.inProgressTasks; track task; let index = $index) {
+                @for (task of this.filteredTasks; track task; let index = $index) {
                 @if (task.status == 'inProgress' ) {
                 <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id, 'inProgress')"
                     (dragend)="onDragEnd($event)" draggable="true" (click)="handleShowTaskDetailOverlay(task)">
@@ -138,7 +139,7 @@
             (dragover)="onDragOver($event, 'awaitFeedback')" (dragleave)="onDragLeave($event, 'awaitFeedback')"
             (drop)="onDrop($event, 'awaitFeedback')">
             @if ("awaitFeedbackTasks") {
-            @for (task of this.databaseService.awaitFeedbackTasks; track task; let index = $index) {
+            @for (task of this.filteredTasks; track task; let index = $index) {
             @if (task.status == 'awaitFeedback' ) {
             <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id, 'awaitFeedback')"
                 (dragend)="onDragEnd($event)" draggable="true" (click)="handleShowTaskDetailOverlay(task)">
@@ -195,7 +196,7 @@
             (dragover)="onDragOver($event, 'done')" (dragleave)="onDragLeave($event, 'done')"
             (drop)="onDrop($event, 'done')">
             @if ("doneTasks") {
-            @for (task of this.databaseService.doneTasks; track task; let index = $index) {
+            @for (task of this.filteredTasks; track task; let index = $index) {
             @if (task.status == 'done' ) {
             <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id, 'done')"
                 (dragend)="onDragEnd($event)" draggable="true" (click)="handleShowTaskDetailOverlay(task)">
@@ -264,7 +265,7 @@
 
 <!--Task Detail View  Overlay-->
 @if (showTaskDetailOverlay) {
-@for (task of this.databaseService.tasks$ | async; track task; let index = $index) {
+@for (task of filteredTasks; track task; let index = $index) {
 @if (task.id === this.selectedTaskId) {
 <div class="floating-task-detail-wrapper"
     [ngClass]="{'visible': showTaskDetailOverlay, 'hidden': !showTaskDetailOverlay}"

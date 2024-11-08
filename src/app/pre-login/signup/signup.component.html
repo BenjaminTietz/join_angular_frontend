@@ -4,10 +4,12 @@
     </header>
 
     <div class="signup-form">
-        <div class="back-btn" [routerLink]="['']"><img src="assets/img/icons/back_arrow.png" alt="logo" class="logo">
+        <div class="form-top-section">
+            <div class="close-btn" [routerLink]="['']"><img src="assets/img/icons/back_arrow.png" alt="logo"
+                    class="logo">
+            </div>
+            <h1>Sign up</h1>
         </div>
-
-        <h1>Sign up</h1>
         <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
             <div class="form-input-container input-wrapper">
                 <input type="text" formControlName="firstName" placeholder="First Name"><img

@@ -138,8 +138,51 @@ footer {
 }
 
 @media screen and (max-width: 650px) {
+    .login-wrapper {
+        gap: 16px !important;
+    }
 
+    header {
+        margin-left: 16px !important;
+        margin-top: 16px !important;
+        padding: 8px 0 !important;
+    }
 
+    .btn-container {
+        width: 100%;
+        flex-direction: column !important;
+        gap: 16px !important;
+        padding: 16px 16px !important;
+
+        .blue-btn,
+        .white-btn {
+            width: 180px !important;
+            height: 48px !important;
+            padding: 4px 4px !important;
+            border-radius: 8px !important;
+        }
+    }
+
+    .mobile-signup {
+        @include dFlex(row, center, center);
+        margin-top: 30px;
+        gap: 10px;
+
+        p {
+            @include OpenSans(400 !important, 19px !important, 22.8px !important, $black);
+        }
+
+        button {
+            width: 98px !important;
+            height: 43px !important;
+            border-radius: 8px !important;
+            padding: 10px 16px !important;
+            gap: 10px !important;
+            white-space: nowrap !important;
+            @include OpenSans(400 !important, 19px !important, 22.8px !important, $white);
+
+        }
+    }
 
     .header-right {
         display: none !important;
@@ -157,12 +200,12 @@ footer {
         height: 480px !important;
         padding: 0 !important;
 
+        h1 {
+            @include OpenSans(700 !important, 47px !important, 56.4px !important, $black);
+        }
+
         form {
             width: 80% !important;
-
-            h1 {
-                @include OpenSans(700 !important, 47px !important, 56.4px !important, $black);
-            }
 
             input {
                 width: 100% !important;
@@ -172,14 +215,7 @@ footer {
 
     .checkbox-wrapper label {
         @include Inter(400 !important, 16px !important, 19.2px !important, $black);
+        white-space: nowrap;
     }
 
-    .btn-container {
-        flex-direction: column !important;
-        gap: 21px !important;
-
-        .blue-btn {
-            width: 197px !important;
-        }
-    }
 }

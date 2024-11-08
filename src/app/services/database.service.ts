@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
-import { Contact } from '../models/contact.class';
-import { Task } from '../models/task.class';
-import { SubTask } from '../models/subTask.class';
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Observable, BehaviorSubject } from "rxjs";
+import { map, tap } from "rxjs/operators";
+import { environment } from "../../environments/environment";
+import { Contact } from "../models/contact.class";
+import { Task } from "../models/task.class";
+import { SubTask } from "../models/subTask.class";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class DatabaseService {
   private tasksUrl = `${environment.baseRefUrl}/task/`;
@@ -39,29 +39,29 @@ export class DatabaseService {
     this.loadContacts();
     this.tasks$ = this.getTasks();
     this.tasks$.subscribe((tasks) => {
-      console.log('Tasks received:', tasks);
+      console.log("Tasks received:", tasks);
 
-      this.todoTasks = tasks.filter((task) => task.status === 'todo');
+      this.todoTasks = tasks.filter((task) => task.status === "todo");
       this.inProgressTasks = tasks.filter(
-        (task) => task.status === 'inProgress'
+        (task) => task.status === "inProgress"
       );
       this.awaitFeedbackTasks = tasks.filter(
-        (task) => task.status === 'awaitFeedback'
+        (task) => task.status === "awaitFeedback"
       );
       this.urgentTasks = tasks.filter(
-        (task) => task.priority === 'urgent'
+        (task) => task.priority === "urgent"
       ).length;
-      this.doneTasks = tasks.filter((task) => task.status === 'done');
+      this.doneTasks = tasks.filter((task) => task.status === "done");
       this.nextDueDate = this.getNextDueDateForUrgentTasks(tasks);
-      console.log('Next due date for urgent tasks:', this.nextDueDate);
+      console.log("Next due date for urgent tasks:", this.nextDueDate);
       this.tasksCount = tasks.length;
     });
   }
 
   get headers() {
     return new HttpHeaders().set(
-      'Authorization',
-      'Token ' + localStorage.getItem('token')
+      "Authorization",
+      "Token " + localStorage.getItem("token")
     );
   }
 
@@ -164,7 +164,7 @@ export class DatabaseService {
       initials: contact.initials,
       color: contact.color,
     };
-    console.log('Creating contact:', formattedContact);
+    console.log("Creating contact:", formattedContact);
     return this.http.post<Contact>(this.contactsUrl, formattedContact, {
       headers: this.headers,
     });
@@ -186,7 +186,7 @@ export class DatabaseService {
 
   // Helper function to get the next due date for urgent tasks
   public getNextDueDateForUrgentTasks(tasks: Task[]): string | null {
-    const urgentTasks = tasks.filter((task) => task.priority === 'urgent');
+    const urgentTasks = tasks.filter((task) => task.priority === "urgent");
     urgentTasks.sort(
       (a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
     );
@@ -215,52 +215,52 @@ export class DatabaseService {
   public taskInit() {
     const demoTasks: Task[] = [
       new Task({
-        title: 'Task 1',
-        description: 'Description for Task 1',
-        category: 'purchase',
-        priority: 'medium',
-        status: 'todo',
+        title: "Task 1",
+        description: "Description for Task 1",
+        category: "purchase",
+        priority: "medium",
+        status: "todo",
         dueDate: this.randomDate(),
         assignedTo: [],
         subTasks: [],
         createdAt: new Date().toISOString(),
-        createdBy: 'system',
+        createdBy: "system",
       }),
       new Task({
-        title: 'Task 2',
-        description: 'Description for Task 2',
-        category: 'sales',
-        priority: 'urgent',
-        status: 'inProgress',
+        title: "Task 2",
+        description: "Description for Task 2",
+        category: "sales",
+        priority: "urgent",
+        status: "inProgress",
         dueDate: this.randomDate(),
         assignedTo: [],
         subTasks: [],
         createdAt: new Date().toISOString(),
-        createdBy: 'system',
+        createdBy: "system",
       }),
       new Task({
-        title: 'Task 3',
-        description: 'Description for Task 3',
-        category: 'development',
-        priority: 'low',
-        status: 'awaitFeedback',
+        title: "Task 3",
+        description: "Description for Task 3",
+        category: "development",
+        priority: "low",
+        status: "awaitFeedback",
         dueDate: this.randomDate(),
         assignedTo: [],
         subTasks: [],
         createdAt: new Date().toISOString(),
-        createdBy: 'system',
+        createdBy: "system",
       }),
       new Task({
-        title: 'Task 4',
-        description: 'Description for Task 4',
-        category: 'accounting',
-        priority: 'urgent',
-        status: 'done',
+        title: "Task 4",
+        description: "Description for Task 4",
+        category: "accounting",
+        priority: "urgent",
+        status: "done",
         dueDate: this.randomDate(),
         assignedTo: [],
         subTasks: [],
         createdAt: new Date().toISOString(),
-        createdBy: 'system',
+        createdBy: "system",
       }),
     ];
 
@@ -268,12 +268,12 @@ export class DatabaseService {
       this.createTask(task)
         .pipe(
           tap((response) => {
-            console.log('Demo Task created:', response);
+            console.log("Demo Task created:", response);
           })
         )
         .subscribe({
           error: (error) => {
-            console.error('Error creating demo task:', error);
+            console.error("Error creating demo task:", error);
           },
         });
     });
@@ -282,44 +282,44 @@ export class DatabaseService {
   public contactInit() {
     const demoContacts: Contact[] = [
       new Contact({
-        id: '1',
-        name: 'John Doe',
-        email: 'john.doe@example.com',
-        phone: '123-456-7890',
-        initials: 'JD',
-        color: '#FF5733',
+        id: "1",
+        name: "John Doe",
+        email: "john.doe@example.com",
+        phone: "123-456-7890",
+        initials: "JD",
+        color: "#FF5733",
         createdAt: new Date().toISOString(),
-        createdBy: 'system',
+        createdBy: "system",
       }),
       new Contact({
-        id: '2',
-        name: 'Jane Smith',
-        email: 'jane.smith@example.com',
-        phone: '987-654-3210',
-        initials: 'JS',
-        color: '#33FF57',
+        id: "2",
+        name: "Jane Smith",
+        email: "jane.smith@example.com",
+        phone: "987-654-3210",
+        initials: "JS",
+        color: "#33FF57",
         createdAt: new Date().toISOString(),
-        createdBy: 'system',
+        createdBy: "system",
       }),
       new Contact({
-        id: '3',
-        name: 'Alice Johnson',
-        email: 'alice.johnson@example.com',
-        phone: '555-555-5555',
-        initials: 'AJ',
-        color: '#3377FF',
+        id: "3",
+        name: "Alice Johnson",
+        email: "alice.johnson@example.com",
+        phone: "555-555-5555",
+        initials: "AJ",
+        color: "#3377FF",
         createdAt: new Date().toISOString(),
-        createdBy: 'system',
+        createdBy: "system",
       }),
       new Contact({
-        id: '4',
-        name: 'Bob Brown',
-        email: 'bob.brown@example.com',
-        phone: '444-444-4444',
-        initials: 'BB',
-        color: '#FF33AA',
+        id: "4",
+        name: "Bob Brown",
+        email: "bob.brown@example.com",
+        phone: "444-444-4444",
+        initials: "BB",
+        color: "#FF33AA",
         createdAt: new Date().toISOString(),
-        createdBy: 'system',
+        createdBy: "system",
       }),
     ];
 
@@ -327,12 +327,12 @@ export class DatabaseService {
       this.createContact(contact)
         .pipe(
           tap((response) => {
-            console.log('Demo Contact created:', response);
+            console.log("Demo Contact created:", response);
           })
         )
         .subscribe({
           error: (error) => {
-            console.error('Error creating demo contact:', error);
+            console.error("Error creating demo contact:", error);
           },
         });
     });
@@ -343,6 +343,6 @@ export class DatabaseService {
     const start = new Date();
     const end = new Date();
     end.setDate(start.getDate() + Math.floor(Math.random() * 30));
-    return end.toISOString().split('T')[0];
+    return end.toISOString().split("T")[0];
   }
 }

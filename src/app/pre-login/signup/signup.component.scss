@@ -109,8 +109,90 @@ footer {
 
 }
 
-.back-btn {
-    position: absolute;
-    top: 78px;
-    left: 77px;
+.form-top-section {
+    @include dFlex(row, center, center);
+    width: 100%;
+    position: relative;
+
+    .close-btn {
+        position: absolute;
+        left: 16px;
+        top: 8px;
+    }
+}
+
+
+@media screen and (max-width: 1200px) {}
+
+@media screen and (max-width: 950px) {}
+
+@media screen and (max-width: 650px) {
+
+    .close-btn {
+        left: 4px !important;
+        top: 8px !important;
+    }
+
+    .signup-wrapper {
+        gap: 16px !important;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+
+    header {
+        margin-left: 16px !important;
+        margin-top: 16px !important;
+        padding: 8px 0 !important;
+    }
+
+    .btn-container {
+        width: 100%;
+        flex-direction: column !important;
+        gap: 16px !important;
+        padding: 16px 16px !important;
+
+        .white-btn {
+            width: 180px !important;
+            height: 48px !important;
+            padding: 4px 4px !important;
+            border-radius: 8px !important;
+        }
+    }
+
+
+
+    .header-right {
+        display: none !important;
+    }
+
+    header img {
+        width: 64px !important;
+        height: 78px !important;
+        margin-top: 37px !important;
+        margin-left: 38px !important;
+    }
+
+    .signup-form {
+        width: 80% !important;
+        height: 800px !important;
+        padding: 0 !important;
+
+        h1 {
+            @include OpenSans(700 !important, 47px !important, 56.4px !important, $black);
+        }
+
+        form {
+            width: 80% !important;
+
+            input {
+                width: 100% !important;
+            }
+        }
+    }
+
+    .checkbox-wrapper label {
+        @include Inter(400 !important, 16px !important, 19.2px !important, $black);
+        white-space: nowrap;
+    }
+
 }

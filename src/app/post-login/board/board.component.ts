@@ -7,16 +7,26 @@ import { AddTaskComponent } from "../add-task/add-task.component";
 import { SubTask } from "../../models/subTask.class";
 import { HeaderComponent } from "../header/header.component";
 import { SidenavComponent } from "../sidenav/sidenav.component";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: "app-board",
   standalone: true,
-  imports: [CommonModule, AddTaskComponent, HeaderComponent, SidenavComponent],
+  imports: [
+    CommonModule,
+    AddTaskComponent,
+    HeaderComponent,
+    SidenavComponent,
+    FormsModule,
+  ],
   templateUrl: "./board.component.html",
   styleUrl: "./board.component.scss",
 })
 export class BoardComponent implements OnInit, OnDestroy {
   tasks$!: Observable<Task[]>;
+  allTasks: Task[] = [];
+  filteredTasks: Task[] = [];
+  searchQuery: string = "";
   private subscriptions: Subscription = new Subscription();
   priorityIcons: { [key in "urgent" | "medium" | "low"]: string } = {
     urgent: "/assets/img/icons/task_prio_urgent.png",
@@ -33,10 +43,11 @@ export class BoardComponent implements OnInit, OnDestroy {
   isDragFrom: string | null = null;
   selectedTaskId: string | null = null;
   selectedTask: Task | null = null;
-
+  constructor(public databaseService: DatabaseService) {}
   ngOnInit(): void {
     const tasksSub = this.databaseService.getTasks().subscribe((tasks) => {
-      console.log(tasks);
+      this.allTasks = tasks;
+      this.filteredTasks = tasks;
     });
     this.subscriptions.add(tasksSub);
   }
@@ -46,7 +57,18 @@ export class BoardComponent implements OnInit, OnDestroy {
     console.log("BoardComponent destroyed and subscriptions unsubscribed.");
   }
 
-  constructor(public databaseService: DatabaseService) {}
+  filterTasks(): void {
+    const query = this.searchQuery.toLowerCase();
+    if (query === "") {
+      this.filteredTasks = this.allTasks;
+    } else {
+      this.filteredTasks = this.allTasks.filter(
+        (task) =>
+          task.title.toLowerCase().includes(query) ||
+          task.description.toLowerCase().includes(query)
+      );
+    }
+  }
 
   getPriorityIcon(priority: string): string {
     return (
