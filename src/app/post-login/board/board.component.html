@@ -22,9 +22,8 @@
                     [ngClass]="{ 'drag-over': isDragOver['todo'],'drag-from': isDragFrom === 'todo' }"
                     (dragover)="onDragOver($event, 'todo')" (dragleave)="onDragLeave($event, 'todo')"
                     (drop)="onDrop($event, 'todo')">
-                    @if ("todoTasks") {
-                    @for (task of this.filteredTasks; track task; let index = $index) {
-                    @if (task.status == 'todo' ) {
+                    @if (hasTasksWithStatus('todo')) {
+                    @for (task of getTasksByStatus('todo'); track task; let index = $index) {
                     <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id , 'todo')"
                         (dragend)="onDragEnd($event)" draggable="true" (click)="handleShowTaskDetailOverlay(task)">
                         <div class="mobile-btn-container">
@@ -61,8 +60,7 @@
                     </div>
                 </div>
                 }
-                }
-                } @if (this.databaseService.todoTasks.length == 0) {
+                } @else {
                 <div class="no-task">
                     <h3>No tasks To do</h3>
                 </div>
@@ -79,9 +77,8 @@
                 [ngClass]="{ 'drag-over': isDragOver['inProgress'], 'drag-from': isDragFrom === 'inProgress' }"
                 (dragover)="onDragOver($event, 'inProgress')" (dragleave)="onDragLeave($event, 'inProgress')"
                 (drop)="onDrop($event, 'inProgress')">
-                @if ("inProgressTasks") {
-                @for (task of this.filteredTasks; track task; let index = $index) {
-                @if (task.status == 'inProgress' ) {
+                @if (hasTasksWithStatus('inProgress')) {
+                @for (task of getTasksByStatus('inProgress'); track task; let index = $index) {
                 <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id, 'inProgress')"
                     (dragend)="onDragEnd($event)" draggable="true" (click)="handleShowTaskDetailOverlay(task)">
                     <div class="mobile-btn-container">
@@ -120,8 +117,7 @@
                 </div>
             </div>
             }
-            }
-            } @if (this.databaseService.inProgressTasks.length == 0) {
+            } @else {
             <div class="no-task">
                 <h3>No tasks In progress</h3>
             </div>
@@ -138,9 +134,8 @@
             [ngClass]="{ 'drag-over': isDragOver['awaitFeedback'], 'drag-from': isDragFrom === 'awaitFeedback' }"
             (dragover)="onDragOver($event, 'awaitFeedback')" (dragleave)="onDragLeave($event, 'awaitFeedback')"
             (drop)="onDrop($event, 'awaitFeedback')">
-            @if ("awaitFeedbackTasks") {
-            @for (task of this.filteredTasks; track task; let index = $index) {
-            @if (task.status == 'awaitFeedback' ) {
+            @if (hasTasksWithStatus('awaitFeedback')) {
+            @for (task of getTasksByStatus('awaitFeedback'); track task; let index = $index) {
             <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id, 'awaitFeedback')"
                 (dragend)="onDragEnd($event)" draggable="true" (click)="handleShowTaskDetailOverlay(task)">
                 <div class="mobile-btn-container">
@@ -179,8 +174,7 @@
             </div>
         </div>
         }
-        }
-        } @if (this.databaseService.awaitFeedbackTasks.length == 0) {
+        } @else {
         <div class="no-task">
             <h3>No tasks Await feedback</h3>
         </div>
@@ -195,9 +189,8 @@
             [ngClass]="{ 'drag-over': isDragOver['done'], 'drag-from': isDragFrom === 'done' }"
             (dragover)="onDragOver($event, 'done')" (dragleave)="onDragLeave($event, 'done')"
             (drop)="onDrop($event, 'done')">
-            @if ("doneTasks") {
-            @for (task of this.filteredTasks; track task; let index = $index) {
-            @if (task.status == 'done' ) {
+            @if (hasTasksWithStatus('awaitFeedback')) {
+            @for (task of getTasksByStatus('awaitFeedback'); track task; let index = $index) {
             <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id, 'done')"
                 (dragend)="onDragEnd($event)" draggable="true" (click)="handleShowTaskDetailOverlay(task)">
                 <div class="mobile-btn-container">
@@ -234,12 +227,12 @@
             </div>
         </div>
         }
-        }
-        } @if (this.databaseService.doneTasks.length == 0) {
+        } @else {
         <div class="no-task">
             <h3>No tasks Done</h3>
         </div>
         }
+
     </div>
     </div>
     </div>

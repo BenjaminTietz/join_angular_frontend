@@ -2,6 +2,7 @@
 
 .instructions-wrapper {
     @include dFlex(column, flex-start, flex-start);
+    overflow-y: scroll;
 }
 
 h1 {
@@ -54,10 +55,83 @@ span {
     @include OpenSans(400, 16px, 19.2px, $black);
 }
 
-@media only screen and (max-width: 1200px) {
 
+@media only screen and (max-width: 1200px) {
     .instructions-wrapper {
         @include dFlex(column, flex-start, flex-start);
     }
 
+    h1 {
+        @include OpenSans(700, 48px, 58px, $black);
+    }
+
+    h2 {
+        @include OpenSans(700, 28px, 33.6px, $main-blue-dark);
+    }
+
+    .list-number {
+        @include OpenSans(700, 28px, 33.6px, $main-blue-dark);
+    }
+
+    .list-content h3 {
+        @include OpenSans(700, 17px, 20.4px, $main-blue-dark);
+    }
+}
+
+@media only screen and (max-width: 950px) {
+    h1 {
+        @include OpenSans(700, 40px, 48px, $black);
+    }
+
+    h2 {
+        @include OpenSans(700, 24px, 28.8px, $main-blue-dark);
+    }
+
+    .list-number {
+        @include OpenSans(700, 24px, 28.8px, $main-blue-dark);
+    }
+
+    .list-content h3 {
+        @include OpenSans(700, 16px, 19.2px, $main-blue-dark);
+    }
+
+    .instructions-wrapper {
+        padding: 15px;
+    }
+}
+
+@media only screen and (max-width: 650px) {
+    .instructions-wrapper {
+        padding: 10px;
+    }
+
+    h1 {
+        @include OpenSans(700, 32px, 38.4px, $black);
+    }
+
+    h2 {
+        @include OpenSans(700, 20px, 24px, $main-blue-dark);
+    }
+
+    .list-number {
+        @include OpenSans(700, 20px, 24px, $main-blue-dark);
+    }
+
+    .list-content h3 {
+        @include OpenSans(700, 15px, 18px, $main-blue-dark);
+    }
+
+    .list-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .list-number {
+        margin-bottom: 10px;
+    }
+
+    .list-content p {
+        font-size: 14px;
+        line-height: 16.8px;
+    }
 }

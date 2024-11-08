@@ -274,4 +274,11 @@ export class BoardComponent implements OnInit, OnDestroy {
   stopEventPropagation(event: Event) {
     event.stopPropagation();
   }
+
+  hasTasksWithStatus(status: string): boolean {
+    return this.filteredTasks.some((task) => task.status === status);
+  }
+  getTasksByStatus(status: string): Task[] {
+    return this.filteredTasks.filter((task) => task.status === status);
+  }
 }
