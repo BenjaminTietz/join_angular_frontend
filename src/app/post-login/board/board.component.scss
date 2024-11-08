@@ -7,7 +7,7 @@
 .board-top-section {
     @include dFlex(row, flex-start, center);
     gap: 35px;
-    padding: 72px 0px 16px 64px;
+    padding-bottom: 16px;
     width: 100%;
 
     >.blue-btn {
@@ -49,10 +49,10 @@
 
 .board-column {
     width: 1208px;
-    height: 28px;
+    height: fit-content;
     @include dFlex(row, space-between, flex-start);
     flex: 1 1 25%;
-    padding: 0px 64px;
+    padding: 0px 16px 16px 16px;
     flex-wrap: wrap;
     gap: 32px;
 }
@@ -473,12 +473,12 @@
 }
 
 // floating edit Task Overlay
->.edit-task-content {
+.edit-task-content {
     width: 100%;
     height: 100%;
 }
 
->.close-btn {
+.close-btn {
     position: absolute;
     top: 104px;
     left: 728px;
@@ -499,11 +499,15 @@
 @media only screen and (max-width: 1500px) {
 
     .board-column {
-        flex: 1 1 50%;
+        flex: 1 1 50% !important;
     }
 }
 
 @media only screen and (max-width: 1200px) {
+    .board-column {
+        flex: 1 1 45% !important;
+    }
+
     .board-wrapper {
         @include dFlex(column, flex-start, center);
     }
@@ -512,7 +516,7 @@
 @media only screen and (max-width: 950px) {
 
     .board-column {
-        flex: 1 1 100%;
+        flex: 1 1 100% !important;
     }
 }
 

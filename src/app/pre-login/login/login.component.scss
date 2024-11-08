@@ -21,7 +21,7 @@ header {
         margin-left: 77px;
     }
 
-    >.header-left {
+    >.header-right {
         @include dFlex(row, space-between, center);
         margin-top: 80px;
         margin-right: 77px;
@@ -91,7 +91,7 @@ header {
             }
 
             input[type="checkbox"]+label {
-                @include OpenSans(400, 19px, 22.8px, $black);
+                @include Inter(400, 19px, 22.8px, $black);
                 margin-left: 10px;
             }
         }
@@ -122,6 +122,7 @@ footer {
     width: 240px;
     height: 35px;
     gap: 32px;
+    padding: 64px 0px;
     @include dFlex(row, center, center);
 
     >p {
@@ -130,4 +131,55 @@ footer {
         cursor: pointer;
     }
 
+}
+
+@media screen and (max-width: 950px) {
+    .login-wrapper {}
+}
+
+@media screen and (max-width: 650px) {
+
+
+
+    .header-right {
+        display: none !important;
+    }
+
+    header img {
+        width: 64px !important;
+        height: 78px !important;
+        margin-top: 37px !important;
+        margin-left: 38px !important;
+    }
+
+    .login-form {
+        width: 80% !important;
+        height: 480px !important;
+        padding: 0 !important;
+
+        form {
+            width: 80% !important;
+
+            h1 {
+                @include OpenSans(700 !important, 47px !important, 56.4px !important, $black);
+            }
+
+            input {
+                width: 100% !important;
+            }
+        }
+    }
+
+    .checkbox-wrapper label {
+        @include Inter(400 !important, 16px !important, 19.2px !important, $black);
+    }
+
+    .btn-container {
+        flex-direction: column !important;
+        gap: 21px !important;
+
+        .blue-btn {
+            width: 197px !important;
+        }
+    }
 }

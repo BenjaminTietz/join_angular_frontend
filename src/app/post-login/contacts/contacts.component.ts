@@ -11,6 +11,7 @@ import {
 } from "@angular/forms";
 import { HeaderComponent } from "../header/header.component";
 import { SidenavComponent } from "../sidenav/sidenav.component";
+import { AppComponent } from "../../app.component";
 
 @Component({
   selector: "app-contacts",
@@ -32,9 +33,12 @@ export class ContactsComponent implements OnInit, OnDestroy {
   editContactForm!: FormGroup;
   showAddContactOverlay = false;
   showEditContactOverlay = false;
+  showMobileContactDetail = false;
+  showMenu = false;
   constructor(
     private databaseService: DatabaseService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public app: AppComponent
   ) {
     this.addContactForm = this.fb.group({
       name: ["", Validators.required],
@@ -58,14 +62,38 @@ export class ContactsComponent implements OnInit, OnDestroy {
   }
 
   handleShowContactDetails(id: string) {
+    const contactView = document.querySelector(
+      ".contacts-right"
+    ) as HTMLElement;
+    if (contactView) {
+      contactView.classList.remove("slide-in");
+      contactView.classList.add("slide-out");
+    }
+
     this.databaseService.getContactById(id).subscribe((contact) => {
       console.log(contact);
       this.contactDetail = contact;
+      setTimeout(() => {
+        if (contactView) {
+          contactView.classList.remove("slide-out");
+          contactView.classList.add("slide-in");
+        }
+      }, 10);
     });
+
     console.log(this.contactDetail);
+
+    this.showMobileContactDetail = true;
   }
   handleEditContact() {
     this.showEditContactOverlay = true;
+    const contactOverlay = document.querySelector(
+      ".contact-overlay"
+    ) as HTMLElement;
+    if (contactOverlay) {
+      contactOverlay.classList.remove("hidden");
+      contactOverlay.classList.add("visible");
+    }
     this.editContactForm.setValue({
       editedName: this.contactDetail.name,
       editedEmail: this.contactDetail.email,
@@ -172,11 +200,33 @@ export class ContactsComponent implements OnInit, OnDestroy {
     this.showAddContactOverlay = true;
   }
   handleCloseAddContactOverlay() {
-    this.showAddContactOverlay = false;
-    this.addContactForm.reset();
+    const contactOverlay = document.querySelector(
+      ".contact-overlay"
+    ) as HTMLElement;
+    if (contactOverlay) {
+      contactOverlay.classList.remove("visible");
+      contactOverlay.classList.add("hidden");
+    }
+    setTimeout(() => {
+      this.showAddContactOverlay = false;
+      this.addContactForm.reset();
+    }, 500);
   }
   handleCloseEditContactOverlay() {
     this.showEditContactOverlay = false;
     this.editContactForm.reset();
+  }
+  stopEventPropagation(event: Event) {
+    event.stopPropagation();
+  }
+
+  handleCloseMobileContactDetail() {
+    this.contactDetail = null;
+    this.showMobileContactDetail = false;
+    this.showMenu = false;
+  }
+
+  handleShowMenu() {
+    this.showMenu = true;
   }
 }

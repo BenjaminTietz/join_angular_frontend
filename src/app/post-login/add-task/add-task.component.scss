@@ -237,8 +237,10 @@ form {
     @include dFlex(column, flex-start, center);
     width: 100%;
     height: fit-content;
+    position: relative;
 
     >.subtask-input {
+        width: 100%;
         @include dFlex(row, flex-start, center);
 
 
@@ -246,9 +248,16 @@ form {
             width: 24px;
             height: 24px;
             cursor: pointer;
-            margin-left: -16px;
+            position: absolute;
+            right: 16px;
+            top: 28px;
         }
     }
+
+    .subtask-input input::placeholder {
+        @include OpenSans(400, 19px, 22.8px, $border-color);
+    }
+
 
     >.subtask-container {
         width: 440px;
@@ -331,11 +340,82 @@ form {
         @include dFlex(column, flex-start, center);
     }
 
+    .add-task-content {
+        overflow-y: unset;
+    }
+
     .submit-btn-container {
         position: unset;
         width: 100%;
         @include dFlex(row, center, center);
         gap: 32px;
         padding: 8px 40px;
+    }
+
+    form input {
+        width: 100% !important;
+    }
+
+
+}
+
+@media only screen and (max-width: 650px) {
+    .add-task-content {
+        width: 100%;
+    }
+
+
+
+    form input,
+    form textarea {
+        width: 100% !important;
+        @include OpenSans(400, 16px, 19.2px, $black);
+    }
+
+
+
+    form {
+        textarea::placeholder {
+            @include OpenSans(400, 16px, 19.2px, $border-color);
+        }
+
+        span {
+            @include OpenSans(700, 16px, 19.2px, $menu-color);
+        }
+
+        span {
+            @include OpenSans(700, 16px, 19.2px, $menu-color);
+        }
+    }
+
+    .dropdown-menu {
+        p {
+            @include OpenSans(400, 16px, 19.2px, $black);
+        }
+    }
+
+    .subtask-input input::placeholder {
+        @include OpenSans(400, 16px, 19.2px, $black);
+    }
+
+    .btn-container {
+        gap: 8px;
+    }
+
+
+    .prio-btn {
+        width: 188px;
+        @include OpenSans(400, 16px, 19.2px, $black);
+    }
+
+    .white-btn {
+        width: 136px;
+        @include OpenSans(400, 23px, 27.6px, $white-btn-boarder);
+    }
+
+    .blue-btn {
+        width: 148px;
+        @include OpenSans(400, 19px, 22.8px, $white);
+        white-space: nowrap;
     }
 }

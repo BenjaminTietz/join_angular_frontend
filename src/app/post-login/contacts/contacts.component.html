@@ -2,14 +2,17 @@
     <app-header></app-header>
 </section>
 <section class="contacts-wrapper content-wrapper">
-    <div class="contacts-left">
+    <div class="contacts-left" [ngClass]="{ 'full-width': this.app.isMobileViewActive}">
+        @if (!this.app.isMobileViewActive) {
         <button class="blue-btn" (click)="handleAddContact()">Add new contact<img
                 src="/assets/img/icons/add_contact_white.png"></button>
+        }
 
-        <div class="contacts-list">
+        <div class="contacts-list" [ngClass]="{ 'full-width': this.app.isMobileViewActive}">
             @if ("contacts$ | async as contacts") {
             @for (contact of contacts$ | async; track contact; let index = $index) {
-            <div class="contact" (click)="handleShowContactDetails(contact.id)">
+            <div class="contact" (click)="handleShowContactDetails(contact.id)"
+                [ngClass]="{ 'full-width': this.app.isMobileViewActive}">
                 <div class="contact-left" [style.backgroundColor]="contact.color">
                     {{contact.initials}}
                 </div>
@@ -21,45 +24,69 @@
             }
             }
         </div>
+        @if (this.app.isMobileViewActive) {
+        <div class="mobile-btn">
+            @if (this.app.isMobileViewActive && !this.showMobileContactDetail) {
+            <button class="mobile-add-btn" (click)="handleAddContact()"><img
+                    src="/assets/img/icons/add_contact_white.png"></button>
+            } @else {
+            <button class="mobile-add-btn" (click)="handleShowMenu()"><img
+                    src="/assets/img/icons/3_dots_vert_menu.png"></button>
+            }
+        </div>
+        }
     </div>
+    @if (this.app.isMobileViewActive && this.showMobileContactDetail) {
     <div class="contacts-right">
-
         @if (contactDetail) {
-        <div class="contact-detail-view" [ngClass]="{ 'slide-in-right': contactDetail }">
-            <div class="detail-view-left" [style.backgroundColor]="contactDetail.color">{{contactDetail.initials}}</div>
-            <div class="detail-view-right">
-
-                <div class="detail-view-right-top">
-                    <h2>{{contactDetail.name}}</h2>
-                    <div class="contact-actions">
-                        <button class="contact-action-btn pointer" type="button" (click)="handleEditContact()"><img
-                                src="/assets/img/icons/edit_contact.png">Edit</button>
-                        <button class="contact-action-btn pointer" type="button"
-                            (click)="handleDeleteContact(contactDetail.id)"><img
-                                src="/assets/img/icons/delete_contact.png">Delete</button>
+        <div class="contact-detail-view" [ngClass]="{ 'visible': contactDetail }">
+            @if (this.app.isMobileViewActive) {
+            <div class="top-section-mobile">
+                <h2>Contact Information</h2>
+                <div (click)="handleCloseMobileContactDetail()" class="close-btn"><img
+                        src="/assets/img/icons/back_arrow.png">
+                </div>
+            </div>
+            }
+            <div class="top-section">
+                <div class="user-initial" [style.backgroundColor]="contactDetail.color">{{contactDetail.initials}}</div>
+                <div class="detail-view-right">
+                    <div class="detail-view-right-top">
+                        <h2>{{contactDetail.name}}</h2>
+                        <div class="contact-actions">
+                            <button class="contact-action-btn edit-btn pointer" type="button"
+                                (click)="handleEditContact()"><img
+                                    src="/assets/img/icons/edit_contact.png">Edit</button>
+                            <button class="contact-action-btn delete-btn pointer" type="button"
+                                (click)="handleDeleteContact(contactDetail.id)"><img
+                                    src="/assets/img/icons/delete_contact.png">Delete</button>
+                        </div>
                     </div>
                 </div>
-                <div class="detail-view-right-bottom">
-                    <h3>Contact Information</h3>
-                    <h4>Email</h4>
-                    <p>{{ contactDetail.email }}</p>
-                    <h4>Phone</h4>
-                    <span>{{ contactDetail.phone }}</span>
-                </div>
+            </div>
+            <div class="bottom-section">
+                <h3>Contact Information</h3>
+                <h4>Email</h4>
+                <p>{{ contactDetail.email }}</p>
+                <h4>Phone</h4>
+                <span>{{ contactDetail.phone }}</span>
             </div>
         </div>
         }
 
     </div>
+    }
 </section>
 <section>
     <app-sidenav></app-sidenav>
 </section>
 <!-- add contact overlay -->
 @if (showAddContactOverlay) {
-<div class="add-contact-overlay">
-    <div class="add-contact-overlay-content">
-        <div class="add-contact-overlay-top">
+<div class="contact-overlay" [ngClass]="{ 'visible': showAddContactOverlay, 'hidden': !showAddContactOverlay }"
+    (click)="handleCloseAddContactOverlay()">
+    <div class="contact-overlay-content" (click)="stopEventPropagation($event)"
+        [ngClass]="{ 'full-width': this.app.isMobileViewActive}">
+        <div class="contact-overlay-top">
             <div class="close-btn" (click)="handleCloseAddContactOverlay()"><img
                     src="/assets/img/icons/close_btn_blue.png">
             </div>
@@ -67,10 +94,10 @@
             <h2>Add Contact</h2>
             <h3>Tasks are better with a team!</h3>
         </div>
-        <div class="add-contact-overlay-bottom">
+        <div class="contact-overlay-bottom">
             <form [formGroup]="addContactForm" (ngSubmit)="onSubmit()">
                 <div class="form-input">
-                    <img src="/assets/img/icons/create_contact.png">
+                    <img class="create-icon" src="/assets/img/icons/create_contact.png">
                     <div class="input-container">
                         <input type="text" placeholder="Name" formControlName="name"><img
                             src="/assets/img/icons/login_name.png">
@@ -97,16 +124,17 @@
 }
 <!-- edit contact overlay -->
 @if (showEditContactOverlay) {
-<div class="add-contact-overlay">
-    <div class="add-contact-overlay-content">
-        <div class="add-contact-overlay-top">
+<div class="contact-overlay" (click)="handleCloseEditContactOverlay()">
+    <div class="contact-overlay-content" (click)="stopEventPropagation($event)">
+        <div class="contact-overlay-top">
             <div class="close-btn" (click)="handleCloseEditContactOverlay()"><img
                     src="/assets/img/icons/close_btn_white.png">
             </div>
             <img src="/assets/img/logos/join_logo_white.png">
             <h2>Edit Contact</h2>
         </div>
-        <div class="add-contact-overlay-bottom">
+        <div class="contact-overlay-bottom">
+            <div class="user-initial" [style.backgroundColor]="contactDetail.color">{{contactDetail.initials}}</div>
             <form [formGroup]="editContactForm" (ngSubmit)="onSubmitEditContactForm()">
                 <div class="form-input">
                     <div class="input-container">

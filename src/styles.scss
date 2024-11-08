@@ -262,9 +262,13 @@ textarea::placeholder {
     overflow-y: auto;
 }
 
+.full-width {
+    width: 100% !important;
+}
+
 // todo fix font size addtask Title
 .OS-32 {
-    @include OpenSans(400, 32px, 38.4px, $border-color);
+    @include OpenSans(400, 32px, 38.4px, $black);
 
     &::placeholder {
         @include OpenSans(400, 32px, 38.4px, $border-color);
@@ -304,4 +308,26 @@ textarea::placeholder {
     .blue-btn {}
 
     .white-btn {}
+}
+
+@media only screen and (max-width: 1200px) {
+    .content-wrapper {
+        width: 100vw;
+        height: calc(100vh - 154px);
+        padding: 8px !important;
+        box-sizing: border-box;
+    }
+}
+
+
+@media only screen and (max-width: 650px) {
+
+    .OS-32 {
+        @include OpenSans(400, 28px, 33.6px, $black);
+
+        &::placeholder {
+            @include OpenSans(400, 28px, 33.6px, $border-color);
+        }
+    }
+
 }

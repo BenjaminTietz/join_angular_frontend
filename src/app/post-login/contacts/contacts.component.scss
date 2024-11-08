@@ -2,13 +2,17 @@
 
 .contacts-wrapper {
     @include dFlex(row, flex-start, flex-start);
+    overflow-x: hidden
 }
 
 .contacts-left {
-    width: 456px;
+    width: calc(70% - 365px);
     height: 100%;
     @include dFlex(column, flex-start, center);
     overflow-y: scroll;
+    position: relative;
+    box-sizing: content-box;
+    padding: 0 32px;
 
     >button {
         width: 357px;
@@ -18,6 +22,10 @@
     }
 
     >.contacts-list {
+        @include dFlex(column, flex-start, flex-start);
+        width: 100%;
+        gap: 20px;
+
         >.contact {
             width: 352px;
             height: 77px;
@@ -26,9 +34,12 @@
             gap: 35px;
             cursor: pointer;
             @include dFlex(row, flex-start, center);
+            transition: all 0.175s ease-in-out;
 
             &:hover {
                 background-color: $main-blue-light;
+                box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+                scale: 1.05;
             }
 
             >.contact-left {
@@ -60,68 +71,70 @@
 }
 
 .contacts-right {
-    width: 500px;
+    width: calc(70% - 365px);
     height: 100%;
     @include dFlex(row, flex-start, flex-start);
-    position: relative;
+    position: fixed;
+    left: calc(70% - 300px);
+    top: 10%;
+    transform: translateX(100%);
+    transition: transform 0.5s ease-in-out;
+    padding: 32px;
+
+    &.slide-in {
+        animation: slideIn 0.5s ease-in-out forwards;
+    }
+
+    &.slide-out {
+        animation: slideOut 0.5s ease-in-out forwards;
+    }
 
     >.contact-detail-view {
-        @include dFlex(row, flex-start, flex-start);
+        @include dFlex(column, flex-start, flex-start);
         position: absolute;
         left: 64px;
         top: 32px;
+        gap: 16px;
 
+        >.top-section {
+            @include dFlex(row, space-between, center);
+            gap: 16px;
 
-        >.detail-view-left {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            gap: 10px;
-            border: 3px solid $white;
-            @include dFlex(column, center, center);
-            @include Inter(500, 47px, 56.4px, $white);
-            box-shadow: 0px 0px 4px 0px #00000029;
+            >.detail-view-right {
 
-        }
+                >.detail-view-right-top {
+                    h2 {
+                        @include Inter(500, 47px, 56.4px, $black);
+                    }
 
-        >.detail-view-right {
-            >.detail-view-right-top {
-                h2 {
-                    @include Inter(500, 47px, 56.4px, $black);
-                }
-
-                >.contact-actions {
-                    @include dFlex(row, flex-start, center);
-                    width: 158px;
-                    height: 24px;
-
-                    button {
-                        width: unset;
+                    >.contact-actions {
+                        @include dFlex(row, flex-start, center);
+                        width: 158px;
                         height: 24px;
                         gap: 6px;
-                        border: none;
-                        background-color: $white;
-                        @include dFlex(row, center, center);
-                        @include OpenSans(400, 16px, 19.2px, $board-text);
+                        transition: all 0.175s ease-in-out;
+
+                        .delete-btn:hover img {
+                            transform: scale(1.15);
+                            filter: hue-rotate(30deg);
+                        }
+
+                        .edit-btn:hover img {
+                            transform: scale(1.2);
+                            filter: brightness(1.2);
+                        }
+
+
+                        button {
+                            width: unset;
+                            height: 24px;
+                            gap: 6px;
+                            border: none;
+                            background-color: $white;
+                            @include dFlex(row, center, center);
+                            @include OpenSans(400, 16px, 19.2px, $board-text);
+                        }
                     }
-                }
-            }
-
-            >.detail-view-right-bottom {
-                h3 {
-                    @include OpenSans(700, 23px, 27.6px, $black);
-                }
-
-                h4 {
-                    @include OpenSans(700, 16px, 19.2px, $black);
-                }
-
-                p {
-                    @include OpenSans(400, 16px, 19.2px, $light-blue);
-                }
-
-                span {
-                    @include OpenSans(400, 16px, 19.2px, $black);
                 }
             }
         }
@@ -129,30 +142,99 @@
 }
 
 
-// add contact form overlay
-.add-contact-overlay {
-    width: 100svw;
-    height: 100svh;
-    backdrop-filter: blur(8px); // Füge den Blur-Effekt hinzu
-    background-color: rgba(255, 255, 255, 0.3); // Halbtransparenter Hintergrund für leichtes Milchiges
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 6;
+
+// Keyframe für das Einblenden von rechts nach links
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0%);
+    }
 }
 
-.add-contact-overlay-content {
-    width: 584px;
-    height: 1024px;
-    background-color: $white;
+// Keyframe für das Ausblenden von links nach rechts
+@keyframes slideOut {
+    from {
+        transform: translateX(0%);
+    }
+
+    to {
+        transform: translateX(100%);
+    }
+}
+
+.bottom-section {
+    @include dFlex(column, flex-start, flex-start);
+    gap: 8px;
+
+    h3 {
+        @include OpenSans(700, 23px, 27.6px, $black);
+    }
+
+    h4 {
+        @include OpenSans(700, 16px, 19.2px, $black);
+    }
+
+    p {
+        @include OpenSans(400, 16px, 19.2px, $light-blue);
+    }
+
+    span {
+        @include OpenSans(400, 16px, 19.2px, $black);
+    }
+}
+
+
+.user-initial {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    gap: 10px;
+    border: 3px solid $white;
+    @include dFlex(column, center, center);
+    @include Inter(500, 47px, 56.4px, $white);
+    box-shadow: 0px 0px 4px 0px #00000029;
+}
+
+
+// contact form popup
+.contact-overlay {
+    width: 100svw;
+    height: 100svh;
+    backdrop-filter: blur(8px);
+    background-color: rgba(255, 255, 255, 0.3);
     position: absolute;
     top: 0;
     right: 0;
+    z-index: 6;
+}
+
+.contact-overlay-content {
+    width: 584px;
+    height: 1024px;
+    background-color: $white;
     border-radius: 30px 0px 30px 30px;
     box-shadow: 0px 0px 4px 0px #00000029;
     @include dFlex(column, flex-start, center);
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 6;
 
-    >.add-contact-overlay-top {
+    &.visible>.contact-overlay-content {
+        animation: slideInRight 0.5s ease-in-out forwards;
+    }
+
+    &.hidden>.contact-overlay-content {
+        animation: slideOutRight 0.5s ease-in-out forwards;
+    }
+
+
+
+
+    >.contact-overlay-top {
         width: 584px;
         height: 362.48px;
         padding: 91px 46px;
@@ -178,10 +260,14 @@
         }
     }
 
-    >.add-contact-overlay-bottom {
+    >.contact-overlay-bottom {
         width: 100%;
         height: 100%;
         @include dFlex(column, flex-start, center);
+
+        .user-initial {
+            margin-top: 32px;
+        }
 
         >form {
             width: 584px;
@@ -195,6 +281,11 @@
                 width: 100%;
                 gap: 24px;
                 @include dFlex(column, flex-start, center);
+
+                .create-icon {
+                    width: 120px;
+                    height: 120px;
+                }
 
                 >.input-container {
                     width: 422px;
@@ -219,27 +310,183 @@
                         right: 16px;
                     }
                 }
-
-                >.submit-btn-container {
-                    width: 365px;
-                    height: 61px;
-                    gap: 16px;
-                    margin-top: 32px;
-                    @include dFlex(row, center, center);
-
-                    >.blue-btn {
-                        width: 204px;
-                        white-space: nowrap;
-                    }
-                }
             }
-
         }
+    }
+}
+
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(100%);
+    }
+}
+
+.submit-btn-container {
+    width: 365px;
+    height: 61px;
+    gap: 16px;
+    margin-top: 32px;
+    @include dFlex(row, center, center);
+
+    >.blue-btn {
+        width: 204px;
+        white-space: nowrap;
     }
 }
 
 @media only screen and (max-width: 1200px) {
     .contacts-wrapper {
         @include dFlex(row, flex-start, center);
+    }
+
+    .contacts-left {
+
+        overflow-y: unset !important;
+    }
+}
+
+@media only screen and (max-width: 650px) {
+    .contacts-wrapper {
+        padding: 10px 18px !important;
+    }
+
+    .contact-name {
+        @include OpenSans(400 !important, 19px !important, 22.8px !important, $black);
+    }
+
+    .contact-email {
+        @include OpenSans(400, 16px, 19.2px, $main-blue-dark);
+        text-overflow: ellipsis;
+        max-width: 150px;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .contact {
+        gap: 16px !important;
+    }
+
+    .contacts-left {
+        padding: 7px 12px !important;
+    }
+
+    .mobile-btn {
+        width: 100% !important;
+        @include dFlex(row, flex-end, center);
+        position: fixed;
+        bottom: 100px;
+        right: 14px;
+        z-index: 6;
+
+        .mobile-add-btn {
+            width: 64px;
+            height: 64px;
+            border-radius: 10px;
+            border: 1px solid $border-color;
+            background-color: $main-blue-dark;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            transition: all 0.175s ease-in-out;
+            cursor: pointer;
+
+            img {
+                width: 32px;
+                height: 32px;
+            }
+        }
+
+        &:hover {
+            .mobile-add-btn {
+                scale: 1.05;
+            }
+        }
+    }
+
+    .contact-overlay-content {
+        width: 90% !important;
+        box-sizing: border-box;
+
+        .contact-overlay-top {
+            width: 100% !important;
+            border-top-right-radius: 10px;
+
+            h2 {
+                @include OpenSans(700, 47px, 56.4px, $white);
+            }
+
+            h3 {
+                @include Inter(400, 21px, 25.2px, $white);
+            }
+        }
+    }
+
+    .contacts-right {
+        width: 100% !important;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 7;
+        background-color: $white;
+    }
+
+    .contact-detail-view {
+        width: 100% !important;
+        left: 0 !important;
+        top: 0 !important;
+        border-radius: 10px !important;
+        background-color: $white !important;
+        padding: 16px 8px !important;
+
+        .top-section {
+            gap: 8px;
+        }
+    }
+
+    .top-section-mobile {
+        width: 100% !important;
+        @include dFlex(row, space-between, center);
+
+        h2 {
+            @include OpenSans(700, 19px, 22.8px, $black);
+        }
+    }
+
+    .top-section {
+        .user-initial {
+            width: 80px !important;
+            height: 80px !important;
+            @include Inter(400, 27px, 32.4px, $white);
+        }
+    }
+
+    .detail-view-right-top {
+        h2 {
+            @include Inter(400 !important, 33px !important, 39.6px !important, $black);
+        }
+    }
+
+    .contact-actions {
+        display: none !important;
+    }
+
+    .bottom-section {
+        h3 {
+            display: none !important;
+        }
     }
 }

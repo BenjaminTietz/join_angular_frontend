@@ -15,7 +15,7 @@
                         <span>{{this.databaseService.urgentTasks}}</span>
                     </div>
                     <div class="task-category-bottom">
-                        <span>Task in Board</span>
+                        <span>Tasks Urgent</span>
                     </div>
                 </div>
                 <div class="vertical-line"></div>
@@ -24,6 +24,7 @@
                     <span>Upcomming Dealine</span>
                 </div>
             </div>
+            @if (!this.app.isSmallScreenActive) {
             <div class="task-category pointer" [routerLink]="['/board']">
                 <div class="task-category-top">
                     <img src="assets/img/icons/board_summary_icon.png" alt="icon">
@@ -33,8 +34,10 @@
                     <span>Task in Board</span>
                 </div>
             </div>
+            }
         </div>
-        <div class="task-overview-bottom">
+        @if (this.app.isSmallScreenActive) {
+        <div class="task-overview-middle">
             <div class="task-category pointer" [routerLink]="['/board']">
                 <div class="task-category-top">
                     <img src="assets/img/icons/todo_tasks_summary_icon.png" alt="icon">
@@ -44,6 +47,30 @@
                     <span>Tasks To-do</span>
                 </div>
             </div>
+        </div>
+        }
+        <div class="task-overview-bottom">
+            @if (!this.app.isSmallScreenActive) {
+            <div class="task-category pointer" [routerLink]="['/board']">
+                <div class="task-category-top">
+                    <img src="assets/img/icons/todo_tasks_summary_icon.png" alt="icon">
+                    <span>{{this.databaseService.todoTasks.length}}</span>
+                </div>
+                <div class="task-category-bottom">
+                    <span>Tasks To-do</span>
+                </div>
+            </div>
+            } @else {
+            <div class="task-category pointer" [routerLink]="['/board']">
+                <div class="task-category-top">
+                    <img src="assets/img/icons/todo_tasks_summary_icon.png" alt="icon">
+                    <span>{{this.databaseService.tasksCount}}</span>
+                </div>
+                <div class="task-category-bottom">
+                    <span>Tasks on Board</span>
+                </div>
+            </div>
+            }
             <div class="task-category pointer" [routerLink]="['/board']">
                 <div class="task-category-top">
                     <img src="assets/img/icons/in_progress_tasks_summary_icon.png" alt="icon">

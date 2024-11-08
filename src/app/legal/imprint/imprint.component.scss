@@ -29,3 +29,50 @@ li {
 .highlight {
     @include OpenSans(400, 16px, 19.2px, $main-blue-dark);
 }
+
+
+@media only screen and (max-width: 1200px) {
+    h1 {
+        @include OpenSans(700, 48px, 57.6px, $black);
+    }
+
+    h2 {
+        @include OpenSans(700, 28px, 33.6px, $main-blue-dark);
+    }
+
+    h3 {
+        @include OpenSans(700, 17px, 20.4px, $main-blue-dark);
+    }
+
+    p,
+    li {
+        @include OpenSans(400, 14px, 16.8px, $black);
+    }
+
+    .highlight {
+        @include OpenSans(400, 14px, 16.8px, $main-blue-dark);
+    }
+}
+
+@media only screen and (max-width: 650px) {
+    h1 {
+        @include OpenSans(700, 36px, 43.2px, $black);
+    }
+
+    h2 {
+        @include OpenSans(700, 24px, 28.8px, $main-blue-dark);
+    }
+
+    h3 {
+        @include OpenSans(700, 15px, 18px, $main-blue-dark);
+    }
+
+    p,
+    li {
+        @include OpenSans(400, 13px, 15.6px, $black);
+    }
+
+    .highlight {
+        @include OpenSans(400, 13px, 15.6px, $main-blue-dark);
+    }
+}

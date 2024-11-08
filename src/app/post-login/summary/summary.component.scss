@@ -3,22 +3,23 @@
 
 .summary-wrapper {
     @include dFlex(column, center, center);
-    gap: 72px;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 h1 {
     @include OpenSans(400, 48px, 57.6px, $board-text);
     text-align: center;
+    padding-bottom: 72px;
 
     span {
         @include OpenSans(700, 64px, 76.8px, $main-blue-dark);
     }
 }
 
-.task-overview {
+.tasks-overview {
     width: 912px;
-    height: 442px;
-    @include dFlex(row, space-between, center);
+    @include dFlex(column, center);
 }
 
 .task-overview-top {
@@ -37,6 +38,9 @@ h1 {
             transition: transform 0.2s ease;
             border-radius: 0px 30px 30px 30px;
             background-color: darken($color: $main-blue-dark, $amount: 0.2);
+            box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.25);
+
+
 
             >.task-category-top {
                 span {
@@ -79,14 +83,15 @@ h1 {
     background-color: $main-blue-dark;
     @include dFlex(row, space-between, center);
     box-shadow: 0px 0px 4px 0px #00000029;
-    transform: 0.1s all ease;
-
+    transform: 0.175s all ease;
+    transition: transform 0.175s ease;
 
     &:hover {
         transform: scale(1.05);
-        transition: transform 0.2s ease;
+        transition: transform 0.175s ease;
         border-radius: 0px 30px 30px 30px;
         background-color: $white;
+        box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.25);
 
         >.task-category .task-category-top span,
         >.task-category .task-category-bottom span,
@@ -105,6 +110,7 @@ h1 {
         box-shadow: unset;
         width: 208px;
         height: 191px;
+        transition: all 0.175s ease;
 
         &:hover {
             transform: none;
@@ -152,6 +158,7 @@ h1 {
 
 }
 
+
 .task-overview-bottom {
     width: 912px;
     height: 219px;
@@ -193,6 +200,7 @@ h1 {
         transition: transform 0.2s ease;
         border-radius: 0px 30px 30px 30px;
         background-color: darken($color: $main-blue-dark, $amount: 0.2);
+        box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.25);
 
         >.task-category-top,
         >.task-category-bottom {
@@ -206,7 +214,7 @@ h1 {
     .task-category-top {
         width: 124px;
         height: 76px;
-        gap: 20px;
+        gap: 8px;
         @include dFlex(row, flex-start, center);
 
         span {
@@ -223,13 +231,133 @@ h1 {
     }
 }
 
-@media only screen and (max-width: 1200px) {}
 
-@media only screen and (max-width: 950px) {
+
+
+@media only screen and (max-width: 1200px) {
+    .summary-wrapper {
+        justify-content: flex-start !important;
+    }
+
+    .tasks-overview {
+        width: 100%;
+        gap: 16px;
+    }
+
+    .task-overview-top {
+        width: 100% !important;
+        padding-bottom: unset !important;
+    }
+
+    .task-overview-middle {
+        width: 100% !important;
+    }
+
+    .task-overview-bottom {
+        width: 100% !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 16px !important;
+
+        .task-category {
+            width: calc(50% - 16px) !important;
+            margin-bottom: 16px !important;
+        }
+
+        >.task-category:first-of-type {
+            background-color: unset !important;
+        }
+    }
+
     .summary-wrapper {
         h1 {
             display: none;
         }
     }
 
+    .urgent-tasks {
+        width: 100% !important;
+    }
+
+    .task-overview-middle .task-category {
+        width: 100% !important;
+        @include dFlex(row, center, center);
+        background-color: $main-blue-light;
+        gap: 40px;
+    }
+
 }
+
+@media only screen and (max-width: 950px) {}
+
+@media only screen and (max-width: 650px) {
+
+    .urgent-tasks {
+        justify-content: center !important;
+        gap: unset !important;
+
+        .task-category {
+            padding: 0px 16px !important;
+
+            .task-category-top {
+                span {
+                    @include OpenSans(700, 40px !important, 48px !important, $white);
+                }
+            }
+
+            .task-category-bottom {
+                span {
+                    @include OpenSans(400, 19px !important, 22.8px !important, $white);
+                }
+            }
+        }
+    }
+
+    .task-deadline {
+        p {
+            @include OpenSans(700, 23px !important, 27.6px !important, $white);
+        }
+
+        span {
+            @include OpenSans(400, 16px !important, 19.2px !important, $white);
+        }
+    }
+
+    .task-category-top {
+        gap: 0px !important;
+
+        span {
+            @include OpenSans(700, 40px, 48px, $white);
+        }
+    }
+
+    .task-overview-middle .task-category {
+        .task-category-top {
+            span {
+                @include OpenSans(700, 40px !important, 48px !important, $black);
+            }
+        }
+
+        .task-category-bottom {
+            span {
+                @include OpenSans(400, 19px !important, 22.8px !important, $main-blue-dark);
+            }
+        }
+    }
+
+    .task-overview-bottom .task-category {
+        .task-category-top {
+            span {
+                @include OpenSans(700, 40px !important, 48px !important, $black);
+            }
+        }
+
+        .task-category-bottom {
+            span {
+                @include OpenSans(400, 19px !important, 22.8px !important, $main-blue-dark);
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 450px) {}
