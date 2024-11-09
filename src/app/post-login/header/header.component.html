@@ -1,6 +1,6 @@
 <div class="header-wrapper">
     <div class="header-left">
-        @if (isLoggedIn) {
+        @if (this.authService.isLoggedIn) {
         <img src="assets/img/logos/join_logo_white.png" alt="join-logo" class="join-logo pointer"
             [routerLink]="['/summary']">
         } @else {
@@ -9,7 +9,7 @@
     </div>
     <div class="header-right">
         <p>Kanban Project Management Tool</p>
-        @if (isLoggedIn) {
+        @if (this.authService.isLoggedIn) {
         <img src="assets/img/icons/help_white.png" [routerLink]="['/instructions']" alt="join-logo" class="join-logo">
         <div class="user-profile" (click)="toggleUserMenu()">
             <div class="circle-outside">

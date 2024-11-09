@@ -4,6 +4,11 @@
     @include dFlex(column, flex-start, flex-start);
 }
 
+.top-section {
+    @include dFlex(row, space-between, center);
+    width: 100%;
+}
+
 h1 {
     @include OpenSans(700, 61px, 73.2px, $black);
 }

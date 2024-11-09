@@ -13,6 +13,11 @@ h1 {
     @include OpenSans(700, 61px, 73.2px, $main-blue-dark);
 }
 
+.top-section {
+    @include dFlex(row, space-between, center);
+    width: 100%;
+}
+
 h2 {
     @include OpenSans(700, 33px, 39.6px, $main-blue-dark);
     padding-top: 24px;
