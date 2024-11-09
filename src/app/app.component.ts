@@ -10,6 +10,7 @@ import { SummaryComponent } from "./post-login/summary/summary.component";
 import { AddTaskComponent } from "./post-login/add-task/add-task.component";
 import { BoardComponent } from "./post-login/board/board.component";
 import { ContactsComponent } from "./post-login/contacts/contacts.component";
+import { CommunicationService } from "./services/communication.service";
 
 @Component({
   selector: "app-root",
@@ -33,10 +34,7 @@ import { ContactsComponent } from "./post-login/contacts/contacts.component";
 })
 export class AppComponent {
   title = "join_angular";
-
-  isMobileViewActive: boolean = false;
-  isSmallScreenActive: boolean = false;
-
+  constructor(public communicationService: CommunicationService) {}
   @HostListener("window:resize", ["$event"])
   onResize(event: any) {
     this.checkViewport();
@@ -49,11 +47,11 @@ export class AppComponent {
     const height = window.innerHeight;
     const width = window.innerWidth;
     // Flag for mobile view (height greater than width)
-    this.isMobileViewActive = height > width;
-    console.log("mobile view", this.isMobileViewActive);
+    this.communicationService.isMobileViewActive = height > width;
+    console.log("mobile view", this.communicationService.isMobileViewActive);
     // Flag for small screen (tablet view)
     const isTabletScreen = width < 1200;
-    this.isSmallScreenActive = isTabletScreen;
-    console.log("small screen", this.isSmallScreenActive);
+    this.communicationService.isSmallScreenActive = isTabletScreen;
+    console.log("small screen", this.communicationService.isSmallScreenActive);
   }
 }

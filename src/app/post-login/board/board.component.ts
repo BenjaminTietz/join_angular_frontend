@@ -65,7 +65,15 @@ export class BoardComponent implements OnInit, OnDestroy {
       this.filteredTasks = this.allTasks.filter(
         (task) =>
           task.title.toLowerCase().includes(query) ||
-          task.description.toLowerCase().includes(query)
+          task.description.toLowerCase().includes(query) ||
+          task.category.toLowerCase().includes(query) ||
+          task.assignedTo.some((assignee) =>
+            assignee.name.toLowerCase().includes(query)
+          ) ||
+          task.subTasks.some((subtask) =>
+            subtask.title.toLowerCase().includes(query)
+          ) ||
+          task.priority.toLowerCase().includes(query)
       );
     }
   }

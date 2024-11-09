@@ -24,7 +24,7 @@
                     <span>Upcomming Dealine</span>
                 </div>
             </div>
-            @if (!this.app.isSmallScreenActive) {
+            @if (!this.communicationService.isSmallScreenActive) {
             <div class="task-category pointer" [routerLink]="['/board']">
                 <div class="task-category-top">
                     <img src="assets/img/icons/board_summary_icon.png" alt="icon">
@@ -36,7 +36,7 @@
             </div>
             }
         </div>
-        @if (this.app.isSmallScreenActive) {
+        @if (this.communicationService.isSmallScreenActive) {
         <div class="task-overview-middle">
             <div class="task-category pointer" [routerLink]="['/board']">
                 <div class="task-category-top">
@@ -50,7 +50,7 @@
         </div>
         }
         <div class="task-overview-bottom">
-            @if (!this.app.isSmallScreenActive) {
+            @if (!this.communicationService.isSmallScreenActive) {
             <div class="task-category pointer" [routerLink]="['/board']">
                 <div class="task-category-top">
                     <img src="assets/img/icons/todo_tasks_summary_icon.png" alt="icon">

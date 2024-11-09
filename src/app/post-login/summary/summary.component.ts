@@ -8,6 +8,7 @@ import { HeaderComponent } from "../header/header.component";
 import { SidenavComponent } from "../sidenav/sidenav.component";
 import { Subscription } from "rxjs";
 import { AppComponent } from "../../app.component";
+import { CommunicationService } from "../../services/communication.service";
 @Component({
   selector: "app-summary",
   standalone: true,
@@ -25,7 +26,7 @@ export class SummaryComponent implements OnInit {
     public databaseService: DatabaseService,
     private http: HttpClient,
     public authService: AuthService,
-    public app: AppComponent
+    public communicationService: CommunicationService
   ) {}
 
   ngOnInit() {

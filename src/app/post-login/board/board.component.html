@@ -232,7 +232,6 @@
             <h3>No tasks Done</h3>
         </div>
         }
-
     </div>
     </div>
     </div>
@@ -255,7 +254,6 @@
     </div>
 </div>
 }
-
 <!--Task Detail View  Overlay-->
 @if (showTaskDetailOverlay) {
 @for (task of filteredTasks; track task; let index = $index) {
@@ -320,7 +318,7 @@
 }
 }
 }
-
+<!--Edit Task Overlay-->
 @if (this.databaseService.showEditTaskOverlay) {
 <div class="floating-add-task-wrapper"
     [ngClass]="{'visible': this.databaseService.showEditTaskOverlay, 'hidden': !this.databaseService.showEditTaskOverlay}"

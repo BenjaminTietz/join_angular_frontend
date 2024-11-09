@@ -12,6 +12,7 @@ import {
 import { HeaderComponent } from "../header/header.component";
 import { SidenavComponent } from "../sidenav/sidenav.component";
 import { AppComponent } from "../../app.component";
+import { CommunicationService } from "../../services/communication.service";
 
 @Component({
   selector: "app-contacts",
@@ -38,7 +39,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
   constructor(
     private databaseService: DatabaseService,
     private fb: FormBuilder,
-    public app: AppComponent
+    public communicationService: CommunicationService
   ) {
     this.addContactForm = this.fb.group({
       name: ["", Validators.required],

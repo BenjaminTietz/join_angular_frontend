@@ -2,17 +2,17 @@
     <app-header></app-header>
 </section>
 <section class="contacts-wrapper content-wrapper">
-    <div class="contacts-left" [ngClass]="{ 'full-width': this.app.isMobileViewActive}">
-        @if (!this.app.isMobileViewActive) {
+    <div class="contacts-left" [ngClass]="{ 'full-width': this.communicationService.isMobileViewActive}">
+        @if (!this.communicationService.isMobileViewActive) {
         <button class="blue-btn" (click)="handleAddContact()">Add new contact<img
                 src="/assets/img/icons/add_contact_white.png"></button>
         }
 
-        <div class="contacts-list" [ngClass]="{ 'full-width': this.app.isMobileViewActive}">
+        <div class="contacts-list" [ngClass]="{ 'full-width': this.communicationService.isMobileViewActive}">
             @if ("contacts$ | async as contacts") {
             @for (contact of contacts$ | async; track contact; let index = $index) {
             <div class="contact" (click)="handleShowContactDetails(contact.id)"
-                [ngClass]="{ 'full-width': this.app.isMobileViewActive}">
+                [ngClass]="{ 'full-width': this.communicationService.isMobileViewActive}">
                 <div class="contact-left" [style.backgroundColor]="contact.color">
                     {{contact.initials}}
                 </div>
@@ -24,9 +24,9 @@
             }
             }
         </div>
-        @if (this.app.isMobileViewActive) {
+        @if (this.communicationService.isMobileViewActive) {
         <div class="mobile-btn">
-            @if (this.app.isMobileViewActive && !this.showMobileContactDetail) {
+            @if (this.communicationService.isMobileViewActive && !this.showMobileContactDetail) {
             <button class="mobile-add-btn" (click)="handleAddContact()"><img
                     src="/assets/img/icons/add_contact_white.png"></button>
             } @else {
@@ -36,11 +36,11 @@
         </div>
         }
     </div>
-    @if (this.app.isMobileViewActive && this.showMobileContactDetail) {
+    @if (this.communicationService.isMobileViewActive && this.showMobileContactDetail) {
     <div class="contacts-right">
         @if (contactDetail) {
         <div class="contact-detail-view" [ngClass]="{ 'visible': contactDetail }">
-            @if (this.app.isMobileViewActive) {
+            @if (this.communicationService.isMobileViewActive) {
             <div class="top-section-mobile">
                 <h2>Contact Information</h2>
                 <div (click)="handleCloseMobileContactDetail()" class="close-btn"><img
@@ -85,7 +85,7 @@
 <div class="contact-overlay" [ngClass]="{ 'visible': showAddContactOverlay, 'hidden': !showAddContactOverlay }"
     (click)="handleCloseAddContactOverlay()">
     <div class="contact-overlay-content" (click)="stopEventPropagation($event)"
-        [ngClass]="{ 'full-width': this.app.isMobileViewActive}">
+        [ngClass]="{ 'full-width': this.communicationService.isMobileViewActive}">
         <div class="contact-overlay-top">
             <div class="close-btn" (click)="handleCloseAddContactOverlay()"><img
                     src="/assets/img/icons/close_btn_blue.png">

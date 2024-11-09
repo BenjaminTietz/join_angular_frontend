@@ -18,7 +18,8 @@ import { AuthService } from "../../services/auth.service";
 })
 export class SignupComponent {
   signupForm!: FormGroup;
-
+  signupComplete = false;
+  signupError = false;
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -71,11 +72,13 @@ export class SignupComponent {
       try {
         const response = await this.authService.signup(name, email, password);
         console.log("Signup successful:", response);
-        // todo: show success message
+        this.signupComplete = true;
+        // todo: show success message / redirect to login page
         this.router.navigate(["/"]);
       } catch (error) {
         console.error("Signup failed:", error);
-        // todo: implement error handling
+        this.signupError = true;
+        // todo: implement error handling / show error message
       }
     } else {
       console.log("Invalid Form");
