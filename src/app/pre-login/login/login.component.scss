@@ -138,21 +138,6 @@ header {
     }
 }
 
-footer {
-    width: 240px;
-    height: 35px;
-    gap: 32px;
-    padding: 64px 0px;
-    @include dFlex(row, center, center);
-
-    >p {
-        @include OpenSans(400, 16px, 19.2px, $menu-color);
-        white-space: nowrap;
-        cursor: pointer;
-    }
-
-}
-
 @media screen and (max-width: 950px) {
     .login-wrapper {}
 }

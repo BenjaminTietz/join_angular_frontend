@@ -9,10 +9,17 @@ import { Router, RouterModule } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
 import { DatabaseService } from "../../services/database.service";
 import { CommunicationService } from "../../services/communication.service";
+import { FooterComponent } from "../shared/footer/footer.component";
+import { HeaderComponent } from "../shared/header/header.component";
 @Component({
   selector: "app-login",
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule],
+  imports: [
+    RouterModule,
+    ReactiveFormsModule,
+    FooterComponent,
+    HeaderComponent,
+  ],
   templateUrl: "./login.component.html",
   styleUrl: "./login.component.scss",
 })

@@ -1,0 +1,16 @@
+@if (showLoginHeader) {
+<header class="header-login">
+    <img src="assets/img/logos/join_logo_big_blue.png" alt="logo" class="logo">
+    @if (!this.communicationService.isMobileViewActive) {
+    <div class="header-right">
+        <p>Not a Join user?</p>
+        <button class="blue-btn" [routerLink]="['/signup']">Sign Up</button>
+    </div>
+    }
+</header>
+} @else {
+<header class="header">
+    <img src="assets/img/logos/join_logo_big_white.png" alt="logo" class="logo">
+</header>
+
+}

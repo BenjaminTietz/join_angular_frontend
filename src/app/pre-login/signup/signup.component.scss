@@ -7,19 +7,6 @@
     @include dFlex(column, space-between, center);
 }
 
-header {
-    width: 100%;
-    height: 100px;
-    @include dFlex(row, space-between, center);
-
-    >img {
-        width: 100px;
-        height: 122px;
-        margin-top: 80px;
-        margin-left: 77px;
-    }
-}
-
 .signup-form {
     width: 652px;
     height: 664px;
@@ -93,20 +80,6 @@ header {
         }
 
     }
-}
-
-footer {
-    width: 240px;
-    height: 35px;
-    gap: 32px;
-    @include dFlex(row, center, center);
-
-    >p {
-        @include OpenSans(400, 16px, 19.2px, $white);
-        white-space: nowrap;
-        cursor: pointer;
-    }
-
 }
 
 .form-top-section {

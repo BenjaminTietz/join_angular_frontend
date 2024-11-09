@@ -9,11 +9,18 @@ import { RouterModule } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
 import { DatabaseService } from "../../services/database.service";
 import { CommunicationService } from "../../services/communication.service";
+import { FooterComponent } from "../shared/footer/footer.component";
+import { HeaderComponent } from "../shared/header/header.component";
 
 @Component({
   selector: "app-reset-password",
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule],
+  imports: [
+    RouterModule,
+    ReactiveFormsModule,
+    FooterComponent,
+    HeaderComponent,
+  ],
   templateUrl: "./reset-password.component.html",
   styleUrl: "./reset-password.component.scss",
 })

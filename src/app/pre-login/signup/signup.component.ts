@@ -8,11 +8,18 @@ import {
   Validators,
 } from "@angular/forms";
 import { AuthService } from "../../services/auth.service";
+import { FooterComponent } from "../shared/footer/footer.component";
+import { HeaderComponent } from "../shared/header/header.component";
 
 @Component({
   selector: "app-signup",
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule],
+  imports: [
+    RouterModule,
+    ReactiveFormsModule,
+    FooterComponent,
+    HeaderComponent,
+  ],
   templateUrl: "./signup.component.html",
   styleUrl: "./signup.component.scss",
 })

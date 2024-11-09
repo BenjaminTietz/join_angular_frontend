@@ -1,0 +1,63 @@
+@import "../../../../styles.scss";
+
+.header {
+    width: 100svw;
+    max-width: 1440px;
+    height: 100px;
+    @include dFlex(row, space-between, center);
+
+    >img {
+        width: 100px;
+        height: 122px;
+        margin-top: 80px;
+        margin-left: 77px;
+    }
+}
+
+.header-login {
+    width: 100%;
+    height: 100px;
+    @include dFlex(row, space-between, center);
+
+    >img {
+        width: 100px;
+        height: 122px;
+        margin-top: 80px;
+        margin-left: 77px;
+    }
+
+    >.header-right {
+        @include dFlex(row, space-between, center);
+        margin-top: 80px;
+        margin-right: 77px;
+
+        >p {
+            @include OpenSans(400, 23px, 27.6px, $black);
+            margin-right: 20px;
+        }
+
+        >button {
+            width: 112px;
+            height: 48px;
+        }
+    }
+}
+
+@media screen and (max-width: 650px) {
+    header {
+        margin-left: 16px !important;
+        margin-top: 16px !important;
+        padding: 8px 0 !important;
+    }
+
+    .header-right {
+        display: none !important;
+    }
+
+    header img {
+        width: 64px !important;
+        height: 78px !important;
+        margin-top: 37px !important;
+        margin-left: 38px !important;
+    }
+}

@@ -9,11 +9,18 @@ import {
 import { DatabaseService } from "../../services/database.service";
 import { AuthService } from "../../services/auth.service";
 import { Router, RouterModule } from "@angular/router";
+import { HeaderComponent } from "../shared/header/header.component";
+import { FooterComponent } from "../shared/footer/footer.component";
 
 @Component({
   selector: "app-forgot-password",
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule],
+  imports: [
+    RouterModule,
+    ReactiveFormsModule,
+    HeaderComponent,
+    FooterComponent,
+  ],
   templateUrl: "./forgot-password.component.html",
   styleUrl: "./forgot-password.component.scss",
 })
