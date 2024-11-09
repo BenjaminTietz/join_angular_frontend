@@ -29,6 +29,9 @@
                 <button type="submit" class="blue-btn" [disabled]="loginForm.invalid">Log In</button>
                 <button type="button" class="white-btn" (click)="handleGuestLogin()">Guest log in</button>
             </div>
+            <div class="forgot-password">
+                <a [routerLink]="['/forgot-password']">Forgot password?</a>
+            </div>
         </form>
     </div>
     @if (this.communicationService.isMobileViewActive) {

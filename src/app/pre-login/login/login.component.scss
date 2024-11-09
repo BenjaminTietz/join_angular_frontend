@@ -78,21 +78,48 @@ header {
             @include OpenSans(400, 19px, 22.8px, $border-color);
         }
 
-        >.checkbox-wrapper {
+        .checkbox-wrapper {
             @include dFlex(row, flex-start, center);
+            width: 100% !important;
 
-            input {
-                width: 24px;
+            input[type="checkbox"] {
+                appearance: none;
+                width: 24px !important;
                 height: 24px;
-                border: unset !important;
-                outline: 2px solid $main-blue-dark;
+                border: 2px solid $main-blue-dark;
                 border-radius: 3px;
                 cursor: pointer;
+                position: relative;
+                background-color: $white;
+                padding: unset !important;
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+                &:hover {
+                    transform: scale(1.05);
+                    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+                }
+
+                &:checked {
+                    background-color: $main-blue-dark;
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        top: 2px;
+                        left: 6px;
+                        width: 6px;
+                        height: 12px;
+                        border: solid $white;
+                        border-width: 0 2px 2px 0;
+                        transform: rotate(45deg);
+                    }
+                }
             }
 
             input[type="checkbox"]+label {
                 @include Inter(400, 19px, 22.8px, $black);
                 margin-left: 10px;
+                cursor: pointer;
             }
         }
 
@@ -112,6 +139,25 @@ header {
                 height: 48px;
                 padding: 10px 35px;
             }
+        }
+
+        .forgot-password {
+            width: 100%;
+            @include dFlex(row, center, center);
+
+            a {
+                @include OpenSans(400, 19px, 22.8px, $black);
+                text-align: center;
+                text-decoration: none;
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+                &:hover {
+                    color: $main-blue-dark;
+                    transform: scale(1.05);
+                    text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+                }
+            }
+
         }
     }
 }
@@ -191,11 +237,44 @@ header {
                 width: 100% !important;
             }
         }
-    }
 
-    .checkbox-wrapper label {
-        @include Inter(400 !important, 16px !important, 19.2px !important, $black);
-        white-space: nowrap;
+        .checkbox-wrapper {
+            @include dFlex(row, flex-start, center);
+
+            input[type="checkbox"] {
+                appearance: none;
+                width: 24px;
+                height: 24px;
+                border: 2px solid $main-blue-dark;
+                border-radius: 3px;
+                cursor: pointer;
+                position: relative;
+                background-color: $white;
+                padding: unset !important;
+
+                &:checked {
+                    background-color: $main-blue-dark;
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        top: 2px;
+                        left: 6px;
+                        width: 6px;
+                        height: 12px;
+                        border: solid $white;
+                        border-width: 0 2px 2px 0;
+                        transform: rotate(45deg);
+                    }
+                }
+            }
+
+            input[type="checkbox"]+label {
+                @include Inter(400 !important, 16px !important, 19.2px !important, $black);
+                white-space: nowrap;
+                cursor: pointer;
+            }
+        }
     }
 
 }

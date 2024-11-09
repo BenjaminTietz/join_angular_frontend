@@ -1,16 +1,17 @@
-import { Injectable, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { firstValueFrom, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
-import { User } from '../models/user.class';
-import { Router } from '@angular/router';
-import { DatabaseService } from './database.service';
+import { Injectable, signal } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { firstValueFrom, Observable } from "rxjs";
+import { tap } from "rxjs/operators";
+import { environment } from "../../environments/environment";
+import { User } from "../models/user.class";
+import { Router } from "@angular/router";
+import { DatabaseService } from "./database.service";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class AuthService {
+  isLoggedIn = false;
   private loginUrl = `${environment.baseRefUrl}/login/`;
   private signupUrl = `${environment.baseRefUrl}/signup/`;
   constructor(
@@ -34,15 +35,16 @@ export class AuthService {
         this.http.post<any>(this.loginUrl, body)
       );
       if (response.token) {
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('user', JSON.stringify(response.user));
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("user", JSON.stringify(response.user));
         this.currentUser.set(response.user);
         this.loadCurrentUser();
         this.databaseService.loadContacts();
         this.databaseService.loadTasks();
+        this.isLoggedIn = true;
       }
     } catch (error) {
-      console.error('Login Error:', error);
+      console.error("Login Error:", error);
     }
   }
 
@@ -52,9 +54,9 @@ export class AuthService {
       const response = await firstValueFrom(
         this.http.post<any>(this.signupUrl, body)
       );
-      console.log('Signup Successful', response);
+      console.log("Signup Successful", response);
     } catch (error) {
-      console.error('Signup Error:', error);
+      console.error("Signup Error:", error);
     }
   }
 
@@ -62,34 +64,34 @@ export class AuthService {
   async loginAsGuest() {
     try {
       const signupResponse = await this.signup(
-        'Max Mustermann',
-        'guest@guest.com',
-        '12345678'
+        "Max Mustermann",
+        "guest@guest.com",
+        "12345678"
       );
-      console.log('Guest Signup Response:', signupResponse);
-      const loginResponse = await this.login('guest@guest.com', '12345678');
-      console.log('Guest Login Response:', loginResponse);
+      console.log("Guest Signup Response:", signupResponse);
+      const loginResponse = await this.login("guest@guest.com", "12345678");
+      console.log("Guest Login Response:", loginResponse);
       this.databaseService.contactInit();
       this.databaseService.taskInit();
       setTimeout(() => {
-        this.router.navigate(['/summary']);
+        this.router.navigate(["/summary"]);
       }, 1500);
     } catch (error) {
-      console.error('Error during guest login:', error);
+      console.error("Error during guest login:", error);
       const err = error as { status: number; error: { email: string[] } };
       if (
         err?.status === 400 &&
-        err?.error?.email?.[0] === 'user with this email already exists.'
+        err?.error?.email?.[0] === "user with this email already exists."
       ) {
-        console.log('User already exists, logging in instead.');
-        await this.login('guest@guest.com', '12345678');
-        this.router.navigate(['/summary']);
+        console.log("User already exists, logging in instead.");
+        await this.login("guest@guest.com", "12345678");
+        this.router.navigate(["/summary"]);
       }
     }
   }
 
   private loadCurrentUser() {
-    const user = localStorage.getItem('user');
+    const user = localStorage.getItem("user");
     if (user) {
       const parsedUser = JSON.parse(user);
       const initials = this.generateInitials(parsedUser.username);
@@ -99,12 +101,12 @@ export class AuthService {
         initials: initials,
       });
     }
-    console.log('CurrentUser Object', this.currentUser());
+    console.log("CurrentUser Object", this.currentUser());
   }
 
   private generateInitials(username: string): string {
-    const names = username.split(' ');
-    const initials = names.map((name) => name.charAt(0).toUpperCase()).join('');
+    const names = username.split(" ");
+    const initials = names.map((name) => name.charAt(0).toUpperCase()).join("");
     return initials;
   }
 }

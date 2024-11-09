@@ -1,5 +1,5 @@
-<div [ngClass]="{'legal-bottom-aligined': !isLoggedIn }" class="sidenav-wrapper">
-    @if (isLoggedIn) {
+<div [ngClass]="{'legal-bottom-aligined': !this.authService.isLoggedIn }" class="sidenav-wrapper">
+    @if (this.authService.isLoggedIn) {
     <div class="sidenav-top">
         <div class="nav-container pointer" [routerLink]="['/summary']" routerLinkActive="active">
             <img src="assets/img/icons/summary_menu_icon.png" alt="nav_icon" class="nav-icon">
