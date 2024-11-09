@@ -1,13 +1,5 @@
 <div class="login-wrapper">
-    <header>
-        <img src="assets/img/logos/join_logo_big_blue.png" alt="logo" class="logo">
-        @if (!this.communicationService.isMobileViewActive) {
-        <div class="header-right">
-            <p>Not a Join user?</p>
-            <button class="blue-btn" [routerLink]="['/signup']">Sign Up</button>
-        </div>
-        }
-    </header>
+    <app-header></app-header>
     <div class="login-form">
         <h1>Log in</h1>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">

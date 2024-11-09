@@ -63,7 +63,20 @@
             input[type="checkbox"]+label {
                 @include OpenSans(400, 19px, 22.8px, $black);
                 margin-left: 10px;
+
+                .link {
+                    @include OpenSans(400, 19px, 22.8px, $main-blue-dark);
+                    transition: all 0.175s ease-in-out;
+                }
+
+                .link:hover {
+                    text-decoration: underline;
+                    transform: scale(1.05);
+                    text-shadow: #00000033 0px 4px 4px;
+                }
             }
+
+
         }
 
         >.btn-container {

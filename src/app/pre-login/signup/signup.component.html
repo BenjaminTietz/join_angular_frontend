@@ -65,7 +65,9 @@
             </div>
             <div class="checkbox-wrapper">
                 <input type="checkbox" formControlName="privacy" id="privacy" name="privacy">
-                <label class="checkbox-label" for="privacy">I accept the Privacy policy</label>
+                <label class="checkbox-label" for="privacy">I accept the <span class="link pointer"
+                        [routerLink]="['/privacy-policy']">Privacy
+                        policy</span></label>
             </div>
             <div class="btn-container">
                 <button type="submit" class="blue-btn" [disabled]="signupForm.invalid">Sign up</button>

@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { CommunicationService } from "../../../services/communication.service";
 import { NavigationEnd, Router, RouterModule } from "@angular/router";
-import { filter } from "rxjs";
+import { filter, Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 
 @Component({
   selector: "app-header",
@@ -12,16 +13,26 @@ import { filter } from "rxjs";
 })
 export class HeaderComponent implements OnInit {
   showLoginHeader = false;
+  private destroy$ = new Subject<void>();
   constructor(
     public communicationService: CommunicationService,
     public router: Router
   ) {}
 
   ngOnInit(): void {
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((event: NavigationEnd) => {
-        this.showLoginHeader = event.urlAfterRedirects === "/";
-      });
+    this.checkRoute();
+    this.router.events.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.checkRoute();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private checkRoute(): void {
+    this.showLoginHeader = this.router.url === "/login";
+    console.log("showLoginHeader", this.showLoginHeader);
   }
 }

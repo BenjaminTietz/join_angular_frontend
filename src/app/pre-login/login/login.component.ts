@@ -17,8 +17,8 @@ import { HeaderComponent } from "../shared/header/header.component";
   imports: [
     RouterModule,
     ReactiveFormsModule,
-    FooterComponent,
     HeaderComponent,
+    FooterComponent,
   ],
   templateUrl: "./login.component.html",
   styleUrl: "./login.component.scss",

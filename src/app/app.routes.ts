@@ -15,6 +15,11 @@ export const routes: Routes = [
   // pre-login component routes
   {
     path: "",
+    redirectTo: "login",
+    pathMatch: "full",
+  },
+  {
+    path: "login",
     component: LoginComponent,
   },
   {

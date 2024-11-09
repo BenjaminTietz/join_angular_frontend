@@ -7,10 +7,17 @@ footer {
     padding: 64px 0px;
     @include dFlex(row, center, center);
 
-    >p {
+    p {
         @include OpenSans(400, 16px, 19.2px, $menu-color);
         white-space: nowrap;
         cursor: pointer;
+        transition: all 0.175s ease-in-out;
+    }
+
+    p:hover {
+        text-decoration: underline;
+        transform: scale(1.05);
+        text-shadow: #00000033 0px 4px 4px;
     }
 
 }
