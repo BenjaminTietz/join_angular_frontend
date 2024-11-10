@@ -9,20 +9,11 @@
         </div>
         <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
             <div class="form-input-container input-wrapper">
-                <input type="text" formControlName="firstName" placeholder="First Name"><img
-                    src="assets/img/icons/login_name.png" alt="logo" class="logo">
-                @if (signupForm.get('firstName')?.invalid && signupForm.get('firstName')?.touched) {
-                <div class="error">
-                    <span>Enter a valid first name</span>
-                </div>
-                }
-            </div>
-            <div class="form-input-container input-wrapper">
-                <input type="text" formControlName="lastName" placeholder="Last Name"><img
-                    src="assets/img/icons/login_name.png" alt="logo" class="logo">
+                <input type="text" formControlName="name" placeholder="Name"><img src="assets/img/icons/login_name.png"
+                    alt="logo" class="logo">
                 @if (signupForm.get('lastName')?.invalid && signupForm.get('lastName')?.touched) {
                 <div class="error">
-                    <span>Enter a valid last name</span>
+                    <span>Enter a valid name</span>
                 </div>
                 }
             </div>

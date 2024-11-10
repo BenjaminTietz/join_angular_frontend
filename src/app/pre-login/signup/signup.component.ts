@@ -38,8 +38,7 @@ export class SignupComponent {
   createSignupForm() {
     this.signupForm = this.fb.group(
       {
-        firstName: ["", Validators.required],
-        lastName: ["", Validators.required],
+        name: ["", Validators.required],
         email: ["", [Validators.required, Validators.email]],
         phone: ["", [Validators.required, Validators.pattern("^[0-9]*$")]],
         password: ["", [Validators.required, Validators.minLength(6)]],
@@ -75,17 +74,21 @@ export class SignupComponent {
   async onSubmit() {
     if (this.signupForm.valid) {
       console.log(this.signupForm.value);
-      const { name, email, password } = this.signupForm.value;
+      const { username, email, password, phone, name } = this.signupForm.value;
       try {
-        const response = await this.authService.signup(name, email, password);
+        const response = await this.authService.signup(
+          username,
+          email,
+          password,
+          phone,
+          name
+        );
         console.log("Signup successful:", response);
         this.signupComplete = true;
-        // todo: show success message / redirect to login page
         this.router.navigate(["/"]);
       } catch (error) {
         console.error("Signup failed:", error);
         this.signupError = true;
-        // todo: implement error handling / show error message
       }
     } else {
       console.log("Invalid Form");

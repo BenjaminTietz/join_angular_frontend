@@ -131,7 +131,7 @@
         @include OpenSans(400, 16px, 19.2px, $white);
         text-align: center;
         white-space: nowrap;
-        margin-bottom: 24px;
+        margin-bottom: 8px;
     }
 
 
@@ -154,7 +154,7 @@
         width: 220px;
         height: 16px;
         @include dFlex(row, space-between, center);
-        margin-top: 24px;
+        margin-top: 8px;
 
         progress {
             width: 128px;
@@ -173,7 +173,7 @@
         width: 220px;
         height: 32px;
         @include dFlex(row, space-between, center);
-        margin-top: 24px;
+        margin-top: 8px;
 
         >.task-assignee {
             @include dFlex(row, flex-start, center);

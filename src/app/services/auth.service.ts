@@ -1,5 +1,5 @@
 import { Injectable, signal } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { firstValueFrom, Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 import { environment } from "../../environments/environment";
@@ -11,9 +11,9 @@ import { DatabaseService } from "./database.service";
   providedIn: "root",
 })
 export class AuthService {
-  isLoggedIn = false;
-  private loginUrl = `${environment.baseRefUrl}/login/`;
-  private signupUrl = `${environment.baseRefUrl}/signup/`;
+  isLoggedIn: boolean = false;
+  private loginUrl = `${environment.baseRefUrl}/auth/login/`;
+  private signupUrl = `${environment.baseRefUrl}/auth/signup/`;
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -38,18 +38,23 @@ export class AuthService {
         localStorage.setItem("token", response.token);
         localStorage.setItem("user", JSON.stringify(response.user));
         this.currentUser.set(response.user);
-        this.loadCurrentUser();
+        //this.loadCurrentUser(); todo: refactor
         this.databaseService.loadContacts();
         this.databaseService.loadTasks();
-        this.isLoggedIn = true;
       }
     } catch (error) {
       console.error("Login Error:", error);
     }
   }
 
-  async signup(username: string, email: string, password: string) {
-    const body = { username, email, password };
+  async signup(
+    username: string,
+    email: string,
+    password: string,
+    phone: string,
+    real_name: string
+  ) {
+    const body = { username, email, password, phone, real_name };
     try {
       const response = await firstValueFrom(
         this.http.post<any>(this.signupUrl, body)
@@ -60,53 +65,39 @@ export class AuthService {
     }
   }
 
-  //temporary login as guest aslong as the backend is locally hosteted --> todo refactor befor projekt is live
   async loginAsGuest() {
     try {
-      const signupResponse = await this.signup(
-        "Max Mustermann",
-        "guest@guest.com",
-        "12345678"
-      );
-      console.log("Guest Signup Response:", signupResponse);
-      const loginResponse = await this.login("guest@guest.com", "12345678");
+      const loginResponse = await this.login("guest@guest.com", "0123456789");
       console.log("Guest Login Response:", loginResponse);
-      this.databaseService.contactInit();
-      this.databaseService.taskInit();
+      this.isLoggedIn = true;
+
+      const csrfResponse: any = await firstValueFrom(
+        this.http.get(`${environment.baseRefUrl}/get-csrf-token/`)
+      );
+      const csrfToken = csrfResponse.csrfToken;
+      // todo, replace with AuthInterceptor
+      const headers = new HttpHeaders({
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrfToken,
+      });
+      await firstValueFrom(
+        this.http.post(
+          `${environment.baseRefUrl}/generate-demo-data/`,
+          {},
+          { headers }
+        )
+      );
       setTimeout(() => {
         this.router.navigate(["/summary"]);
       }, 1500);
     } catch (error) {
       console.error("Error during guest login:", error);
-      const err = error as { status: number; error: { email: string[] } };
-      if (
-        err?.status === 400 &&
-        err?.error?.email?.[0] === "user with this email already exists."
-      ) {
-        console.log("User already exists, logging in instead.");
-        await this.login("guest@guest.com", "12345678");
-        this.router.navigate(["/summary"]);
-      }
+      this.isLoggedIn = false;
     }
   }
 
   private loadCurrentUser() {
     const user = localStorage.getItem("user");
-    if (user) {
-      const parsedUser = JSON.parse(user);
-      const initials = this.generateInitials(parsedUser.username);
-
-      this.currentUser.set({
-        ...parsedUser,
-        initials: initials,
-      });
-    }
-    console.log("CurrentUser Object", this.currentUser());
-  }
-
-  private generateInitials(username: string): string {
-    const names = username.split(" ");
-    const initials = names.map((name) => name.charAt(0).toUpperCase()).join("");
-    return initials;
+    console.log("CurrentUser Object", user);
   }
 }
