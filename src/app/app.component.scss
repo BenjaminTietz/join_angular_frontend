@@ -1,0 +1,59 @@
+@import '../styles.scss';
+
+.feedback-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.feedback-container {
+    z-index: 2;
+    color: #f50000;
+    @include dFlex(row, center, center);
+    max-width: 1440px;
+    gap: 16px;
+
+    .animation-container {
+        opacity: 0;
+        transform: translate(100%, 100%);
+        animation: slideInOut 2s ease forwards;
+        background-color: $white;
+        color: $main-blue-dark;
+        box-sizing: border-box;
+        padding: 32px 80px 32px 80px;
+        border-radius: 0 0 20px 20px;
+        border: 2px solid $white;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+        h1 {
+            @include OpenSans(400, 32px, 40px, $main-blue-dark);
+        }
+
+        @keyframes slideInOut {
+            0% {
+                opacity: 1;
+                transform: translate(0, -300px);
+            }
+
+            20% {
+                opacity: 1;
+                transform: translate(0, 0%);
+            }
+
+            80% {
+                opacity: 1;
+                transform: translate(0, 0%);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translate(0, -300px);
+            }
+        }
+    }
+}

@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 import {
   AbstractControl,
@@ -10,6 +10,7 @@ import {
 import { AuthService } from "../../services/auth.service";
 import { FooterComponent } from "../shared/footer/footer.component";
 import { HeaderComponent } from "../shared/header/header.component";
+import { AppComponent } from "../../app.component";
 
 @Component({
   selector: "app-signup",
@@ -27,6 +28,7 @@ export class SignupComponent {
   signupForm!: FormGroup;
   signupComplete = false;
   signupError = false;
+  app = inject(AppComponent);
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -71,6 +73,7 @@ export class SignupComponent {
   }
 
   //todo :implement logic for signup & contact creation afterwards in backend
+  // todo: send mail with activation link and after that set account_active to true
   async onSubmit() {
     if (this.signupForm.valid) {
       console.log(this.signupForm.value);
@@ -85,8 +88,12 @@ export class SignupComponent {
         );
         console.log("Signup successful:", response);
         this.signupComplete = true;
-        this.router.navigate(["/"]);
+        this.app.showDialog("Signup Successful");
+        setTimeout(() => {
+          this.router.navigate(["/"]);
+        }, 1500);
       } catch (error) {
+        this.app.showDialog("Signup failed");
         console.error("Signup failed:", error);
         this.signupError = true;
       }

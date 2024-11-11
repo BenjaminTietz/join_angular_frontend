@@ -210,4 +210,5 @@ export class DatabaseService {
   getTaskData(): Observable<Task | null> {
     return this.taskDataSubject.asObservable();
   }
+
 }

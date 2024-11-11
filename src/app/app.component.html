@@ -1,1 +1,10 @@
 <router-outlet> </router-outlet>
+@if (dialogOpen) {
+<div class class="feedback-wrapper">
+    <div class="feedback-container">
+        <div class="animation-container">
+            <h1>{{message}}</h1>
+        </div>
+    </div>
+</div>
+}

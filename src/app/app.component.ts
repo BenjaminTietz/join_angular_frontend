@@ -1,4 +1,4 @@
-import { Component, HostListener } from "@angular/core";
+import { Component, HostListener, inject, Input } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import { HeaderComponent } from "./post-login/header/header.component";
 import { SidenavComponent } from "./post-login/sidenav/sidenav.component";
@@ -33,9 +33,32 @@ import { CommunicationService } from "./services/communication.service";
   styleUrl: "./app.component.scss",
 })
 export class AppComponent {
-  title = "join_angular";
-  constructor(public communicationService: CommunicationService) {}
+  message = "";
+  @Input() dialogOpen: boolean;
+  title = "Join Angular";
+  communicationService = inject(CommunicationService);
+  constructor() {
+    this.dialogOpen = true;
+  }
   @HostListener("window:resize", ["$event"])
+
+  /**
+   * Shows a dialog with the given message for 1 second.
+   * @param message The message to be shown in the dialog.
+   */
+  public showDialog(message: string) {
+    this.message = message;
+    this.dialogOpen = true;
+    setTimeout(() => {
+      this.dialogOpen = false;
+    }, 1000);
+  }
+
+  /**
+   * Listens for the window resize event and calls checkViewport() if the event is fired.
+   * @param event The window resize event.
+   */
+
   onResize(event: any) {
     this.checkViewport();
   }
