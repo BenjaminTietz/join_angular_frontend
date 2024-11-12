@@ -48,11 +48,24 @@ export class LoginComponent {
   // todo implement checking value of username / password, create token, sending value of remember to backend, save in session when false save in session / local storage
   async onSubmit() {
     if (this.loginForm.valid) {
+      this.app.isLoading = true;
       try {
-        const { email, password } = this.loginForm.value;
-        const response = await this.authService.login(email, password);
+        const { email, password, remember } = this.loginForm.value;
+        const response = await this.authService.login(
+          email,
+          password,
+          remember
+        );
+
         console.log("Login successful:", response);
         this.authService.isLoggedIn = true;
+
+        // if (remember) {
+        //   localStorage.setItem("token", response.token);
+        // } else {
+        //   sessionStorage.setItem("token", response.token);
+        // }
+
         this.app.showDialog("Login Successful");
         setTimeout(() => {
           this.router.navigate(["/summary"]);
@@ -60,6 +73,8 @@ export class LoginComponent {
       } catch (error) {
         console.error("Login failed:", error);
         this.app.showDialog("Login failed");
+      } finally {
+        this.app.isLoading = false;
       }
     } else {
       console.log("Invalid Form");

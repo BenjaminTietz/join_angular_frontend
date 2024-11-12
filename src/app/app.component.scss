@@ -1,10 +1,8 @@
 @import '../styles.scss';
 
 .feedback-wrapper {
+    @include dFlex(row, center, center);
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     position: absolute;
     top: 0;
     left: 0;
@@ -54,6 +52,149 @@
                 opacity: 1;
                 transform: translate(0, -300px);
             }
+        }
+    }
+
+
+}
+
+//loading animation
+.loading-wrapper {
+    @include dFlex(column, center, center);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: $main-blue-dark;
+    @include OpenSans(400, 32px, 40px, $white);
+    overflow: hidden;
+    z-index: 8;
+
+    h1 {
+        padding: 104px 16px;
+        z-index: 2;
+        text-shadow: 0 0 10px $black;
+    }
+
+    .loading-text-bottom {
+        padding: 88px 16px;
+        @include OpenSans(400, 32px, 40px, $white);
+        text-align: center;
+        text-shadow: 0 0 10px $black;
+        animation-delay: 1.5s;
+        margin-top: 16px;
+
+        animation: slideIn 1s ease-in-out 1.5s;
+    }
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.5), transparent 50%);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .loading-container {
+        @include dFlex(column, center, center);
+        opacity: 0;
+        position: relative;
+        animation: slideIn 1s ease forwards;
+        @include OpenSans(400, 32px, 40px, $white);
+
+        .ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150px;
+            height: 150px;
+            background: transparent;
+            border: 3px solid #3c3c3c;
+            border-radius: 50%;
+            text-align: center;
+            @include OpenSans(700, 20px, 150px, $white);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px $white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, .5);
+        }
+
+        .ring:before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            width: 100%;
+            height: 100%;
+            border: 3px solid transparent;
+            border-top: 3px solid $white;
+            border-right: 3px solid $white;
+            border-radius: 50%;
+            animation: animateC 2s linear infinite;
+        }
+
+        span {
+            display: block;
+            position: absolute;
+            top: calc(50% - 2px);
+            left: 50%;
+            width: 50%;
+            height: 4px;
+            background: transparent;
+            transform-origin: left;
+            animation: animate 2s linear infinite;
+        }
+
+        span:before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: $white;
+            top: -6px;
+            right: -8px;
+            box-shadow: 0 0 20px $white;
+        }
+
+
+    }
+
+    @keyframes slideIn {
+        0% {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes animateC {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes animate {
+        0% {
+            transform: rotate(45deg);
+        }
+
+        100% {
+            transform: rotate(405deg);
         }
     }
 }

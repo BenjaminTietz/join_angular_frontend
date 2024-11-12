@@ -1,6 +1,5 @@
-<router-outlet> </router-outlet>
 @if (dialogOpen) {
-<div class class="feedback-wrapper">
+<div class="feedback-wrapper">
     <div class="feedback-container">
         <div class="animation-container">
             <h1>{{message}}</h1>
@@ -8,3 +7,16 @@
     </div>
 </div>
 }
+
+@if (isLoading) {
+<div class="loading-wrapper">
+    <h1>Join is</h1>
+    <div class="loading-container">
+        <div class="ring">Loading
+            <span></span>
+        </div>
+    </div>
+    <div class="loading-text-bottom">your modern Kanban workspace</div>
+</div>
+}
+<router-outlet> </router-outlet>

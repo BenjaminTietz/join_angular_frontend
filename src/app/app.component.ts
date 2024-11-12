@@ -35,10 +35,12 @@ import { CommunicationService } from "./services/communication.service";
 export class AppComponent {
   message = "";
   @Input() dialogOpen: boolean;
+  @Input() isLoading: boolean;
   title = "Join Angular";
   communicationService = inject(CommunicationService);
   constructor() {
-    this.dialogOpen = true;
+    this.dialogOpen = false;
+    this.isLoading = true;
   }
   @HostListener("window:resize", ["$event"])
 

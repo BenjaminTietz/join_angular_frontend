@@ -27,24 +27,24 @@ export class AuthService {
     username: string;
     initials: string;
   } | null>(null);
-
-  async login(email: string, password: string) {
-    const body = { email, password };
-    try {
-      const response = await firstValueFrom(
-        this.http.post<any>(this.loginUrl, body)
-      );
-      if (response.token) {
-        localStorage.setItem("token", response.token);
-        localStorage.setItem("user", JSON.stringify(response.user));
-        this.currentUser.set(response.user);
-        //this.loadCurrentUser(); todo: refactor
-        this.databaseService.loadContacts();
-        this.databaseService.loadTasks();
-      }
-    } catch (error) {
-      console.error("Login Error:", error);
-    }
+  //todo refactor backend endpoint / response
+  async login(email: string, password: string, remember: boolean) {
+    const body = { email, password, remember };
+    // try {
+    //   const response = await firstValueFrom(
+    //     this.http.post<any>(this.loginUrl, body)
+    //   );
+    //   if (response.token) {
+    //     localStorage.setItem("token", response.token);
+    //     localStorage.setItem("user", JSON.stringify(response.user));
+    //     this.currentUser.set(response.user);
+    //     //this.loadCurrentUser(); todo: refactor
+    //     this.databaseService.loadContacts();
+    //     this.databaseService.loadTasks();
+    //   }
+    // } catch (error) {
+    //   console.error("Login Error:", error);
+    // }
   }
 
   async signup(
@@ -67,8 +67,8 @@ export class AuthService {
 
   async loginAsGuest() {
     try {
-      const loginResponse = await this.login("guest@guest.com", "0123456789");
-      console.log("Guest Login Response:", loginResponse);
+      //const loginResponse = await this.login("guest@guest.com", "0123456789");
+      //console.log("Guest Login Response:", loginResponse);
       this.isLoggedIn = true;
 
       const csrfResponse: any = await firstValueFrom(
