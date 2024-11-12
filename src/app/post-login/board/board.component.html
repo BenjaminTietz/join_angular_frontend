@@ -42,7 +42,8 @@
                         @if (task.subTasks.length > 0) {
                         <div class="progress-container">
                             <progress [max]="task.subTasks.length" [value]="getCompletedSubtasks(task)"></progress>
-                            <span>{{getCompletedSubtasks(task)}} / {{task.subTasks.length}} Subtasks</span>
+                            <span class="subtasks-count">{{getCompletedSubtasks(task)}} / {{task.subTasks.length}}
+                                Subtasks</span>
                         </div>
                         }
                         <div class="single-task-bottom">
@@ -99,7 +100,8 @@
                     @if (task.subTasks.length > 0) {
                     <div class="progress-container">
                         <progress [max]="task.subTasks.length" [value]="getCompletedSubtasks(task)"></progress>
-                        <span>{{getCompletedSubtasks(task)}} / {{task.subTasks.length}} Subtasks</span>
+                        <span class="subtasks-count">{{getCompletedSubtasks(task)}} / {{task.subTasks.length}}
+                            Subtasks</span>
                     </div>
                     }
                     <div class="single-task-bottom">
@@ -156,7 +158,8 @@
                 @if (task.subTasks.length > 0) {
                 <div class="progress-container">
                     <progress [max]="task.subTasks.length" [value]="getCompletedSubtasks(task)"></progress>
-                    <span>{{getCompletedSubtasks(task)}} / {{task.subTasks.length}} Subtasks</span>
+                    <span class="subtasks-count">{{getCompletedSubtasks(task)}} / {{task.subTasks.length}}
+                        Subtasks</span>
                 </div>
                 }
                 <div class="single-task-bottom">
@@ -209,7 +212,8 @@
                 @if (task.subTasks.length > 0) {
                 <div class="progress-container">
                     <progress [max]="task.subTasks.length" [value]="getCompletedSubtasks(task)"></progress>
-                    <span>{{getCompletedSubtasks(task)}} / {{task.subTasks.length}} Subtasks</span>
+                    <span class="subtasks-count">{{getCompletedSubtasks(task)}} / {{task.subTasks.length}}
+                        Subtasks</span>
                 </div>
                 }
                 <div class="single-task-bottom">

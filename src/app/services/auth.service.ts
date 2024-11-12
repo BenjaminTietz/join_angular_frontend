@@ -1,7 +1,7 @@
 import { Injectable, signal } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { firstValueFrom, Observable } from "rxjs";
-import { tap } from "rxjs/operators";
+import { firstValueFrom, lastValueFrom, Observable, of } from "rxjs";
+import { catchError, tap } from "rxjs/operators";
 import { environment } from "../../environments/environment";
 import { User } from "../models/user.class";
 import { Router } from "@angular/router";
@@ -12,27 +12,27 @@ import { DatabaseService } from "./database.service";
 })
 export class AuthService {
   isLoggedIn: boolean = false;
-  private loginUrl = `${environment.baseRefUrl}/auth/login/`;
-  private signupUrl = `${environment.baseRefUrl}/auth/signup/`;
-  private verifyTokenUrl = `${environment.baseRefUrl}/auth/verify-token/`;
+  public loginUrl = `${environment.baseRefUrl}/auth/login/`;
+  public signupUrl = `${environment.baseRefUrl}/auth/signup/`;
+  public verifyTokenUrl = `${environment.baseRefUrl}/auth/verify-token/`;
   constructor(
     private http: HttpClient,
     private router: Router,
     private databaseService: DatabaseService
-  ) {
-    this.loadCurrentUser();
-  }
+  ) {}
   public currentUser = signal<{
     id: number;
     email: string;
     username: string;
     initials: string;
+    color: string;
+    real_name: string;
   } | null>(null);
   //todo refactor backend endpoint / response
   async login(email: string, password: string, remember: boolean) {
     const body = { email, password, remember };
     try {
-      const response = await firstValueFrom(
+      const response = await lastValueFrom(
         this.http.post<any>(this.loginUrl, body)
       );
       if (response?.token) {
@@ -65,7 +65,7 @@ export class AuthService {
     }
   }
 
-  async loginAsGuest() {
+  async loginAsGuest(): Promise<{ token: string }> {
     try {
       const loginResponse = await this.login(
         "guest@guest.com",
@@ -73,48 +73,21 @@ export class AuthService {
         true
       );
       console.log("Guest Login Response:", loginResponse);
-      this.isLoggedIn = true;
 
       const csrfResponse: any = await firstValueFrom(
         this.http.get(`${environment.baseRefUrl}/get-csrf-token/`)
       );
-      const csrfToken = csrfResponse.csrfToken;
-      // todo, replace with AuthInterceptor
-      const headers = new HttpHeaders({
-        "Content-Type": "application/json",
-        "X-CSRFToken": csrfToken,
-      });
-      await firstValueFrom(
-        this.http.post(
-          `${environment.baseRefUrl}/generate-demo-data/`,
-          {},
-          { headers }
-        )
-      );
-      setTimeout(() => {
-        this.router.navigate(["/summary"]);
-      }, 1500);
+
+      const token = loginResponse.token;
+      return { token };
     } catch (error) {
       console.error("Error during guest login:", error);
-      this.isLoggedIn = false;
+      throw error;
     }
   }
 
-  private loadCurrentUser() {
-    const user = localStorage.getItem("user");
+  public loadCurrentUser() {
+    const user = localStorage.getItem("user") || sessionStorage.getItem("user");
     console.log("CurrentUser Object", user);
-  }
-
-  verifyToken(): Observable<any> {
-    const token =
-      localStorage.getItem("token") || sessionStorage.getItem("token");
-
-    if (!token) {
-      throw new Error("No token found");
-    }
-
-    const headers = new HttpHeaders().set("Authorization", `Token ${token}`);
-
-    return this.http.post(this.verifyTokenUrl, {}, { headers });
   }
 }

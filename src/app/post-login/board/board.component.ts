@@ -37,7 +37,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   showTaskDetailOverlay = false;
   selectedStaus = "";
   selectedCategory = "";
-  daggedTaskId = "";
+  draggedTaskId = "";
   draggedTaskIndex = 0;
   isDragOver: { [key: string]: boolean } = {};
   isDragFrom: string | null = null;
@@ -101,7 +101,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     console.log("onDrag", index);
     console.log("taskId", taskId);
     console.log("status", status);
-    this.daggedTaskId = taskId;
+    this.draggedTaskId = taskId;
     this.draggedTaskIndex = index;
     this.isDragFrom = status;
   }
@@ -110,20 +110,35 @@ export class BoardComponent implements OnInit, OnDestroy {
     event.preventDefault();
     this.isDragOver[status] = false;
     this.isDragFrom = null;
+
     console.log("Dropped status:", status);
-    const sourceArray = this.getSourceArrayByTaskId(this.daggedTaskId);
-    if (sourceArray.length > 0) {
+
+    if (!this.draggedTaskId) {
+      console.error(
+        "No task ID found. Please check if draggedTaskId is set correctly."
+      );
+      return;
+    }
+
+    const sourceArray = this.getSourceArrayByTaskId(this.draggedTaskId);
+    if (sourceArray && sourceArray.length > 0) {
       this.databaseService
-        .updateTask(this.daggedTaskId, {
-          status: status,
-        })
-        .subscribe((updatedTask) => {
-          console.log("Task updated:", updatedTask);
-          this.moveTaskBetweenArrays(
-            this.draggedTaskIndex,
-            sourceArray,
-            status
-          );
+        .updateTask(this.draggedTaskId, { status })
+        .subscribe({
+          next: (updatedTask) => {
+            console.log("Task updated:", updatedTask);
+            this.moveTaskBetweenArrays(
+              this.draggedTaskIndex,
+              sourceArray,
+              status
+            );
+          },
+          error: (err) => {
+            console.error("Error updating task:", err);
+            if (err.status === 404) {
+              alert("Task not found. Please refresh the page.");
+            }
+          },
         });
     } else {
       console.error("Task not found in any array.");

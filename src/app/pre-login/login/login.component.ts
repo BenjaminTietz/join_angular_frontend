@@ -56,7 +56,6 @@ export class LoginComponent {
           password,
           remember
         );
-
         console.log("Login successful:", response);
         this.authService.isLoggedIn = true;
         if (response?.token) {
@@ -68,8 +67,9 @@ export class LoginComponent {
         }
 
         this.app.showDialog("Login Successful");
-
+        this.authService.loadCurrentUser();
         setTimeout(() => {
+          this.databaseService.initializeData();
           this.app.isLoading = false;
           this.router.navigate(["/summary"]);
         }, 2000);
@@ -82,23 +82,33 @@ export class LoginComponent {
       console.log("Invalid Form");
     }
   }
-
   async loginAsGuest() {
     this.app.isLoading = true;
     try {
-      const response = await this.authService.loginAsGuest();
+      const email = "guest@guest.com";
+      const password = "0123456789";
+      const remember = true;
+      const response = await this.authService.login(email, password, remember);
+      console.log("Login successful:", response);
 
-      console.log("Guest Login successful:", response);
-      this.authService.isLoggedIn = true;
-      this.app.showDialog("Guest Login Successful");
-
+      if (response?.token) {
+        this.authService.isLoggedIn = true;
+        if (remember) {
+          localStorage.setItem("token", response.token);
+        } else {
+          sessionStorage.setItem("token", response.token);
+        }
+      }
+      this.app.showDialog("Login Successful");
+      this.authService.loadCurrentUser();
       setTimeout(() => {
         this.app.isLoading = false;
         this.router.navigate(["/summary"]);
       }, 2000);
+      this.databaseService.initializeData();
     } catch (error) {
-      console.error("Guest Login failed:", error);
-      this.app.showDialog("Guest Login failed");
+      console.error("Login failed:", error);
+      this.app.showDialog("Login failed");
       this.app.isLoading = false;
     }
   }

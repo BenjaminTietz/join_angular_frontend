@@ -84,7 +84,6 @@ export class AddTaskComponent implements OnInit {
     });
   }
 
-  // Kontakte laden und Subscription hinzufügen
   ngOnInit(): void {
     this.contacts$ = this.databaseService.getContacts();
     const contactsSub = this.contacts$.subscribe((contacts) => {

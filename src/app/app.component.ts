@@ -43,27 +43,41 @@ import { Subscription } from "rxjs";
 })
 export class AppComponent implements OnInit, OnDestroy {
   message = "";
-  @Input() dialogOpen: boolean;
-  @Input() isLoading: boolean;
+  @Input() dialogOpen: boolean = false;
+  @Input() isLoading: boolean = false;
   title = "Join Angular";
   communicationService = inject(CommunicationService);
   private tokenSubscription!: Subscription;
-  constructor(private authService: AuthService, private router: Router) {
-    this.dialogOpen = false;
-    this.isLoading = false;
-  }
+  constructor(private authService: AuthService, private router: Router) {}
   @HostListener("window:resize", ["$event"])
-  ngOnInit() {
-    this.tokenSubscription = this.authService.verifyToken().subscribe({
-      next: () => {
-        console.log("Token is valid");
-      },
-      error: () => {
-        console.log("Token is invalid");
-        this.router.navigate(["/login"]);
-      },
-    });
+  onResize(event: any) {
+    this.checkViewport();
   }
+  ngOnInit() {
+    this.verifyUserToken();
+    this.checkViewport();
+  }
+
+  verifyUserToken() {
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
+    if (token) {
+      console.log("Token is valid");
+      this.authService.isLoggedIn = true;
+      this.navigateTo("/summary");
+    } else {
+      console.log("Token is invalid");
+      this.authService.isLoggedIn = false;
+      this.navigateTo("/login");
+    }
+  }
+
+  private navigateTo(path: string) {
+    if (this.router.url !== path) {
+      this.router.navigate([path]);
+    }
+  }
+
   ngOnDestroy() {
     if (this.tokenSubscription) {
       this.tokenSubscription.unsubscribe();
@@ -79,15 +93,6 @@ export class AppComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.dialogOpen = false;
     }, 1000);
-  }
-
-  /**
-   * Listens for the window resize event and calls checkViewport() if the event is fired.
-   * @param event The window resize event.
-   */
-
-  onResize(event: any) {
-    this.checkViewport();
   }
 
   /**

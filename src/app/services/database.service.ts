@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Observable, BehaviorSubject } from "rxjs";
-import { map, tap } from "rxjs/operators";
+import { map } from "rxjs/operators";
 import { environment } from "../../environments/environment";
 import { Contact } from "../models/contact.class";
 import { Task } from "../models/task.class";
@@ -34,7 +34,9 @@ export class DatabaseService {
   public nextDueDate: string | null = null;
 
   public showEditTaskOverlay = false;
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient) {}
+
+  public initializeData() {
     this.loadTasks();
     this.loadContacts();
     this.tasks$ = this.getTasks();
@@ -58,20 +60,10 @@ export class DatabaseService {
     });
   }
 
-  get headers() {
-    const token =
-      localStorage.getItem("token") || sessionStorage.getItem("token");
-    return token
-      ? new HttpHeaders().set("Authorization", `Token ${token}`)
-      : new HttpHeaders();
-  }
-
   public loadTasks() {
-    this.http
-      .get<Task[]>(this.tasksUrl, { headers: this.headers })
-      .subscribe((tasks) => {
-        this.tasksSubject.next(tasks);
-      });
+    this.http.get<Task[]>(this.tasksUrl).subscribe((tasks) => {
+      this.tasksSubject.next(tasks);
+    });
   }
 
   public getTasks(): Observable<Task[]> {
@@ -90,20 +82,16 @@ export class DatabaseService {
       subTasks: task.subTasks,
     };
 
-    return this.http.post<Task>(this.tasksUrl, formattedTask, {
-      headers: this.headers,
-    });
+    return this.http.post<Task>(this.tasksUrl, formattedTask);
   }
 
   public updateTask(id: string, updatedTask: Partial<Task>): Observable<Task> {
     const url = `${this.tasksUrl}${id}/`;
-    return this.http.put<Task>(url, updatedTask, {
-      headers: this.headers,
-    });
+    return this.http.put<Task>(url, updatedTask);
   }
   public deleteTask(id: string): Observable<any> {
     const url = `${this.tasksUrl}${id}/`;
-    return this.http.delete(url, { headers: this.headers }).pipe(
+    return this.http.delete(url).pipe(
       map((response) => {
         this.loadTasks();
         return response;
@@ -113,7 +101,7 @@ export class DatabaseService {
 
   public addSubtasks(taskId: string, subtasks: SubTask[]): Observable<any> {
     const url = `${this.tasksUrl}${taskId}/add_subtasks/`;
-    return this.http.post<any>(url, { subtasks }, { headers: this.headers });
+    return this.http.post<any>(url, { subtasks });
   }
   public updateSubtaskStatus(
     taskId: string,
@@ -123,25 +111,21 @@ export class DatabaseService {
     const url = `${this.tasksUrl}${taskId}/subtask/${id}/update/`;
     const body = { checked: checked };
 
-    return this.http.patch<any>(url, body, {
-      headers: this.headers,
-    });
+    return this.http.patch<any>(url, body);
   }
   public deleteSubtask(taskId: string, subtaskId: string): Observable<any> {
     const url = `${this.tasksUrl}${taskId}/subtask/${subtaskId}/`;
-    return this.http.delete<any>(url, { headers: this.headers });
+    return this.http.delete<any>(url);
   }
   public addAssignees(taskId: string, assignedTo: Contact[]): Observable<any> {
     const url = `${this.tasksUrl}${taskId}/add_assignees/`;
-    return this.http.post<any>(url, { assignedTo }, { headers: this.headers });
+    return this.http.post<any>(url, { assignedTo });
   }
 
   public loadContacts() {
-    this.http
-      .get<Contact[]>(this.contactsUrl, { headers: this.headers })
-      .subscribe((contacts) => {
-        this.contactsSubject.next(contacts);
-      });
+    this.http.get<Contact[]>(this.contactsUrl).subscribe((contacts) => {
+      this.contactsSubject.next(contacts);
+    });
   }
 
   public getContacts(): Observable<Contact[]> {
@@ -150,7 +134,7 @@ export class DatabaseService {
 
   public getContactById(id: string): Observable<Contact> {
     const url = `${this.contactsUrl}${id}/`;
-    return this.http.get<Contact>(url, { headers: this.headers }).pipe(
+    return this.http.get<Contact>(url).pipe(
       map((contact) => {
         this.contactDetailSubject.next(contact);
         return contact;
@@ -166,9 +150,7 @@ export class DatabaseService {
       color: contact.color,
     };
     console.log("Creating contact:", formattedContact);
-    return this.http.post<Contact>(this.contactsUrl, formattedContact, {
-      headers: this.headers,
-    });
+    return this.http.post<Contact>(this.contactsUrl, formattedContact);
   }
 
   public updateContact(
@@ -176,13 +158,11 @@ export class DatabaseService {
     updatedContact: Partial<Contact>
   ): Observable<Contact> {
     const url = `${this.contactsUrl}${id}/`;
-    return this.http.put<Contact>(url, updatedContact, {
-      headers: this.headers,
-    });
+    return this.http.put<Contact>(url, updatedContact);
   }
   public deleteContact(id: string): Observable<any> {
     const url = `${this.contactsUrl}${id}/`;
-    return this.http.delete(url, { headers: this.headers });
+    return this.http.delete(url);
   }
 
   // Helper function to get the next due date for urgent tasks

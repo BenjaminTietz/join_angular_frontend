@@ -1,20 +1,20 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { CommonModule } from "@angular/common";
+import { Component } from "@angular/core";
+import { Router, RouterModule } from "@angular/router";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
-  selector: 'app-header',
+  selector: "app-header",
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.scss',
+  templateUrl: "./header.component.html",
+  styleUrl: "./header.component.scss",
 })
 export class HeaderComponent {
   constructor(private router: Router, public authService: AuthService) {
     if (
-      (this.router.url === '/imprint' ||
-        this.router.url === '/privacy-policy') &&
+      (this.router.url === "/imprint" ||
+        this.router.url === "/privacy-policy") &&
       this.authService.currentUser === null
     ) {
       this.isLoggedIn = false;
@@ -29,6 +29,7 @@ export class HeaderComponent {
 
   handleLogout() {
     localStorage.clear();
-    this.router.navigate(['']);
+    sessionStorage.clear();
+    this.router.navigate([""]);
   }
 }
