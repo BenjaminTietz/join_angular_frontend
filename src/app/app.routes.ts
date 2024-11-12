@@ -7,7 +7,7 @@ import { BoardComponent } from "./post-login/board/board.component";
 import { ContactsComponent } from "./post-login/contacts/contacts.component";
 import { ImprintComponent } from "./legal/imprint/imprint.component";
 import { PrivacyPolicyComponent } from "./legal/privacy-policy/privacy-policy.component";
-import { authGuard } from "./guards/auth.guard";
+import { AuthGuard } from "./guards/auth.guard";
 import { InstructionsComponent } from "./post-login/instructions/instructions.component";
 import { ForgotPasswordComponent } from "./pre-login/forgot-password/forgot-password.component";
 import { ResetPasswordComponent } from "./pre-login/reset-password/reset-password.component";
@@ -38,27 +38,27 @@ export const routes: Routes = [
   {
     path: "summary",
     component: SummaryComponent,
-    canActivate: [authGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: "add-task",
     component: AddTaskComponent,
-    canActivate: [authGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: "board",
     component: BoardComponent,
-    canActivate: [authGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: "contacts",
     component: ContactsComponent,
-    canActivate: [authGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: "instructions",
     component: InstructionsComponent,
-    canActivate: [authGuard],
+    canActivate: [AuthGuard],
   },
 
   // public routes

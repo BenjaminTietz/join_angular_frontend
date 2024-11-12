@@ -59,10 +59,11 @@ export class DatabaseService {
   }
 
   get headers() {
-    return new HttpHeaders().set(
-      "Authorization",
-      "Token " + localStorage.getItem("token")
-    );
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
+    return token
+      ? new HttpHeaders().set("Authorization", `Token ${token}`)
+      : new HttpHeaders();
   }
 
   public loadTasks() {
@@ -210,5 +211,4 @@ export class DatabaseService {
   getTaskData(): Observable<Task | null> {
     return this.taskDataSubject.asObservable();
   }
-
 }

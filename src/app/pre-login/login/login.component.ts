@@ -31,7 +31,7 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private authService: AuthService,
+    public authService: AuthService,
     private databaseService: DatabaseService,
     public communicationService: CommunicationService
   ) {
@@ -59,21 +59,23 @@ export class LoginComponent {
 
         console.log("Login successful:", response);
         this.authService.isLoggedIn = true;
-
-        // if (remember) {
-        //   localStorage.setItem("token", response.token);
-        // } else {
-        //   sessionStorage.setItem("token", response.token);
-        // }
+        if (response?.token) {
+          if (remember) {
+            localStorage.setItem("token", response.token);
+          } else {
+            sessionStorage.setItem("token", response.token);
+          }
+        }
 
         this.app.showDialog("Login Successful");
+
         setTimeout(() => {
+          this.app.isLoading = false;
           this.router.navigate(["/summary"]);
-        }, 1500);
+        }, 2000);
       } catch (error) {
         console.error("Login failed:", error);
         this.app.showDialog("Login failed");
-      } finally {
         this.app.isLoading = false;
       }
     } else {
@@ -81,7 +83,23 @@ export class LoginComponent {
     }
   }
 
-  handleGuestLogin() {
-    this.authService.loginAsGuest();
+  async loginAsGuest() {
+    this.app.isLoading = true;
+    try {
+      const response = await this.authService.loginAsGuest();
+
+      console.log("Guest Login successful:", response);
+      this.authService.isLoggedIn = true;
+      this.app.showDialog("Guest Login Successful");
+
+      setTimeout(() => {
+        this.app.isLoading = false;
+        this.router.navigate(["/summary"]);
+      }, 2000);
+    } catch (error) {
+      console.error("Guest Login failed:", error);
+      this.app.showDialog("Guest Login failed");
+      this.app.isLoading = false;
+    }
   }
 }

@@ -1,5 +1,12 @@
-import { Component, HostListener, inject, Input } from "@angular/core";
-import { RouterOutlet } from "@angular/router";
+import {
+  Component,
+  HostListener,
+  inject,
+  Input,
+  OnDestroy,
+  OnInit,
+} from "@angular/core";
+import { Router, RouterOutlet } from "@angular/router";
 import { HeaderComponent } from "./post-login/header/header.component";
 import { SidenavComponent } from "./post-login/sidenav/sidenav.component";
 import { LoginComponent } from "./pre-login/login/login.component";
@@ -11,6 +18,8 @@ import { AddTaskComponent } from "./post-login/add-task/add-task.component";
 import { BoardComponent } from "./post-login/board/board.component";
 import { ContactsComponent } from "./post-login/contacts/contacts.component";
 import { CommunicationService } from "./services/communication.service";
+import { AuthService } from "./services/auth.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-root",
@@ -32,18 +41,34 @@ import { CommunicationService } from "./services/communication.service";
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   message = "";
   @Input() dialogOpen: boolean;
   @Input() isLoading: boolean;
   title = "Join Angular";
   communicationService = inject(CommunicationService);
-  constructor() {
+  private tokenSubscription!: Subscription;
+  constructor(private authService: AuthService, private router: Router) {
     this.dialogOpen = false;
-    this.isLoading = true;
+    this.isLoading = false;
   }
   @HostListener("window:resize", ["$event"])
-
+  ngOnInit() {
+    this.tokenSubscription = this.authService.verifyToken().subscribe({
+      next: () => {
+        console.log("Token is valid");
+      },
+      error: () => {
+        console.log("Token is invalid");
+        this.router.navigate(["/login"]);
+      },
+    });
+  }
+  ngOnDestroy() {
+    if (this.tokenSubscription) {
+      this.tokenSubscription.unsubscribe();
+    }
+  }
   /**
    * Shows a dialog with the given message for 1 second.
    * @param message The message to be shown in the dialog.

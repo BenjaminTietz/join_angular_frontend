@@ -14,6 +14,7 @@ export class AuthService {
   isLoggedIn: boolean = false;
   private loginUrl = `${environment.baseRefUrl}/auth/login/`;
   private signupUrl = `${environment.baseRefUrl}/auth/signup/`;
+  private verifyTokenUrl = `${environment.baseRefUrl}/auth/verify-token/`;
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -30,21 +31,20 @@ export class AuthService {
   //todo refactor backend endpoint / response
   async login(email: string, password: string, remember: boolean) {
     const body = { email, password, remember };
-    // try {
-    //   const response = await firstValueFrom(
-    //     this.http.post<any>(this.loginUrl, body)
-    //   );
-    //   if (response.token) {
-    //     localStorage.setItem("token", response.token);
-    //     localStorage.setItem("user", JSON.stringify(response.user));
-    //     this.currentUser.set(response.user);
-    //     //this.loadCurrentUser(); todo: refactor
-    //     this.databaseService.loadContacts();
-    //     this.databaseService.loadTasks();
-    //   }
-    // } catch (error) {
-    //   console.error("Login Error:", error);
-    // }
+    try {
+      const response = await firstValueFrom(
+        this.http.post<any>(this.loginUrl, body)
+      );
+      if (response?.token) {
+        this.currentUser.set(response.user);
+        this.databaseService.loadContacts();
+        this.databaseService.loadTasks();
+      }
+      return response;
+    } catch (error) {
+      console.error("Login Error:", error);
+      throw error;
+    }
   }
 
   async signup(
@@ -67,8 +67,12 @@ export class AuthService {
 
   async loginAsGuest() {
     try {
-      //const loginResponse = await this.login("guest@guest.com", "0123456789");
-      //console.log("Guest Login Response:", loginResponse);
+      const loginResponse = await this.login(
+        "guest@guest.com",
+        "0123456789",
+        true
+      );
+      console.log("Guest Login Response:", loginResponse);
       this.isLoggedIn = true;
 
       const csrfResponse: any = await firstValueFrom(
@@ -99,5 +103,18 @@ export class AuthService {
   private loadCurrentUser() {
     const user = localStorage.getItem("user");
     console.log("CurrentUser Object", user);
+  }
+
+  verifyToken(): Observable<any> {
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
+
+    if (!token) {
+      throw new Error("No token found");
+    }
+
+    const headers = new HttpHeaders().set("Authorization", `Token ${token}`);
+
+    return this.http.post(this.verifyTokenUrl, {}, { headers });
   }
 }
