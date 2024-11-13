@@ -90,4 +90,10 @@ export class AuthService {
     const user = localStorage.getItem("user") || sessionStorage.getItem("user");
     console.log("CurrentUser Object", user);
   }
+
+  public initializeAppData(): void {
+    if (this.isLoggedIn) {
+      this.databaseService.initializeData();
+    }
+  }
 }

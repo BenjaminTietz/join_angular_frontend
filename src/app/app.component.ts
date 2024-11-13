@@ -64,10 +64,12 @@ export class AppComponent implements OnInit, OnDestroy {
     if (token) {
       console.log("Token is valid");
       this.authService.isLoggedIn = true;
+      this.communicationService.isLoggedIn = true;
       this.navigateTo("/summary");
     } else {
       console.log("Token is invalid");
       this.authService.isLoggedIn = false;
+      this.communicationService.isLoggedIn = false;
       this.navigateTo("/login");
     }
   }

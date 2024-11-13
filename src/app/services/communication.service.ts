@@ -6,6 +6,6 @@ import { Injectable } from "@angular/core";
 export class CommunicationService {
   isMobileViewActive: boolean = false;
   isSmallScreenActive: boolean = false;
-
+  isLoggedIn: boolean = false;
   constructor() {}
 }

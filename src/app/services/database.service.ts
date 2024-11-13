@@ -6,6 +6,7 @@ import { environment } from "../../environments/environment";
 import { Contact } from "../models/contact.class";
 import { Task } from "../models/task.class";
 import { SubTask } from "../models/subTask.class";
+import { CommunicationService } from "./communication.service";
 
 @Injectable({
   providedIn: "root",
@@ -32,17 +33,24 @@ export class DatabaseService {
   public tasksCount = 0;
   public urgentTasks = 0;
   public nextDueDate: string | null = null;
-
+  private isDataInitialized = false;
   public showEditTaskOverlay = false;
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private communicationService: CommunicationService
+  ) {}
 
-  public initializeData() {
+  public initializeData(forceReload = false) {
+    if (
+      !this.communicationService.isLoggedIn ||
+      (this.isDataInitialized && !forceReload)
+    )
+      return;
+
+    console.log("Initializing data...");
     this.loadTasks();
     this.loadContacts();
-    this.tasks$ = this.getTasks();
     this.tasks$.subscribe((tasks) => {
-      console.log("Tasks received:", tasks);
-
       this.todoTasks = tasks.filter((task) => task.status === "todo");
       this.inProgressTasks = tasks.filter(
         (task) => task.status === "inProgress"
@@ -50,19 +58,27 @@ export class DatabaseService {
       this.awaitFeedbackTasks = tasks.filter(
         (task) => task.status === "awaitFeedback"
       );
+      this.doneTasks = tasks.filter((task) => task.status === "done");
+      this.tasksCount = tasks.length;
       this.urgentTasks = tasks.filter(
         (task) => task.priority === "urgent"
       ).length;
-      this.doneTasks = tasks.filter((task) => task.status === "done");
       this.nextDueDate = this.getNextDueDateForUrgentTasks(tasks);
-      console.log("Next due date for urgent tasks:", this.nextDueDate);
-      this.tasksCount = tasks.length;
+      console.log("Tasks initialized for summary:", tasks);
     });
+
+    this.isDataInitialized = true;
   }
 
   public loadTasks() {
-    this.http.get<Task[]>(this.tasksUrl).subscribe((tasks) => {
-      this.tasksSubject.next(tasks);
+    this.http.get<Task[]>(this.tasksUrl).subscribe({
+      next: (tasks) => {
+        this.tasksSubject.next(tasks);
+      },
+      error: (err) => {
+        console.error("Error loading tasks:", err);
+        this.tasksSubject.next([]);
+      },
     });
   }
 
@@ -123,8 +139,14 @@ export class DatabaseService {
   }
 
   public loadContacts() {
-    this.http.get<Contact[]>(this.contactsUrl).subscribe((contacts) => {
-      this.contactsSubject.next(contacts);
+    this.http.get<Contact[]>(this.contactsUrl).subscribe({
+      next: (contacts) => {
+        this.contactsSubject.next(contacts);
+      },
+      error: (err) => {
+        console.error("Error loading contacts:", err);
+        this.contactsSubject.next([]);
+      },
     });
   }
 

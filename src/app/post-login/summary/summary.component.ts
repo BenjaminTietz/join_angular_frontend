@@ -9,6 +9,7 @@ import { SidenavComponent } from "../sidenav/sidenav.component";
 import { Subscription } from "rxjs";
 import { AppComponent } from "../../app.component";
 import { CommunicationService } from "../../services/communication.service";
+import { Task } from "../../models/task.class";
 @Component({
   selector: "app-summary",
   standalone: true,
@@ -17,8 +18,8 @@ import { CommunicationService } from "../../services/communication.service";
   styleUrl: "./summary.component.scss",
 })
 export class SummaryComponent implements OnInit {
-  public tasks: any[] = [];
-  public contacts: any[] = [];
+  public tasks: Task[] = [];
+  public filteredTasks: Task[] = [];
   public greetingMessage: string | undefined;
   private subscriptions: Subscription = new Subscription();
   constructor(
@@ -30,18 +31,7 @@ export class SummaryComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const tasksSub = this.databaseService.getTasks().subscribe((tasks) => {
-      console.log(tasks);
-      this.tasks = tasks;
-    });
-    this.subscriptions.add(tasksSub);
-    const contactsSub = this.databaseService
-      .getContacts()
-      .subscribe((contacts) => {
-        console.log(contacts);
-        this.contacts = contacts;
-      });
-    this.subscriptions.add(contactsSub);
+    this.databaseService.initializeData(true);
     this.greetingMessage = this.getGreetingMessage();
   }
 
