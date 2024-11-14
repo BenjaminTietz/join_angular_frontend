@@ -37,6 +37,9 @@ export class AuthService {
       );
       if (response?.token) {
         this.currentUser.set(response.user);
+        await firstValueFrom(
+          this.http.post(`${environment.baseRefUrl}/generate-demo-data/`, {})
+        );
         this.databaseService.loadContacts();
         this.databaseService.loadTasks();
       }
