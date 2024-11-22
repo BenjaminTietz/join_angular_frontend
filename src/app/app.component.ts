@@ -105,10 +105,10 @@ export class AppComponent implements OnInit, OnDestroy {
     const width = window.innerWidth;
     // Flag for mobile view (height greater than width)
     this.communicationService.isMobileViewActive = height > width;
-    console.log("mobile view", this.communicationService.isMobileViewActive);
+    // console.log("mobile view", this.communicationService.isMobileViewActive);
     // Flag for small screen (tablet view)
     const isTabletScreen = width < 1200;
     this.communicationService.isSmallScreenActive = isTabletScreen;
-    console.log("small screen", this.communicationService.isSmallScreenActive);
+    // console.log("small screen", this.communicationService.isSmallScreenActive);
   }
 }

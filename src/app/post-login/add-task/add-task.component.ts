@@ -1,11 +1,9 @@
 import { CommonModule } from "@angular/common";
 import {
+  inject,
   Component,
   OnInit,
   Input,
-  Output,
-  EventEmitter,
-  SimpleChanges,
   ElementRef,
   ViewChild,
 } from "@angular/core";
@@ -25,7 +23,7 @@ import { SubTask } from "../../models/subTask.class";
 import { Router } from "@angular/router";
 import { HeaderComponent } from "../header/header.component";
 import { SidenavComponent } from "../sidenav/sidenav.component";
-
+import { AppComponent } from "../../app.component";
 @Component({
   selector: "app-add-task",
   standalone: true,
@@ -39,13 +37,15 @@ import { SidenavComponent } from "../sidenav/sidenav.component";
   styleUrl: "./add-task.component.scss",
 })
 export class AddTaskComponent implements OnInit {
+  app = inject(AppComponent);
   addTaskForm!: FormGroup;
   categories = [
-    { value: "marketing", label: "Marketing" },
-    { value: "sales", label: "Sales" },
-    { value: "development", label: "Development" },
-    { value: "accounting", label: "Accounting" },
-    { value: "purchase", label: "Purchase" },
+    { value: "frontend-angular", label: "Frontend - Angular" },
+    { value: "backend-django", label: "Backend - Django" },
+    { value: "authentication", label: "Authentication" },
+    { value: "deployment", label: "Deployment" },
+    { value: "testing", label: "Testing" },
+    { value: "project-management", label: "Project Management" },
   ];
   contacts$!: Observable<Contact[]>;
   filteredContacts: Contact[] = [];
@@ -66,6 +66,7 @@ export class AddTaskComponent implements OnInit {
   showCategories: boolean = false;
   displayFloatingAddTask: boolean = false;
   private subscriptions: Subscription = new Subscription();
+
   @ViewChild("contactInput") contactInput!: ElementRef<HTMLInputElement>;
   constructor(
     private fb: FormBuilder,
@@ -120,11 +121,13 @@ export class AddTaskComponent implements OnInit {
     if (this.addTaskForm.valid) {
       const newTask = this.createTaskObject();
       console.log("New Task:", newTask);
-
+      this.app.showDialog("Task Creation Successful");
       if (this.taskId) {
         this.updateTask(newTask);
+        this.app.showDialog("Task Update Successful");
       } else {
         this.createNewTask(newTask);
+        this.app.showDialog("Task Creation Successful");
       }
     }
   }
@@ -164,7 +167,7 @@ export class AddTaskComponent implements OnInit {
       // todo: show "task added to board" message
       setTimeout(() => {
         this.databaseService.loadTasks();
-        this.router.navigate(["/home/board"]);
+        this.router.navigate(["/board"]);
       }, 500);
       this.addTaskForm.reset();
       this.handleAdditionalUpdates(createdTask.id);

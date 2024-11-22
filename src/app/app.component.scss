@@ -10,7 +10,7 @@
 }
 
 .feedback-container {
-    z-index: 2;
+    z-index: 99;
     color: #f50000;
     @include dFlex(row, center, center);
     max-width: 1440px;

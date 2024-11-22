@@ -31,7 +31,7 @@
                                 src="/assets/img/icons/arrow_down.png" class="more-btn" alt="arrow down">
                         </div>
                         <div class="task-category">
-                            <h4 class="{{task.category}}">{{task.category}}</h4>
+                            <h4 class="{{ task.category | titlecase }}">{{task.category}}</h4>
                         </div>
                         <div class="task-title">
                             <span>{{task.title}}</span>
@@ -89,7 +89,7 @@
                             src="/assets/img/icons/arrow_down.png" class="more-btn" alt="arrow down">
                     </div>
                     <div class="task-category">
-                        <h4 class="{{task.category}}">{{task.category}}</h4>
+                        <h4 class="{{ task.category | titlecase }}">{{task.category}}</h4>
                     </div>
                     <div class="task-title">
                         <span>{{task.title}}</span>
@@ -147,7 +147,7 @@
                         src="/assets/img/icons/arrow_down.png" class="more-btn" alt="arrow down">
                 </div>
                 <div class="task-category">
-                    <h4 class="{{task.category}}">{{task.category}}</h4>
+                    <h4 class="{{ task.category | titlecase }}">{{task.category}}</h4>
                 </div>
                 <div class="task-title">
                     <span>{{task.title}}</span>
@@ -201,7 +201,7 @@
                         src="/assets/img/icons/arrow_up.png" class="more-btn" alt="arrow up">
                 </div>
                 <div class="task-category">
-                    <h4 class="{{task.category}}">{{task.category}}</h4>
+                    <h4 class="{{ task.category | titlecase }}">{{task.category}}</h4>
                 </div>
                 <div class="task-title">
                     <span>{{task.title}}</span>
@@ -268,7 +268,7 @@
     <div class="task-detail-content" (click)="stopEventPropagation($event)">
         <div class="task-detail-header">
             <div class="task-category">
-                <h4 class="{{task.category}}">{{task.category}}</h4>
+                <h4 class="{{ task.category | titlecase }}">{{task.category}}</h4>
             </div>
             <div class="close-btn" (click)="handleCloseTaskDetailOverlay($event)"><img
                     src="/assets/img/icons/close_btn_blue.png" alt="close button"></div>

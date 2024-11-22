@@ -16,7 +16,7 @@ export class DatabaseService {
   private tasksSubject = new BehaviorSubject<Task[]>([]);
   public tasks$ = this.tasksSubject.asObservable();
 
-  private contactsUrl = `${environment.baseRefUrl}/contact/`;
+  private contactsUrl = `${environment.baseRefUrl}/contacts/`;
   private contactsSubject = new BehaviorSubject<Contact[]>([]);
   public contacts$ = this.contactsSubject.asObservable();
 

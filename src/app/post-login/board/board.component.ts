@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, output } from "@angular/core";
+import { inject, Component, OnDestroy, OnInit, output } from "@angular/core";
 import { DatabaseService } from "../../services/database.service";
 import { Task } from "../../models/task.class";
 import { Observable, Subscription } from "rxjs";
@@ -8,7 +8,8 @@ import { SubTask } from "../../models/subTask.class";
 import { HeaderComponent } from "../header/header.component";
 import { SidenavComponent } from "../sidenav/sidenav.component";
 import { FormsModule } from "@angular/forms";
-
+import { CapitalizeFirstPipe } from "../../pipes/capitalize-first.pipe";
+import { AppComponent } from "../../app.component";
 @Component({
   selector: "app-board",
   standalone: true,
@@ -18,11 +19,13 @@ import { FormsModule } from "@angular/forms";
     HeaderComponent,
     SidenavComponent,
     FormsModule,
+    CapitalizeFirstPipe,
   ],
   templateUrl: "./board.component.html",
   styleUrl: "./board.component.scss",
 })
 export class BoardComponent implements OnInit, OnDestroy {
+  app = inject(AppComponent);
   tasks$!: Observable<Task[]>;
   allTasks: Task[] = [];
   filteredTasks: Task[] = [];
@@ -55,6 +58,11 @@ export class BoardComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
     console.log("BoardComponent destroyed and subscriptions unsubscribed.");
+  }
+
+  transformCategory(category: string): string {
+    if (!category) return category;
+    return category.charAt(0).toUpperCase() + category.slice(1);
   }
 
   filterTasks(): void {
@@ -263,10 +271,11 @@ export class BoardComponent implements OnInit, OnDestroy {
         },
         complete: () => {
           console.log("Update complete");
+          this.app.showDialog("SubTask Update Successful");
         },
       });
   }
-
+  // todo confirm delete task first before deleting
   handleDeleteTask(task: Task) {
     console.log("Task to be deleted:", task);
     this.databaseService.deleteTask(task.id).subscribe({
@@ -278,6 +287,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       },
       complete: () => {
         console.log("Delete complete");
+        this.app.showDialog("Task Delete Successful");
       },
     });
   }

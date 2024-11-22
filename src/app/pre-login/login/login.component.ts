@@ -72,7 +72,7 @@ export class LoginComponent {
           this.databaseService.initializeData();
           this.app.isLoading = false;
           this.router.navigate(["/summary"]);
-        }, 2000);
+        }, 3000);
       } catch (error) {
         console.error("Login failed:", error);
         this.app.showDialog("Login failed");

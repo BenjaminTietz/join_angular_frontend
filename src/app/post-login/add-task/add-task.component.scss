@@ -49,6 +49,13 @@ form {
         @include OpenSans(400, 19px, 22.8px, $border-color);
     }
 
+    input[type="date"] {
+        z-index: 10;
+        position: relative;
+        pointer-events: auto;
+        display: inline-block;
+    }
+
     textarea {
         width: 440px;
         height: 103px;

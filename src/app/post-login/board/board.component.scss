@@ -132,6 +132,7 @@
         text-align: center;
         white-space: nowrap;
         margin-bottom: 8px;
+        text-transform: capitalize;
     }
 
 
@@ -368,6 +369,7 @@ progress {
                     padding: 4px 24px;
                     gap: 10px;
                     @include OpenSans(400, 23px, 27.6px, $white);
+                    text-transform: capitalize !important;
                 }
             }
         }

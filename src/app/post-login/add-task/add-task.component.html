@@ -9,8 +9,7 @@
         <form [formGroup]="addTaskForm" (ngSubmit)="onSubmit()" (click)="this.showContactsToAssign = false">
             <div class="form-input-container">
                 <input type="text" placeholder="Enter a title" formControlName="taskTitle" class="OS-32">
-                @if (addTaskForm.get('taskTitle')?.touched && (addTaskForm.get('taskTitle')?.dirty ||
-                addTaskForm.get('taskTitle')?.invalid)) {
+                @if (addTaskForm.get('taskTitle')?.touched && addTaskForm.get('taskTitle')?.invalid) {
                 <div class="error">
                     <span>Enter a title</span>
                 </div>
@@ -21,10 +20,9 @@
                 <textarea placeholder="Enter a description" formControlName="taskDescription"></textarea>
             </div>
             <span>Due date</span>
-            <div class="form-input-container">
-                <input type="date" formControlName="taskDueDate">
-                @if (addTaskForm.get('taskDueDate')?.touched && (addTaskForm.get('taskDueDate')?.dirty ||
-                addTaskForm.get('taskDueDate')?.invalid)) {
+            <div class="form-input-container" (click)="stopEventPropagation($event)">
+                <input type="date" formControlName="taskDueDate" />
+                @if (addTaskForm.get('taskDueDate')?.touched && addTaskForm.get('taskDueDate')?.invalid) {
                 <div class="error">
                     <span>Choose a due date</span>
                 </div>
@@ -190,7 +188,8 @@
                 </div>
                 }
             </div>
-            <div class="submit-btn-container" [ngClass]="{ 'position-unset': this.displayFloatingAddTask}">
+            <div class="submit-btn-container" [ngClass]="{ 'position-unset': this.displayFloatingAddTask}"
+                (click)="stopEventPropagation($event)">
                 <button class="white-btn" type="button" (click)="onClear()">Clear<img
                         src="/assets/img/icons/cancel_btn.png"></button>
                 <button class="blue-btn" type="submit" [disabled]="addTaskForm.invalid"
