@@ -190,6 +190,7 @@ export class BoardComponent implements OnInit, OnDestroy {
         console.log("Task updated:", updatedTask);
         this.moveTaskBetweenArrays(index, sourceArray, status);
       });
+    this.ngOnInit();
   }
   getSourceArrayByTaskId(taskId: string): Task[] {
     if (this.databaseService.todoTasks.some((task) => task.id === taskId)) {

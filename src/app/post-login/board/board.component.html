@@ -192,8 +192,8 @@
             [ngClass]="{ 'drag-over': isDragOver['done'], 'drag-from': isDragFrom === 'done' }"
             (dragover)="onDragOver($event, 'done')" (dragleave)="onDragLeave($event, 'done')"
             (drop)="onDrop($event, 'done')">
-            @if (hasTasksWithStatus('awaitFeedback')) {
-            @for (task of getTasksByStatus('awaitFeedback'); track task; let index = $index) {
+            @if (hasTasksWithStatus('done')) {
+            @for (task of getTasksByStatus('done'); track task; let index = $index) {
             <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id, 'done')"
                 (dragend)="onDragEnd($event)" draggable="true" (click)="handleShowTaskDetailOverlay(task)">
                 <div class="mobile-btn-container">
