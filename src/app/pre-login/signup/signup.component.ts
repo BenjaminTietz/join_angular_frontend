@@ -40,10 +40,17 @@ export class SignupComponent {
   createSignupForm() {
     this.signupForm = this.fb.group(
       {
-        name: ["", Validators.required],
+        username: ["", Validators.required],
         email: ["", [Validators.required, Validators.email]],
         phone: ["", [Validators.required, Validators.pattern("^[0-9]*$")]],
-        password: ["", [Validators.required, Validators.minLength(6)]],
+        password: [
+          "",
+          [
+            Validators.required,
+            Validators.minLength(8),
+            this.strongPasswordValidator,
+          ],
+        ],
         confirmPassword: ["", Validators.required],
         privacy: [false, Validators.requiredTrue],
       },
@@ -72,19 +79,57 @@ export class SignupComponent {
     return null;
   }
 
+  strongPasswordValidator(
+    control: AbstractControl
+  ): { [key: string]: boolean } | null {
+    const password = control.value;
+
+    if (!password) {
+      return null;
+    }
+
+    const errors: { [key: string]: boolean } = {};
+
+    if (password.length < 8) {
+      errors["minLength"] = true;
+    }
+
+    if (/^\d+$/.test(password)) {
+      errors["numericOnly"] = true;
+    }
+
+    const commonPasswords = [
+      "12345678",
+      "password",
+      "123456789",
+      "qwerty",
+      "123456",
+      "abc123",
+      "password1",
+    ];
+    if (commonPasswords.includes(password.toLowerCase())) {
+      errors["tooCommon"] = true;
+    }
+
+    if (!/[a-zA-Z]/.test(password) || !/\d/.test(password)) {
+      errors["weak"] = true;
+    }
+
+    return Object.keys(errors).length > 0 ? errors : null;
+  }
+
   //todo :implement logic for signup & contact creation afterwards in backend
   // todo: send mail with activation link and after that set account_active to true
   async onSubmit() {
     if (this.signupForm.valid) {
       console.log(this.signupForm.value);
-      const { username, email, password, phone, name } = this.signupForm.value;
+      const { username, email, password, phone } = this.signupForm.value;
       try {
         const response = await this.authService.signup(
           username,
           email,
           password,
-          phone,
-          name
+          phone
         );
         console.log("Signup successful:", response);
         this.signupComplete = true;

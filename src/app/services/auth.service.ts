@@ -54,10 +54,9 @@ export class AuthService {
     username: string,
     email: string,
     password: string,
-    phone: string,
-    real_name: string
+    phone: string
   ) {
-    const body = { username, email, password, phone, real_name };
+    const body = { username, email, password, phone };
     try {
       const response = await firstValueFrom(
         this.http.post<any>(this.signupUrl, body)

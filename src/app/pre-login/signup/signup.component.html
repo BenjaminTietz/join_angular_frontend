@@ -9,9 +9,9 @@
         </div>
         <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
             <div class="form-input-container input-wrapper">
-                <input type="text" formControlName="name" placeholder="Name"><img src="assets/img/icons/login_name.png"
-                    alt="logo" class="logo">
-                @if (signupForm.get('lastName')?.invalid && signupForm.get('lastName')?.touched) {
+                <input type="text" formControlName="username" placeholder="Name"><img
+                    src="assets/img/icons/login_name.png" alt="logo" class="logo">
+                @if (signupForm.get('username')?.invalid && signupForm.get('username')?.touched) {
                 <div class="error">
                     <span>Enter a valid name</span>
                 </div>
@@ -47,10 +47,23 @@
             <div class="form-input-container input-wrapper">
                 <input type="password" formControlName="confirmPassword" placeholder="Confirm Password"><img
                     src="assets/img/icons/login_password.png" alt="logo" class="logo">
-                @if (signupForm.hasError('passwordsMismatch') && signupForm.get('password')?.touched &&
-                signupForm.get('confirmPassword')?.touched) {
+                @if (signupForm.get('password')?.invalid && signupForm.get('password')?.touched) {
                 <div class="error">
-                    <span>Passwords do not match</span>
+                    @if (signupForm.get('password')?.hasError('required')) {
+                    <span>The password is required.</span>
+                    }
+                    @if (signupForm.get('password')?.hasError('minLength')) {
+                    <span>The password must be at least 8 characters long.</span>
+                    }
+                    @if (signupForm.get('password')?.hasError('numericOnly')) {
+                    <span>The password must not be entirely numeric.</span>
+                    }
+                    @if (signupForm.get('password')?.hasError('tooCommon')) {
+                    <span>The password is used too frequently. Please choose a different one.</span>
+                    }
+                    @if (signupForm.get('password')?.hasError('weak')) {
+                    <span>The password must contain at least one letter and one number.</span>
+                    }
                 </div>
                 }
             </div>
