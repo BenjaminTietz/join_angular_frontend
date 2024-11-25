@@ -67,7 +67,6 @@ export class LoginComponent {
         }
 
         this.app.showDialog("Login Successful");
-        this.authService.loadCurrentUser();
         setTimeout(() => {
           this.databaseService.initializeData();
           this.app.isLoading = false;
@@ -100,7 +99,6 @@ export class LoginComponent {
         }
       }
       this.app.showDialog("Login Successful");
-      this.authService.loadCurrentUser();
       setTimeout(() => {
         this.app.isLoading = false;
         this.router.navigate(["/summary"]);

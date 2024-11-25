@@ -122,13 +122,11 @@ export class ContactsComponent implements OnInit, OnDestroy {
         initials: this.extractInitials(this.addContactForm.value.name),
         color: this.assignRandomColor(),
         createdAt: "",
-        createdBy: "",
       };
       console.log("Creating contact:", newContact);
       this.databaseService.createContact(newContact).subscribe({
         next: (contact) => {
           console.log("Contact created:", contact);
-          // todo show success message / reset form / refresh contact list
           this.handleCloseAddContactOverlay();
           this.databaseService.loadContacts();
         },

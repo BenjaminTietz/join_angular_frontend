@@ -83,7 +83,7 @@ export class AppComponent implements OnInit, OnDestroy {
       console.log("Token is valid");
       this.authService.isLoggedIn = true;
       this.communicationService.isLoggedIn = true;
-      this.navigateTo("/summary");
+      // redirect to login if no token is found else allow access to protected routes  todo
     } else {
       console.log("Token is invalid");
       this.authService.isLoggedIn = false;

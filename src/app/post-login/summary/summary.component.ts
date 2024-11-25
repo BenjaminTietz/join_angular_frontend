@@ -10,6 +10,7 @@ import { Subscription } from "rxjs";
 import { AppComponent } from "../../app.component";
 import { CommunicationService } from "../../services/communication.service";
 import { Task } from "../../models/task.class";
+import { Contact } from "../../models/contact.class";
 @Component({
   selector: "app-summary",
   standalone: true,
@@ -22,6 +23,7 @@ export class SummaryComponent implements OnInit {
   public filteredTasks: Task[] = [];
   public greetingMessage: string | undefined;
   private subscriptions: Subscription = new Subscription();
+  contact: Contact | null = null;
   constructor(
     private router: Router,
     public databaseService: DatabaseService,
@@ -33,6 +35,7 @@ export class SummaryComponent implements OnInit {
   ngOnInit() {
     this.databaseService.initializeData(true);
     this.greetingMessage = this.getGreetingMessage();
+    this.contact = this.authService.getContact();
   }
 
   ngOnDestroy() {
