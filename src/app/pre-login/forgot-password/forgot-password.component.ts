@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { CommunicationService } from "../../services/communication.service";
 import {
   FormBuilder,
@@ -11,6 +11,7 @@ import { AuthService } from "../../services/auth.service";
 import { Router, RouterModule } from "@angular/router";
 import { HeaderComponent } from "../shared/header/header.component";
 import { FooterComponent } from "../shared/footer/footer.component";
+import { AppComponent } from "../../app.component";
 
 @Component({
   selector: "app-forgot-password",
@@ -27,6 +28,8 @@ import { FooterComponent } from "../shared/footer/footer.component";
 export class ForgotPasswordComponent {
   forgotPasswordForm!: FormGroup;
   injectAuthService!: AuthService;
+  showForgottPasswordForm: boolean = false;
+  app = inject(AppComponent);
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -34,10 +37,10 @@ export class ForgotPasswordComponent {
     private databaseService: DatabaseService,
     public communicationService: CommunicationService
   ) {
-    this.createLoginForm();
+    this.createForgottPasswordForm();
   }
 
-  createLoginForm() {
+  createForgottPasswordForm() {
     this.forgotPasswordForm = this.fb.group({
       email: ["", [Validators.required, Validators.email]],
     });
@@ -47,6 +50,8 @@ export class ForgotPasswordComponent {
     if (this.forgotPasswordForm.valid) {
       // todo implement sending value of remember to backend, save in sesseion when false save in session / local storage
       console.log(this.forgotPasswordForm.value);
+      this.app.showDialog("Please check your email");
+      this.showForgottPasswordForm = false;
     }
   }
 }

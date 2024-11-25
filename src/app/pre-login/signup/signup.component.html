@@ -1,6 +1,7 @@
 <div class="signup-wrapper">
     <app-header></app-header>
     <div class="signup-form">
+        @if (this.showSignupForm) {
         <div class="form-top-section">
             <div class="close-btn" [routerLink]="['']"><img src="assets/img/icons/back_arrow.png" alt="logo"
                     class="logo">
@@ -77,9 +78,12 @@
                 <button type="submit" class="blue-btn" [disabled]="signupForm.invalid">Sign up</button>
             </div>
         </form>
-
-
-
+        } @else {
+        <div class="signup-success-container">
+            <h1>Account created!</h1>
+            <p>Please check your emails for instructions on how to activate your account.</p>
+            <img src="../../../assets/img/icons/email.svg" alt="success">
+        </div>
+        }
     </div>
-
     <app-footer></app-footer>

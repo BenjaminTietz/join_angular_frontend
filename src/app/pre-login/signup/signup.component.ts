@@ -29,6 +29,7 @@ export class SignupComponent {
   signupComplete = false;
   signupError = false;
   app = inject(AppComponent);
+  showSignupForm: boolean = true;
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -134,9 +135,10 @@ export class SignupComponent {
         console.log("Signup successful:", response);
         this.signupComplete = true;
         this.app.showDialog("Signup Successful");
+        this.showSignupForm = false;
         setTimeout(() => {
           this.router.navigate(["/"]);
-        }, 1500);
+        }, 3000);
       } catch (error) {
         this.app.showDialog("Signup failed");
         console.error("Signup failed:", error);
