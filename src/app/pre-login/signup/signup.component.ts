@@ -119,8 +119,6 @@ export class SignupComponent {
     return Object.keys(errors).length > 0 ? errors : null;
   }
 
-  //todo :implement logic for signup & contact creation afterwards in backend
-  // todo: send mail with activation link and after that set account_active to true
   async onSubmit() {
     if (this.signupForm.valid) {
       console.log(this.signupForm.value);

@@ -312,6 +312,7 @@ textarea::placeholder {
 
     h1 {
         @include OpenSans(700, 48px, 62.5px, $black);
+        text-align: center
     }
 
     p {

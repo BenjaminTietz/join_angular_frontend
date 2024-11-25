@@ -20,6 +20,7 @@ import { ContactsComponent } from "./post-login/contacts/contacts.component";
 import { CommunicationService } from "./services/communication.service";
 import { AuthService } from "./services/auth.service";
 import { Subscription } from "rxjs";
+import { NavigationEnd } from "@angular/router";
 
 @Component({
   selector: "app-root",
@@ -54,13 +55,30 @@ export class AppComponent implements OnInit, OnDestroy {
     this.checkViewport();
   }
   ngOnInit() {
-    this.verifyUserToken();
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        console.log("Navigation ended. Current route:", event.url);
+        this.verifyUserToken();
+      }
+    });
     this.checkViewport();
   }
 
   verifyUserToken() {
     const token =
       localStorage.getItem("token") || sessionStorage.getItem("token");
+
+    const publicRoutes = ["/reset-password", "/forgot-password"];
+    const currentRoute = this.router.url.split("?")[0];
+    const baseRoute = currentRoute.split("/")[1];
+
+    console.log("Current route in verifyUserToken:", currentRoute);
+
+    if (publicRoutes.some((route) => currentRoute.startsWith(route))) {
+      console.log("Public route detected:", currentRoute);
+      return;
+    }
+
     if (token) {
       console.log("Token is valid");
       this.authService.isLoggedIn = true;

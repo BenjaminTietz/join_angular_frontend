@@ -28,7 +28,7 @@ import { AppComponent } from "../../app.component";
 export class ForgotPasswordComponent {
   forgotPasswordForm!: FormGroup;
   injectAuthService!: AuthService;
-  showForgottPasswordForm: boolean = false;
+  showForgottPasswordForm: boolean = true;
   app = inject(AppComponent);
   constructor(
     private router: Router,
@@ -48,10 +48,17 @@ export class ForgotPasswordComponent {
   // todo implement sending value of remember to backend, save in sesseion when false save in session / local storage
   async onSubmit() {
     if (this.forgotPasswordForm.valid) {
-      // todo implement sending value of remember to backend, save in sesseion when false save in session / local storage
-      console.log(this.forgotPasswordForm.value);
-      this.app.showDialog("Please check your email");
-      this.showForgottPasswordForm = false;
+      const { email } = this.forgotPasswordForm.value;
+      try {
+        await this.authService.requestPasswordReset(email);
+        this.app.showDialog("Please check your email for reset instructions.");
+        this.showForgottPasswordForm = false;
+      } catch (error) {
+        console.error("Error during password reset request:", error);
+        this.app.showDialog("Failed to send reset email. Please try again.");
+      }
+    } else {
+      console.error("Invalid form input");
     }
   }
 }

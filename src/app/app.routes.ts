@@ -14,11 +14,6 @@ import { ResetPasswordComponent } from "./pre-login/reset-password/reset-passwor
 export const routes: Routes = [
   // pre-login component routes
   {
-    path: "",
-    redirectTo: "login",
-    pathMatch: "full",
-  },
-  {
     path: "login",
     component: LoginComponent,
   },
@@ -27,13 +22,19 @@ export const routes: Routes = [
     component: SignupComponent,
   },
   {
+    path: "reset-password/:token",
+    component: ResetPasswordComponent,
+  },
+  {
     path: "forgot-password",
     component: ForgotPasswordComponent,
   },
   {
-    path: "reset-password",
-    component: ResetPasswordComponent,
+    path: "",
+    redirectTo: "login",
+    pathMatch: "full",
   },
+
   // post-login component routes
   {
     path: "summary",

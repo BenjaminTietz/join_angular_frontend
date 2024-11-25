@@ -98,4 +98,29 @@ export class AuthService {
       this.databaseService.initializeData();
     }
   }
+
+  public async requestPasswordReset(email: string): Promise<void> {
+    const resetUrl = `${environment.baseRefUrl}/auth/password-reset/`;
+    try {
+      const response = await firstValueFrom(
+        this.http.post(resetUrl, { email })
+      );
+      console.log("Password reset email sent:", response);
+    } catch (error) {
+      console.error("Password reset request failed:", error);
+      throw error;
+    }
+  }
+  public async resetPassword(token: string, password: string): Promise<void> {
+    const resetUrl = `${environment.baseRefUrl}/auth/password-reset/${token}/`;
+    try {
+      const response = await firstValueFrom(
+        this.http.post(resetUrl, { password })
+      );
+      console.log("Password reset successful:", response);
+    } catch (error) {
+      console.error("Password reset failed:", error);
+      throw error;
+    }
+  }
 }

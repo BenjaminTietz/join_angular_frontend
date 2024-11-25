@@ -24,10 +24,27 @@ export class AuthGuard implements CanActivate {
   ): boolean {
     const token =
       localStorage.getItem("token") || sessionStorage.getItem("token");
+
+    const publicRoutes = ["/reset-password", "/forgot-password"];
+    console.log("Current URL:", state.url);
+    console.log("Token found:", !!token);
+    console.log(
+      "Is public route:",
+      publicRoutes.includes(state.url.replace(/\/$/, ""))
+    );
+
+    if (publicRoutes.includes(state.url.replace(/\/$/, ""))) {
+      return true;
+    }
+
     if (token) {
+      console.log("Token valid. Access granted.");
       return true;
     } else {
-      this.router.navigate(["/login"]);
+      console.log("No token found. Redirecting to login.");
+      this.router.navigate(["/login"], {
+        queryParams: { returnUrl: state.url },
+      });
       return false;
     }
   }
