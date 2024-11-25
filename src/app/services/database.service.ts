@@ -46,8 +46,6 @@ export class DatabaseService {
       (this.isDataInitialized && !forceReload)
     )
       return;
-
-    console.log("Initializing data...");
     this.loadTasks();
     this.loadContacts();
     this.tasks$.subscribe((tasks) => {
@@ -64,7 +62,6 @@ export class DatabaseService {
         (task) => task.priority === "urgent"
       ).length;
       this.nextDueDate = this.getNextDueDateForUrgentTasks(tasks);
-      console.log("Tasks initialized for summary:", tasks);
     });
 
     this.isDataInitialized = true;
@@ -171,7 +168,6 @@ export class DatabaseService {
       initials: contact.initials,
       color: contact.color,
     };
-    console.log("Creating contact:", formattedContact);
     return this.http.post<Contact>(this.contactsUrl, formattedContact);
   }
 

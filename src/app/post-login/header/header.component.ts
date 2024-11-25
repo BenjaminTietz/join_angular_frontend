@@ -25,7 +25,6 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.contact = this.authService.getContact();
-    console.log(this.contact);
   }
 
   toggleUserMenu() {
@@ -33,8 +32,6 @@ export class HeaderComponent implements OnInit {
   }
 
   handleLogout() {
-    localStorage.clear();
-    sessionStorage.clear();
-    this.router.navigate([""]);
+    this.authService.logout();
   }
 }

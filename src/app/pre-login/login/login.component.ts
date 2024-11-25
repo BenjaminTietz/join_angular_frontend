@@ -56,7 +56,6 @@ export class LoginComponent {
           password,
           remember
         );
-        console.log("Login successful:", response);
         this.authService.isLoggedIn = true;
         if (response?.token) {
           if (remember) {
@@ -88,8 +87,6 @@ export class LoginComponent {
       const password = "0123456789";
       const remember = true;
       const response = await this.authService.login(email, password, remember);
-      console.log("Login successful:", response);
-
       if (response?.token) {
         this.authService.isLoggedIn = true;
         if (remember) {

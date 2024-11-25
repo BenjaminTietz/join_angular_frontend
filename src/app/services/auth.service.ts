@@ -51,11 +51,8 @@ export class AuthService {
       const response = await lastValueFrom(
         this.http.post<any>(this.loginUrl, body)
       );
-      console.log("Login Response:", response);
       if (response?.token) {
         this.saveLoginData(response, remember);
-        console.log("Contact saved:", response.user.contact);
-
         await firstValueFrom(
           this.http.post(`${environment.baseRefUrl}/generate-demo-data/`, {})
         );
@@ -80,7 +77,6 @@ export class AuthService {
       const response = await firstValueFrom(
         this.http.post<any>(this.signupUrl, body)
       );
-      console.log("Signup Successful", response);
     } catch (error) {
       console.error("Signup Error:", error);
       throw error;
@@ -94,8 +90,6 @@ export class AuthService {
         "0123456789",
         true
       );
-      console.log("Guest Login Response:", loginResponse);
-
       const token = loginResponse.token;
       return { token };
     } catch (error) {
@@ -131,7 +125,6 @@ export class AuthService {
       const response = await firstValueFrom(
         this.http.post(resetUrl, { email })
       );
-      console.log("Password reset email sent:", response);
     } catch (error) {
       console.error("Password reset request failed:", error);
       throw error;
@@ -144,7 +137,6 @@ export class AuthService {
       const response = await firstValueFrom(
         this.http.post(resetUrl, { password })
       );
-      console.log("Password reset successful:", response);
     } catch (error) {
       console.error("Password reset failed:", error);
       throw error;

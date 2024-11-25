@@ -39,7 +39,8 @@ export class ContactsComponent implements OnInit, OnDestroy {
   constructor(
     private databaseService: DatabaseService,
     private fb: FormBuilder,
-    public communicationService: CommunicationService
+    public communicationService: CommunicationService,
+    private appComponent: AppComponent
   ) {
     this.addContactForm = this.fb.group({
       name: ["", Validators.required],
@@ -59,7 +60,6 @@ export class ContactsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
-    console.log("ContactsComponent destroyed and subscriptions unsubscribed.");
   }
 
   handleShowContactDetails(id: string) {
@@ -72,7 +72,6 @@ export class ContactsComponent implements OnInit, OnDestroy {
     }
 
     this.databaseService.getContactById(id).subscribe((contact) => {
-      console.log(contact);
       this.contactDetail = contact;
       setTimeout(() => {
         if (contactView) {
@@ -81,9 +80,6 @@ export class ContactsComponent implements OnInit, OnDestroy {
         }
       }, 10);
     });
-
-    console.log(this.contactDetail);
-
     this.showMobileContactDetail = true;
   }
   handleEditContact() {
@@ -123,10 +119,8 @@ export class ContactsComponent implements OnInit, OnDestroy {
         color: this.assignRandomColor(),
         createdAt: "",
       };
-      console.log("Creating contact:", newContact);
       this.databaseService.createContact(newContact).subscribe({
         next: (contact) => {
-          console.log("Contact created:", contact);
           this.handleCloseAddContactOverlay();
           this.databaseService.loadContacts();
         },
@@ -134,7 +128,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
           console.error("Error creating contact:", error);
         },
         complete: () => {
-          console.log("Contact creation process completed.");
+          this.appComponent.showDialog("Contact created successfully.");
         },
       });
     }
@@ -159,21 +153,20 @@ export class ContactsComponent implements OnInit, OnDestroy {
           .updateContact(oldContact.id, newContact)
           .subscribe({
             next: (updatedContact) => {
-              console.log("Contact updated:", updatedContact);
               this.databaseService.loadContacts();
               this.handleCloseEditContactOverlay();
               this.contactDetail = updatedContact;
-              // Todo: refresh contact list / show success message
             },
             error: (error) => {
-              console.error("Error updating contact:", error);
+              this.appComponent.showDialog("Error updating contact.");
             },
             complete: () => {
-              console.log("Contact update process completed.");
+              this.appComponent.showDialog("Contact updated successfully.");
             },
           });
       } else {
-        console.log("No changes detected, contact not updated.");
+        this.appComponent.showDialog("No changes detected.");
+        this.handleCloseEditContactOverlay();
       }
     }
   }
@@ -181,16 +174,15 @@ export class ContactsComponent implements OnInit, OnDestroy {
   handleDeleteContact(contactId: string): void {
     this.databaseService.deleteContact(contactId).subscribe({
       next: () => {
-        console.log("Contact deleted successfully");
-        // todo: show success message / refresh contact list
+        // todo: show success message / refresh contact list / ask for confirmation
         this.contactDetail = null;
         this.databaseService.loadContacts();
       },
       error: (error) => {
-        console.error("Error deleting contact:", error);
+        this.appComponent.showDialog("Error deleting contact.");
       },
       complete: () => {
-        console.log("Delete operation completed");
+        this.appComponent.showDialog("Contact deleted successfully.");
       },
     });
   }

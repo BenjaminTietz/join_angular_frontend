@@ -27,9 +27,6 @@ export class AuthGuard implements CanActivate {
 
     const publicRoutes = [/^\/reset-password\/.+$/, /^\/forgot-password$/];
 
-    console.log("Current URL:", state.url);
-    console.log("Token found:", !!token);
-
     if (
       publicRoutes.some((route) => route.test(state.url.replace(/\/$/, "")))
     ) {
@@ -37,10 +34,8 @@ export class AuthGuard implements CanActivate {
     }
 
     if (token) {
-      console.log("Token valid. Access granted to:", state.url);
       return true;
     } else {
-      console.log("No token found. Redirecting to login.");
       this.router.navigate(["/login"], {
         queryParams: { returnUrl: state.url },
       });

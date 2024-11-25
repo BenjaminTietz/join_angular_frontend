@@ -33,6 +33,5 @@ export class HeaderComponent implements OnInit {
 
   private checkRoute(): void {
     this.showLoginHeader = this.router.url === "/login";
-    console.log("showLoginHeader", this.showLoginHeader);
   }
 }

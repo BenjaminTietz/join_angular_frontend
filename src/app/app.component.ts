@@ -57,7 +57,6 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        console.log("Navigation ended. Current route:", event.url);
         this.verifyUserToken();
       }
     });
@@ -72,20 +71,15 @@ export class AppComponent implements OnInit, OnDestroy {
     const currentRoute = this.router.url.split("?")[0];
     const baseRoute = currentRoute.split("/")[1];
 
-    console.log("Current route in verifyUserToken:", currentRoute);
-
     if (publicRoutes.some((route) => currentRoute.startsWith(route))) {
-      console.log("Public route detected:", currentRoute);
       return;
     }
 
     if (token) {
-      console.log("Token is valid");
       this.authService.isLoggedIn = true;
       this.communicationService.isLoggedIn = true;
       // redirect to login if no token is found else allow access to protected routes  todo
     } else {
-      console.log("Token is invalid");
       this.authService.isLoggedIn = false;
       this.communicationService.isLoggedIn = false;
       this.navigateTo("/login");

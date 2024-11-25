@@ -40,7 +40,6 @@ export class SummaryComponent implements OnInit {
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
-    console.log("SummaryComponent destroyed and subscriptions unsubscribed.");
   }
 
   //Helper function to show greeting message based on time
