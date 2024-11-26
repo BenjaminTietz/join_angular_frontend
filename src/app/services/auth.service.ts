@@ -26,6 +26,7 @@ export class AuthService {
   private saveLoginData(response: any, remember: boolean): void {
     const storage = remember ? localStorage : sessionStorage;
     storage.setItem("token", response.token);
+    storage.setItem("userId", response.user.id.toString());
     storage.setItem(
       "contact",
       JSON.stringify(new Contact(response.user.contact))
@@ -51,6 +52,7 @@ export class AuthService {
       const response = await lastValueFrom(
         this.http.post<any>(this.loginUrl, body)
       );
+      console.log("Login response:", response);
       if (response?.token) {
         this.saveLoginData(response, remember);
         await firstValueFrom(
@@ -104,11 +106,19 @@ export class AuthService {
     return contactData ? new Contact(JSON.parse(contactData)) : null;
   }
 
+  public getUserId(): number | null {
+    const userId =
+      localStorage.getItem("userId") || sessionStorage.getItem("userId");
+    return userId ? parseInt(userId, 10) : null;
+  }
+
   public logout(): void {
     localStorage.removeItem("token");
     localStorage.removeItem("contact");
+    localStorage.removeItem("userId");
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("contact");
+    sessionStorage.removeItem("userId");
     this.isLoggedIn = false;
     this.router.navigate(["/login"]);
   }

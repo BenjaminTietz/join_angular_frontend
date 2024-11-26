@@ -10,7 +10,7 @@
 
         <div class="contacts-list" [ngClass]="{ 'full-width': this.communicationService.isMobileViewActive}">
             @if ("contacts$ | async as contacts") {
-            @for (contact of contacts$ | async; track contact; let index = $index) {
+            @for (contact of contacts$ | async; track contact.id; let index = $index) {
             <div class="contact" (click)="handleShowContactDetails(contact.id)"
                 [ngClass]="{ 'full-width': this.communicationService.isMobileViewActive}">
                 <div class="contact-left" [style.backgroundColor]="contact.color">

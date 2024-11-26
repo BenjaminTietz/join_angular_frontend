@@ -78,17 +78,9 @@ export class AppComponent implements OnInit, OnDestroy {
     if (token) {
       this.authService.isLoggedIn = true;
       this.communicationService.isLoggedIn = true;
-      // redirect to login if no token is found else allow access to protected routes  todo
     } else {
       this.authService.isLoggedIn = false;
       this.communicationService.isLoggedIn = false;
-      this.navigateTo("/login");
-    }
-  }
-
-  private navigateTo(path: string) {
-    if (this.router.url !== path) {
-      this.router.navigate([path]);
     }
   }
 

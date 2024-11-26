@@ -28,13 +28,11 @@ export class LoginComponent {
   loginForm!: FormGroup;
   injectAuthService!: AuthService;
   app = inject(AppComponent);
-  constructor(
-    private router: Router,
-    private fb: FormBuilder,
-    public authService: AuthService,
-    private databaseService: DatabaseService,
-    public communicationService: CommunicationService
-  ) {
+  public communicationService = inject(CommunicationService);
+  private databaseService = inject(DatabaseService);
+  public authService = inject(AuthService);
+  private router = inject(Router);
+  constructor(private fb: FormBuilder) {
     this.createLoginForm();
   }
 
@@ -84,7 +82,7 @@ export class LoginComponent {
     this.app.isLoading = true;
     try {
       const email = "guest@guest.com";
-      const password = "0123456789";
+      const password = "0123456789bb";
       const remember = true;
       const response = await this.authService.login(email, password, remember);
       if (response?.token) {

@@ -31,15 +31,13 @@ export class ResetPasswordComponent implements OnInit {
   injectAuthService!: AuthService;
   setNewPassword: boolean = true;
   app = inject(AppComponent);
+  public communicationService = inject(CommunicationService);
+  private databaseService = inject(DatabaseService);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
   token: string | null = null;
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private databaseService: DatabaseService,
-    private router: Router,
-    public communicationService: CommunicationService,
-    private route: ActivatedRoute
-  ) {
+  constructor(private fb: FormBuilder) {
     this.createSetNewPasswordForm();
   }
 

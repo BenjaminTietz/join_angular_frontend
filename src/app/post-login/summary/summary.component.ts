@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 import { DatabaseService } from "../../services/database.service";
 import { CommonModule } from "@angular/common";
@@ -24,13 +24,10 @@ export class SummaryComponent implements OnInit {
   public greetingMessage: string | undefined;
   private subscriptions: Subscription = new Subscription();
   contact: Contact | null = null;
-  constructor(
-    private router: Router,
-    public databaseService: DatabaseService,
-    private http: HttpClient,
-    public authService: AuthService,
-    public communicationService: CommunicationService
-  ) {}
+  public databaseService = inject(DatabaseService);
+  public authService = inject(AuthService);
+  public communicationService = inject(CommunicationService);
+  constructor(private router: Router, private http: HttpClient) {}
 
   ngOnInit() {
     this.databaseService.initializeData(true);

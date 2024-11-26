@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit, inject } from "@angular/core";
 import { Observable, Subscription } from "rxjs";
 import { Contact } from "../../models/contact.class";
 import { DatabaseService } from "../../services/database.service";
@@ -36,12 +36,10 @@ export class ContactsComponent implements OnInit, OnDestroy {
   showEditContactOverlay = false;
   showMobileContactDetail = false;
   showMenu = false;
-  constructor(
-    private databaseService: DatabaseService,
-    private fb: FormBuilder,
-    public communicationService: CommunicationService,
-    private appComponent: AppComponent
-  ) {
+  private appComponent = inject(AppComponent);
+  public communicationService = inject(CommunicationService);
+  private databaseService = inject(DatabaseService);
+  constructor(private fb: FormBuilder) {
     this.addContactForm = this.fb.group({
       name: ["", Validators.required],
       email: ["", Validators.required],
@@ -55,6 +53,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.databaseService.initializeData(true);
     this.contacts$ = this.databaseService.getContacts();
   }
 

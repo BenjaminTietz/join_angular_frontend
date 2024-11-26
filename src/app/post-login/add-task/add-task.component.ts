@@ -24,6 +24,8 @@ import { Router } from "@angular/router";
 import { HeaderComponent } from "../header/header.component";
 import { SidenavComponent } from "../sidenav/sidenav.component";
 import { AppComponent } from "../../app.component";
+import { AuthService } from "../../services/auth.service";
+import { CommunicationService } from "../../services/communication.service";
 @Component({
   selector: "app-add-task",
   standalone: true,
@@ -66,13 +68,12 @@ export class AddTaskComponent implements OnInit {
   showCategories: boolean = false;
   displayFloatingAddTask: boolean = false;
   private subscriptions: Subscription = new Subscription();
-
+  currentUserId: number = 0;
+  public databaseService = inject(DatabaseService);
+  private authService = inject(AuthService);
+  communicationService = inject(CommunicationService);
   @ViewChild("contactInput") contactInput!: ElementRef<HTMLInputElement>;
-  constructor(
-    private fb: FormBuilder,
-    public databaseService: DatabaseService,
-    private router: Router
-  ) {
+  constructor(private fb: FormBuilder, private router: Router) {
     this.addTaskForm = this.fb.group({
       taskTitle: ["", Validators.required],
       taskDescription: [""],
@@ -84,8 +85,12 @@ export class AddTaskComponent implements OnInit {
       subTasks: this.fb.array([]),
     });
   }
-
   ngOnInit(): void {
+    this.subscriptions.add(
+      this.communicationService.resetForm$.subscribe(() => {
+        this.resetForm();
+      })
+    );
     this.contacts$ = this.databaseService.getContacts();
     const contactsSub = this.contacts$.subscribe((contacts) => {
       this.filteredContacts = contacts;
@@ -93,7 +98,6 @@ export class AddTaskComponent implements OnInit {
     this.subscriptions.add(contactsSub);
     const taskIdSub = this.databaseService.getTaskId().subscribe((taskId) => {
       this.taskId = taskId;
-      console.log("TaskId in add-task:", this.taskId);
     });
     this.subscriptions.add(taskIdSub);
     const taskDataSub = this.databaseService
@@ -102,19 +106,32 @@ export class AddTaskComponent implements OnInit {
         this.taskData = taskData;
         if (this.taskData) {
           this.loadTaskData(this.taskData);
+        } else {
+          this.resetForm();
         }
-        console.log("TaskData in add-task:", this.taskData);
       });
     this.subscriptions.add(taskDataSub);
 
     if (this.router.url === "/board") {
       this.displayFloatingAddTask = true;
     }
+    this.currentUserId = this.authService.getUserId()!;
+    console.log("User ID:", this.currentUserId);
   }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
-    console.log("AddTaskComponent destroyed and subscriptions unsubscribed.");
+  }
+
+  resetForm(): void {
+    this.addTaskForm.reset();
+    this.setPriority("");
+    this.assignedContactIds = [];
+    this.assignedContacts = [];
+    this.subTasks = [];
+    this.taskId = null;
+    this.taskData = null;
+    this.isTaskgettingEdited = false;
   }
 
   onSubmit() {
@@ -144,7 +161,7 @@ export class AddTaskComponent implements OnInit {
       status: this.category || "todo",
       subTasks: [],
       createdAt: new Date().toISOString(),
-      createdBy: "", // todo: get current user id
+      createdBy: this.currentUserId.toString(),
     };
   }
 
@@ -156,7 +173,7 @@ export class AddTaskComponent implements OnInit {
           console.log("Task updated:", updatedTask);
           this.handleAdditionalUpdates(task.id);
           this.databaseService.showEditTaskOverlay = false;
-          // todo: show "task updated" message
+          this.app.showDialog("Task Update Successful");
         });
     }
   }
@@ -164,7 +181,7 @@ export class AddTaskComponent implements OnInit {
   private createNewTask(task: Task) {
     this.databaseService.createTask(task).subscribe((createdTask) => {
       console.log("Task created:", createdTask);
-      // todo: show "task added to board" message
+      this.app.showDialog("Task Creation Successful");
       setTimeout(() => {
         this.databaseService.loadTasks();
         this.router.navigate(["/board"]);
@@ -195,6 +212,10 @@ export class AddTaskComponent implements OnInit {
 
   onClear() {
     this.addTaskForm.reset();
+    this.setPriority("");
+    this.assignedContactIds = [];
+    this.assignedContacts = [];
+    this.subTasks = [];
   }
 
   onCheckboxChange(event: any, contact: Contact) {
@@ -224,7 +245,6 @@ export class AddTaskComponent implements OnInit {
   setPriority(priority: string) {
     this.addTaskForm.patchValue({ taskPriority: priority });
     this.selectedPriority = priority;
-    console.log("Priority:", this.selectedPriority);
   }
   pushSubtaskToArray() {
     if (this.addTaskForm.value.subtask) {
@@ -233,8 +253,8 @@ export class AddTaskComponent implements OnInit {
         taskId: "",
         id: "",
         checked: false,
-        createdAt: "",
-        createdBy: "", // todo : get current user id
+        createdAt: new Date().toISOString(),
+        createdBy: this.currentUserId.toString(),
       });
       this.addTaskForm.patchValue({ subtask: "" });
     }
@@ -384,5 +404,6 @@ export class AddTaskComponent implements OnInit {
     this.addTaskForm.get("category")?.setValue(formattedValue);
     this.showCategories = false;
     console.log("Selected category:", value);
+    console.log("Selected category:", formattedValue);
   }
 }

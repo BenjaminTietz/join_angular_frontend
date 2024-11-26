@@ -25,21 +25,28 @@ export class AuthGuard implements CanActivate {
     const token =
       localStorage.getItem("token") || sessionStorage.getItem("token");
 
-    const publicRoutes = [/^\/reset-password\/.+$/, /^\/forgot-password$/];
+    const publicRoutes = [
+      "/reset-password",
+      "/forgot-password",
+      "/signup",
+      "/imprint",
+      "/privacy-policy",
+      "/login",
+      "/",
+    ];
 
-    if (
-      publicRoutes.some((route) => route.test(state.url.replace(/\/$/, "")))
-    ) {
+    const cleanedUrl = state.url.replace(/\/$/, "");
+
+    if (publicRoutes.some((route) => cleanedUrl.startsWith(route))) {
       return true;
     }
 
     if (token) {
       return true;
-    } else {
-      this.router.navigate(["/login"], {
-        queryParams: { returnUrl: state.url },
-      });
-      return false;
     }
+    this.router.navigate(["/login"], {
+      queryParams: { returnUrl: state.url },
+    });
+    return false;
   }
 }

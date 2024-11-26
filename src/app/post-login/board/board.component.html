@@ -23,7 +23,7 @@
                     (dragover)="onDragOver($event, 'todo')" (dragleave)="onDragLeave($event, 'todo')"
                     (drop)="onDrop($event, 'todo')">
                     @if (hasTasksWithStatus('todo')) {
-                    @for (task of getTasksByStatus('todo'); track task; let index = $index) {
+                    @for (task of getTasksByStatus('todo'); track task.id; let index = $index) {
                     <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id , 'todo')"
                         (dragend)="onDragEnd($event)" draggable="true" (click)="handleShowTaskDetailOverlay(task)">
                         <div class="mobile-btn-container">
@@ -48,7 +48,7 @@
                         }
                         <div class="single-task-bottom">
                             <div class="task-assignee">
-                                @for (assignee of task.assignedTo; track assignee; let index = $index) {
+                                @for (assignee of task.assignedTo; track assignee.id; let index = $index) {
                                 @if(index<=2){ <div class="assignee" [style.backgroundColor]="assignee.color">
                                     <span>{{assignee.initials}}</span>
                             </div>
@@ -79,7 +79,7 @@
                 (dragover)="onDragOver($event, 'inProgress')" (dragleave)="onDragLeave($event, 'inProgress')"
                 (drop)="onDrop($event, 'inProgress')">
                 @if (hasTasksWithStatus('inProgress')) {
-                @for (task of getTasksByStatus('inProgress'); track task; let index = $index) {
+                @for (task of getTasksByStatus('inProgress'); track task.id; let index = $index) {
                 <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id, 'inProgress')"
                     (dragend)="onDragEnd($event)" draggable="true" (click)="handleShowTaskDetailOverlay(task)">
                     <div class="mobile-btn-container">
@@ -106,7 +106,7 @@
                     }
                     <div class="single-task-bottom">
                         <div class="task-assignee">
-                            @for (assignee of task.assignedTo; track assignee; let index = $index) {
+                            @for (assignee of task.assignedTo; track assignee.id; let index = $index) {
                             @if(index<=2){ <div class="assignee" [style.backgroundColor]="assignee.color">
                                 <span>{{assignee.initials}}</span>
                         </div>
@@ -137,7 +137,7 @@
             (dragover)="onDragOver($event, 'awaitFeedback')" (dragleave)="onDragLeave($event, 'awaitFeedback')"
             (drop)="onDrop($event, 'awaitFeedback')">
             @if (hasTasksWithStatus('awaitFeedback')) {
-            @for (task of getTasksByStatus('awaitFeedback'); track task; let index = $index) {
+            @for (task of getTasksByStatus('awaitFeedback'); track task.id; let index = $index) {
             <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id, 'awaitFeedback')"
                 (dragend)="onDragEnd($event)" draggable="true" (click)="handleShowTaskDetailOverlay(task)">
                 <div class="mobile-btn-container">
@@ -164,7 +164,7 @@
                 }
                 <div class="single-task-bottom">
                     <div class="task-assignee">
-                        @for (assignee of task.assignedTo; track assignee; let index = $index) {
+                        @for (assignee of task.assignedTo; track assignee.id; let index = $index) {
                         @if(index<=2){ <div class="assignee" [style.backgroundColor]="assignee.color">
                             <span>{{assignee.initials}}</span>
                     </div>
@@ -193,7 +193,7 @@
             (dragover)="onDragOver($event, 'done')" (dragleave)="onDragLeave($event, 'done')"
             (drop)="onDrop($event, 'done')">
             @if (hasTasksWithStatus('done')) {
-            @for (task of getTasksByStatus('done'); track task; let index = $index) {
+            @for (task of getTasksByStatus('done'); track task.id; let index = $index) {
             <div class="single-task pointer" (dragstart)="onDrag($event, index, task.id, 'done')"
                 (dragend)="onDragEnd($event)" draggable="true" (click)="handleShowTaskDetailOverlay(task)">
                 <div class="mobile-btn-container">
@@ -218,7 +218,7 @@
                 }
                 <div class="single-task-bottom">
                     <div class="task-assignee">
-                        @for (assignee of task.assignedTo; track assignee; let index = $index) {
+                        @for (assignee of task.assignedTo; track assignee.id; let index = $index) {
                         @if(index<=2){ <div class="assignee" [style.backgroundColor]="assignee.color">
                             <span>{{assignee.initials}}</span>
                     </div>
@@ -260,7 +260,7 @@
 }
 <!--Task Detail View  Overlay-->
 @if (showTaskDetailOverlay) {
-@for (task of filteredTasks; track task; let index = $index) {
+@for (task of filteredTasks; track task.id; let index = $index) {
 @if (task.id === this.selectedTaskId) {
 <div class="floating-task-detail-wrapper"
     [ngClass]="{'visible': showTaskDetailOverlay, 'hidden': !showTaskDetailOverlay}"
@@ -290,7 +290,7 @@
         </div>
         <div class="task-assignee">
             <h4>Assigned To:</h4>
-            @for (assignee of task.assignedTo; track assignee; let index = $index) {
+            @for (assignee of task.assignedTo; track assignee.id; let index = $index) {
             <div class="assigned-container">
                 <div class="assigned-contact" [style.backgroundColor]="assignee.color">
                     <span>{{assignee.initials}}</span>
@@ -302,7 +302,7 @@
         </div>
         <div class="task-subtasks">
             <h4>Subtasks</h4>
-            @for (subtask of task.subTasks; track subtask; let index = $index) {
+            @for (subtask of task.subTasks; track subtask.id; let index = $index) {
             <div class="subtask">
                 <input type="checkbox" [checked]="subtask.checked" id="subtask1" name="subtask1"
                     (change)="toggleCheckBox(task,subtask)">

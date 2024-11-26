@@ -90,7 +90,7 @@ export class DatabaseService {
       category: task.category.toLowerCase(),
       priority: task.priority.toLowerCase(),
       status: task.status,
-      dueDate: task.dueDate,
+      due_date: task.dueDate,
       assignedTo: task.assignedTo,
       subTasks: task.subTasks,
     };

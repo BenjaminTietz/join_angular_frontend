@@ -30,13 +30,11 @@ export class ForgotPasswordComponent {
   injectAuthService!: AuthService;
   showForgottPasswordForm: boolean = true;
   app = inject(AppComponent);
-  constructor(
-    private router: Router,
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private databaseService: DatabaseService,
-    public communicationService: CommunicationService
-  ) {
+  public communicationService = inject(CommunicationService);
+  private databaseService = inject(DatabaseService);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  constructor(private fb: FormBuilder) {
     this.createForgottPasswordForm();
   }
 

@@ -29,12 +29,10 @@ export class SignupComponent {
   signupComplete = false;
   signupError = false;
   app = inject(AppComponent);
+  router = inject(Router);
+  authService = inject(AuthService);
   showSignupForm: boolean = true;
-  constructor(
-    private router: Router,
-    private fb: FormBuilder,
-    private authService: AuthService
-  ) {
+  constructor(private fb: FormBuilder) {
     this.createSignupForm();
   }
 

@@ -10,6 +10,7 @@ import { SidenavComponent } from "../sidenav/sidenav.component";
 import { FormsModule } from "@angular/forms";
 import { CapitalizeFirstPipe } from "../../pipes/capitalize-first.pipe";
 import { AppComponent } from "../../app.component";
+import { CommunicationService } from "../../services/communication.service";
 @Component({
   selector: "app-board",
   standalone: true,
@@ -26,6 +27,8 @@ import { AppComponent } from "../../app.component";
 })
 export class BoardComponent implements OnInit, OnDestroy {
   app = inject(AppComponent);
+  public databaseService = inject(DatabaseService);
+  communicationService = inject(CommunicationService);
   tasks$!: Observable<Task[]>;
   allTasks: Task[] = [];
   filteredTasks: Task[] = [];
@@ -46,8 +49,9 @@ export class BoardComponent implements OnInit, OnDestroy {
   isDragFrom: string | null = null;
   selectedTaskId: string | null = null;
   selectedTask: Task | null = null;
-  constructor(public databaseService: DatabaseService) {}
+  constructor() {}
   ngOnInit(): void {
+    this.databaseService.initializeData(true);
     const tasksSub = this.databaseService.getTasks().subscribe((tasks) => {
       this.allTasks = tasks;
       this.filteredTasks = tasks;
@@ -94,6 +98,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   handleShowAddTaskOverlay(status: string) {
+    this.communicationService.triggerResetForm();
     this.showAddTaskOverlay = true;
     this.selectedStaus = status;
     console.log(status);
@@ -101,6 +106,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   handleCloseAddTaskOverlay(event: Event) {
     event.stopPropagation();
     this.showAddTaskOverlay = false;
+    this.communicationService.triggerResetForm();
   }
 
   //drag and drop
@@ -236,8 +242,12 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   handleCloseTaskDetailOverlay(event: Event) {
+    console.log("Close Task Detail Overlay");
     event.stopPropagation();
     this.showTaskDetailOverlay = false;
+    this.databaseService.setTaskId("");
+    this.databaseService.setTaskData(null);
+    this.communicationService.triggerResetForm();
   }
 
   openTaskEditor(task: Task) {
@@ -297,6 +307,9 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.databaseService.showEditTaskOverlay = false;
     this.selectedTaskId = null;
     this.selectedTask = null;
+    this.databaseService.setTaskData(null);
+    this.databaseService.setTaskId(null);
+    this.communicationService.triggerResetForm();
   }
   getCompletedSubtasks(task: Task): number {
     if (task.subTasks && task.subTasks.length > 0) {
