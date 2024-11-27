@@ -44,7 +44,7 @@
             <div class="top-section-mobile">
                 <h2>Contact Information</h2>
                 <div (click)="handleCloseMobileContactDetail()" class="close-btn"><img
-                        src="/assets/img/icons/back_arrow.svg">
+                        src="/assets/img/icons/back_arrow.svg" alt="close button">
                 </div>
             </div>
             }
@@ -55,11 +55,11 @@
                         <h2>{{contactDetail.name}}</h2>
                         <div class="contact-actions">
                             <button class="contact-action-btn edit-btn pointer" type="button"
-                                (click)="handleEditContact()"><img
-                                    src="/assets/img/icons/edit_contact.png">Edit</button>
+                                (click)="handleEditContact()"><img src="/assets/img/icons/edit_contact.png"
+                                    alt="edit contact button">Edit</button>
                             <button class="contact-action-btn delete-btn pointer" type="button"
-                                (click)="handleDeleteContact(contactDetail.id)"><img
-                                    src="/assets/img/icons/delete_contact.png">Delete</button>
+                                (click)="handleDeleteContact(contactDetail.id)"><img src="/assets/img/icons/trash.svg"
+                                    alt="delete contact button">Delete</button>
                         </div>
                     </div>
                 </div>
@@ -88,16 +88,16 @@
         [ngClass]="{ 'full-width': this.communicationService.isMobileViewActive}">
         <div class="contact-overlay-top">
             <div class="close-btn" (click)="handleCloseAddContactOverlay()"><img
-                    src="/assets/img/icons/close_btn_blue.png">
+                    src="/assets/img/icons/close_btn_blue.png" alt="close button">
             </div>
-            <img src="/assets/img/logos/join_logo_white.png">
+            <img src="/assets/img/logos/join_logo_white.png" alt="logo">
             <h2>Add Contact</h2>
             <h3>Tasks are better with a team!</h3>
         </div>
         <div class="contact-overlay-bottom">
             <form [formGroup]="addContactForm" (ngSubmit)="onSubmit()">
                 <div class="form-input">
-                    <img class="create-icon" src="/assets/img/icons/create_contact.png">
+                    <img class="create-icon" src="/assets/img/icons/create_contact.png" alt="create contact icon">
                     <div class="input-container">
                         <input type="text" placeholder="Name" formControlName="name"><img
                             src="/assets/img/icons/login_name.svg" alt="logo">
@@ -128,9 +128,9 @@
     <div class="contact-overlay-content" (click)="stopEventPropagation($event)">
         <div class="contact-overlay-top">
             <div class="close-btn" (click)="handleCloseEditContactOverlay()"><img
-                    src="/assets/img/icons/close_btn_white.svg">
+                    src="/assets/img/icons/close_btn_white.svg" alt="close button">
             </div>
-            <img src="/assets/img/logos/join_logo_white.svg">
+            <img src="/assets/img/logos/join_logo_white.svg" alt="logo">
             <h2>Edit Contact</h2>
         </div>
         <div class="contact-overlay-bottom">
@@ -139,22 +139,22 @@
                 <div class="form-input">
                     <div class="input-container">
                         <input type="text" placeholder="Name" formControlName="editedName"><img
-                            src="/assets/img/icons/login_name.png">
+                            src="/assets/img/icons/login_name.png" alt="logo">
                     </div>
                     <div class="input-container">
                         <input type="email" placeholder="Email" formControlName="editedEmail"><img
-                            src="/assets/img/icons/login_mail.png">
+                            src="/assets/img/icons/login_mail.png" alt="logo">
                     </div>
                     <div class="input-container">
                         <input type="phone" placeholder="Phone" formControlName="editedPhone"><img
-                            src="/assets/img/icons/contact_phone.png">
+                            src="/assets/img/icons/contact_phone.png" alt="phone">
                     </div>
                 </div>
                 <div class="submit-btn-container">
                     <button class="white-btn pointer" type="button"
                         (click)="handleDeleteContact(contactDetail.id)">Delete</button>
-                    <button class="blue-btn pointer" type="submit">Save<img
-                            src="/assets/img/icons/create_btn.svg"></button>
+                    <button class="blue-btn pointer" type="submit">Save<img src="/assets/img/icons/create_btn.svg"
+                            alt="create button"></button>
                 </div>
             </form>
         </div>

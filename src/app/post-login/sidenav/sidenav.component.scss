@@ -45,6 +45,11 @@
     span {
         @include OpenSans(400, 16px, 19.2px, $menu-color);
     }
+
+    img {
+        width: 24px;
+        height: 24px;
+    }
 }
 
 .sidena-bottom {

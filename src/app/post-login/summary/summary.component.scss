@@ -220,6 +220,13 @@ h1 {
         span {
             @include OpenSans(700, 48px, 57.6px, $black);
         }
+
+        img {
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            border: 3px solid $white;
+        }
     }
 
     .task-category-bottom {

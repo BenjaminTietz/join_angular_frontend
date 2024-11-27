@@ -175,10 +175,10 @@
                     <input type="text" value="{{subtask.title}}">
                     <div class="icon-container">
                         @if (!this.databaseService.showEditTaskOverlay) {
-                        <img src="/assets/img/icons/delete_subtask_blue.png" (click)="removeSubtaskFromArray(index)"
-                            class="pointer delete-btn" alt="delete button">
+                        <img src="/assets/img/icons/delete_trash.svg" (click)="removeSubtaskFromArray(index)"
+                            class="pointer delete-btn" alt="delete button" alt="delete">
                         } @else {
-                        <img src="/assets/img/icons/delete_subtask_blue.png"
+                        <img src="/assets/img/icons/delete_trash.svg"
                             (click)="this.deleteSubtask(subtask.id, index.toString())" class="pointer"
                             alt="delete button">
                         }
