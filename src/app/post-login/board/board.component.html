@@ -5,10 +5,10 @@
     <div class="board-top-section">
         <div class="input-container"><input type="text" class="board-search" placeholder="Find Task"
                 [(ngModel)]="searchQuery" (input)="filterTasks()">
-            <div class="vertical-line"></div><img src="/assets/img/icons/search_task.png" alt="search button">
+            <div class="vertical-line"></div><img src="/assets/img/icons/search_task.svg" alt="search button">
         </div>
         <button class="blue-btn" (click)="handleShowAddTaskOverlay('todo')">Add Task<img
-                src="/assets/img/icons/add_task_white.png" alt="add task button"></button>
+                src="/assets/img/icons/add_task_white.svg" alt="add task button"></button>
     </div>
     <div class="board-bottom-section">
         <div class="board-column">
@@ -16,7 +16,7 @@
                 <div class="board-column-top">
                     <h3>To do</h3>
                     <button class="add-btn" (click)="handleShowAddTaskOverlay('todo')"><img
-                            src="/assets/img/icons/add_task_blue.png" alt="add task button"></button>
+                            src="/assets/img/icons/add_task_blue.svg" alt="add task button"></button>
                 </div>
                 <div class="board-column-bottom"
                     [ngClass]="{ 'drag-over': isDragOver['todo'],'drag-from': isDragFrom === 'todo' }"
@@ -72,7 +72,7 @@
             <div class="board-column-top">
                 <h3>In progress</h3>
                 <button class="add-btn" (click)="handleShowAddTaskOverlay('inProgress')"><img
-                        src="/assets/img/icons/add_task_blue.png" alt="add task button"></button>
+                        src="/assets/img/icons/add_task_blue.svg" alt="add task button"></button>
             </div>
             <div class="board-column-bottom"
                 [ngClass]="{ 'drag-over': isDragOver['inProgress'], 'drag-from': isDragFrom === 'inProgress' }"
@@ -130,7 +130,7 @@
         <div class="board-column-top">
             <h3>Await feedback</h3>
             <button class="add-btn" (click)="handleShowAddTaskOverlay('awaitFeedback')"><img
-                    src="/assets/img/icons/add_task_blue.png" alt="add task button"></button>
+                    src="/assets/img/icons/add_task_blue.svg" alt="add task button"></button>
         </div>
         <div class="board-column-bottom"
             [ngClass]="{ 'drag-over': isDragOver['awaitFeedback'], 'drag-from': isDragFrom === 'awaitFeedback' }"

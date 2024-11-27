@@ -11,7 +11,7 @@
             <div class="urgent-tasks pointer" [routerLink]="['/board']">
                 <div class="task-category">
                     <div class="task-category-top">
-                        <img src="assets/img/icons/urgent_tasks_summary_icon.png" alt="icon">
+                        <img src="assets/img/icons/urgent_tasks_summary_icon.svg" alt="icon">
                         <span>{{this.databaseService.urgentTasks}}</span>
                     </div>
                     <div class="task-category-bottom">
@@ -27,7 +27,7 @@
             @if (!this.communicationService.isSmallScreenActive) {
             <div class="task-category pointer" [routerLink]="['/board']">
                 <div class="task-category-top">
-                    <img src="assets/img/icons/board_summary_icon.png" alt="icon">
+                    <img src="assets/img/icons/board_summary_icon.svg" alt="icon">
                     <span>{{this.databaseService.tasksCount}}</span>
                 </div>
                 <div class="task-category-bottom">
@@ -40,7 +40,7 @@
         <div class="task-overview-middle">
             <div class="task-category pointer" [routerLink]="['/board']">
                 <div class="task-category-top">
-                    <img src="assets/img/icons/todo_tasks_summary_icon.png" alt="icon">
+                    <img src="assets/img/icons/todo_tasks_summary_icon.svg" alt="icon">
                     <span>{{this.databaseService.todoTasks.length}}</span>
                 </div>
                 <div class="task-category-bottom">
@@ -53,7 +53,7 @@
             @if (!this.communicationService.isSmallScreenActive) {
             <div class="task-category pointer" [routerLink]="['/board']">
                 <div class="task-category-top">
-                    <img src="assets/img/icons/todo_tasks_summary_icon.png" alt="icon">
+                    <img src="assets/img/icons/todo_tasks_summary_icon.svg" alt="icon">
                     <span>{{this.databaseService.todoTasks.length}}</span>
                 </div>
                 <div class="task-category-bottom">
@@ -63,7 +63,7 @@
             } @else {
             <div class="task-category pointer" [routerLink]="['/board']">
                 <div class="task-category-top">
-                    <img src="assets/img/icons/todo_tasks_summary_icon.png" alt="icon">
+                    <img src="assets/img/icons/todo_tasks_summary_icon.svg" alt="icon">
                     <span>{{this.databaseService.tasksCount}}</span>
                 </div>
                 <div class="task-category-bottom">
@@ -73,7 +73,7 @@
             }
             <div class="task-category pointer" [routerLink]="['/board']">
                 <div class="task-category-top">
-                    <img src="assets/img/icons/in_progress_tasks_summary_icon.png" alt="icon">
+                    <img src="assets/img/icons/in_progress_tasks_summary_icon.svg" alt="icon">
                     <span>{{this.databaseService.inProgressTasks.length}}</span>
                 </div>
                 <div class="task-category-bottom">
@@ -82,7 +82,7 @@
             </div>
             <div class="task-category pointer" [routerLink]="['/board']">
                 <div class="task-category-top">
-                    <img src="assets/img/icons/awaiting_feedback_tasks_summary_icon.png" alt="icon">
+                    <img src="assets/img/icons/awaiting_feedback_tasks_summary_icon.svg" alt="icon">
                     <span>{{this.databaseService.awaitFeedbackTasks.length}}</span>
                 </div>
                 <div class="task-category-bottom">
@@ -91,7 +91,7 @@
             </div>
             <div class="task-category pointer" [routerLink]="['/board']">
                 <div class="task-category-top">
-                    <img src="assets/img/icons/done_tasks_summary_icon.png" alt="icon">
+                    <img src="assets/img/icons/done_tasks_summary_icon.svg" alt="icon">
                     <span>{{this.databaseService.doneTasks.length}}</span>
                 </div>
                 <div class="task-category-bottom">

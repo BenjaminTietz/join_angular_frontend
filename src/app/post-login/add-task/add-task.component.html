@@ -94,11 +94,12 @@
                 @if (!showContactsToAssign) {
                 <p>Select contacts to assign</p>
                 <img (click)="this.toggleShowContactsToAssign(); stopEventPropagation($event)"
-                    src="/assets/img/icons/arrow_drop_down.png">
+                    src="/assets/img/icons/arrow_drop_down.svg" alt="arrow_drop_down">
                 } @else {
                 <input #contactInput type="text" placeholder="Search contacts" (click)="stopEventPropagation($event)"
                     (input)="onSearch($event)">
-                <img (click)="this.toggleShowContactsToAssign()" src="/assets/img/icons/arrow_drop_up.png">
+                <img (click)="this.toggleShowContactsToAssign()" src="/assets/img/icons/arrow_drop_up.svg"
+                    alt="arrow_drop_up">
                 }
             </div>
             @if (this.showContactsToAssign) {
@@ -138,11 +139,11 @@
                     @if (!showCategories && this.addTaskForm.get("category")?.value === "") {
                     <p>Select task category</p>
                     <img (click)="this.toggleShowCategories(); stopEventPropagation($event)"
-                        src="/assets/img/icons/arrow_drop_down.png">
+                        src="/assets/img/icons/arrow_drop_down.svg" alt="arrow_drop_down">
                     } @else {
                     <input formControlName="category" type="text">
                     <img (click)="this.toggleShowCategories(); stopEventPropagation($event)"
-                        src="/assets/img/icons/arrow_drop_up.png">
+                        src="/assets/img/icons/arrow_drop_up.svg" alt="arrow_drop_up">
                     }
                 </div>
                 @if (addTaskForm.get('taskCategory')?.touched && (addTaskForm.get('taskCategory')?.dirty ||
@@ -165,7 +166,7 @@
             <div class="input-container input-subtasks">
                 <div class="subtask-input">
                     <input type="text" placeholder="Add new subtask" formControlName="subtask"><img
-                        src="/assets/img/icons/add_blue.png" (click)="pushSubtaskToArray()">
+                        src="/assets/img/icons/add_blue.svg" (click)="pushSubtaskToArray()" alt="add_blue">
                 </div>
 
                 @for (subtask of subTasks; track subtask; let index = $index) {
@@ -175,15 +176,16 @@
                     <div class="icon-container">
                         @if (!this.databaseService.showEditTaskOverlay) {
                         <img src="/assets/img/icons/delete_subtask_blue.png" (click)="removeSubtaskFromArray(index)"
-                            class="pointer delete-btn">
+                            class="pointer delete-btn" alt="delete button">
                         } @else {
                         <img src="/assets/img/icons/delete_subtask_blue.png"
-                            (click)="this.deleteSubtask(subtask.id, index.toString())" class="pointer">
+                            (click)="this.deleteSubtask(subtask.id, index.toString())" class="pointer"
+                            alt="delete button">
                         }
 
                         <div class="vertical-line"></div>
                         <img src="/assets/img/icons/save_subtask_blue.png"
-                            (click)="saveEditedSubtask(subtask.title,index)" class="pointer edit-btn">
+                            (click)="saveEditedSubtask(subtask.title,index)" class="pointer edit-btn" alt="edit button">
                     </div>
                 </div>
                 }
@@ -191,11 +193,11 @@
             <div class="submit-btn-container" [ngClass]="{ 'position-unset': this.displayFloatingAddTask}"
                 (click)="stopEventPropagation($event)">
                 <button class="white-btn" type="button" (click)="onClear()">Clear<img
-                        src="/assets/img/icons/cancel_btn.png"></button>
+                        src="/assets/img/icons/cancel_btn.svg" alt="cancel button"></button>
                 <button class="blue-btn" type="submit" [disabled]="addTaskForm.invalid"
                     [ngClass]="{ 'disabled': addTaskForm.invalid }">
                     Create Task
-                    <img src="/assets/img/icons/create_btn.png">
+                    <img src="/assets/img/icons/create_btn.svg" alt="create button">
                 </button>
             </div>
         </form>

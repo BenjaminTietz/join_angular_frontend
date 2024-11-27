@@ -1,10 +1,10 @@
 @if (!showLoginHeader) {
 <div class="header">
-    <img [routerLink]="['/login']" src="assets/img/logos/join_logo_big_white.png" alt="logo" class="logo pointer">
+    <img [routerLink]="['/login']" src="assets/img/logos/join_logo_white.svg" alt="logo" class="logo pointer">
 </div>
 } @else {
 <div class="header">
-    <img [routerLink]="['/login']" src="assets/img/logos/join_logo_big_blue.png" alt="logo" class="logo pointer">
+    <img [routerLink]="['/login']" src="assets/img/logos/join_logo_big_blue.svg" alt="logo" class="logo pointer">
     @if (!this.communicationService.isMobileViewActive) {
     <div class="header-right">
         <p>Not a Join user?</p>

@@ -35,9 +35,9 @@ export class BoardComponent implements OnInit, OnDestroy {
   searchQuery: string = "";
   private subscriptions: Subscription = new Subscription();
   priorityIcons: { [key in "urgent" | "medium" | "low"]: string } = {
-    urgent: "/assets/img/icons/task_prio_urgent.png",
-    medium: "/assets/img/icons/task_prio_medium.png",
-    low: "/assets/img/icons/task_prio_low.png",
+    urgent: "/assets/img/icons/task_prio_urgent.svg",
+    medium: "/assets/img/icons/task_prio_medium.svg",
+    low: "/assets/img/icons/task_prio_low.svg",
   };
   showAddTaskOverlay = false;
   showTaskDetailOverlay = false;
@@ -93,7 +93,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   getPriorityIcon(priority: string): string {
     return (
       this.priorityIcons[priority as "urgent" | "medium" | "low"] ||
-      "/assets/img/icons/task_prio_default.png"
+      "/assets/img/icons/task_prio_low.svg"
     );
   }
 

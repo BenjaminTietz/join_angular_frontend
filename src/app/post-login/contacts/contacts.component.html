@@ -5,7 +5,7 @@
     <div class="contacts-left" [ngClass]="{ 'full-width': this.communicationService.isMobileViewActive}">
         @if (!this.communicationService.isMobileViewActive) {
         <button class="blue-btn" (click)="handleAddContact()">Add new contact<img
-                src="/assets/img/icons/add_contact_white.png"></button>
+                src="/assets/img/icons/add_contact_white.svg" alt="add contact button"></button>
         }
 
         <div class="contacts-list" [ngClass]="{ 'full-width': this.communicationService.isMobileViewActive}">
@@ -28,10 +28,10 @@
         <div class="mobile-btn">
             @if (this.communicationService.isMobileViewActive && !this.showMobileContactDetail) {
             <button class="mobile-add-btn" (click)="handleAddContact()"><img
-                    src="/assets/img/icons/add_contact_white.png"></button>
+                    src="/assets/img/icons/add_contact_white.svg" alt="add contact button"></button>
             } @else {
-            <button class="mobile-add-btn" (click)="handleShowMenu()"><img
-                    src="/assets/img/icons/3_dots_vert_menu.png"></button>
+            <button class="mobile-add-btn" (click)="handleShowMenu()"><img src="/assets/img/icons/3_dots_vert_menu.png"
+                    alt="menu button"></button>
             }
         </div>
         }
@@ -44,7 +44,7 @@
             <div class="top-section-mobile">
                 <h2>Contact Information</h2>
                 <div (click)="handleCloseMobileContactDetail()" class="close-btn"><img
-                        src="/assets/img/icons/back_arrow.png">
+                        src="/assets/img/icons/back_arrow.svg">
                 </div>
             </div>
             }
@@ -100,21 +100,21 @@
                     <img class="create-icon" src="/assets/img/icons/create_contact.png">
                     <div class="input-container">
                         <input type="text" placeholder="Name" formControlName="name"><img
-                            src="/assets/img/icons/login_name.png">
+                            src="/assets/img/icons/login_name.svg" alt="logo">
                     </div>
                     <div class="input-container">
                         <input type="email" placeholder="Email" formControlName="email"><img
-                            src="/assets/img/icons/login_mail.png">
+                            src="/assets/img/icons/login_mail.svg" alt="logo">
                     </div>
                     <div class="input-container">
                         <input type="phone" placeholder="Phone" formControlName="phone"><img
-                            src="/assets/img/icons/contact_phone.png">
+                            src="/assets/img/icons/contact_phone.svg" alt="logo">
                     </div>
                     <div class="submit-btn-container">
                         <button class="white-btn" type="button" (click)="handleCloseAddContactOverlay()">Cancel<img
-                                src="/assets/img/icons/cancel_btn.png"></button>
-                        <button class="blue-btn" type="submit">Create Contact<img
-                                src="/assets/img/icons/create_btn.png"></button>
+                                src="/assets/img/icons/cancel_btn.svg" alt="cancel button"></button>
+                        <button class="blue-btn" type="submit">Create Contact<img src="/assets/img/icons/create_btn.svg"
+                                alt="create button"></button>
                     </div>
                 </div>
             </form>
@@ -128,9 +128,9 @@
     <div class="contact-overlay-content" (click)="stopEventPropagation($event)">
         <div class="contact-overlay-top">
             <div class="close-btn" (click)="handleCloseEditContactOverlay()"><img
-                    src="/assets/img/icons/close_btn_white.png">
+                    src="/assets/img/icons/close_btn_white.svg">
             </div>
-            <img src="/assets/img/logos/join_logo_white.png">
+            <img src="/assets/img/logos/join_logo_white.svg">
             <h2>Edit Contact</h2>
         </div>
         <div class="contact-overlay-bottom">
@@ -154,7 +154,7 @@
                     <button class="white-btn pointer" type="button"
                         (click)="handleDeleteContact(contactDetail.id)">Delete</button>
                     <button class="blue-btn pointer" type="submit">Save<img
-                            src="/assets/img/icons/create_btn.png"></button>
+                            src="/assets/img/icons/create_btn.svg"></button>
                 </div>
             </form>
         </div>

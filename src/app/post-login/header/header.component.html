@@ -1,16 +1,17 @@
 <div class="header-wrapper">
     <div class="header-left">
         @if (this.authService.isLoggedIn) {
-        <img src="assets/img/logos/join_logo_white.png" alt="join-logo" class="join-logo pointer"
+        <img src="assets/img/logos/join_logo_white_header.svg" alt="join-logo" class="join-logo pointer"
             [routerLink]="['/summary']">
         } @else {
-        <img src="assets/img/logos/join_logo_white.png" alt="join-logo" class="join-logo pointer" [routerLink]="['']">
+        <img src="assets/img/logos/join_logo_white_header.svg" alt="join-logo" class="join-logo pointer"
+            [routerLink]="['']">
         }
     </div>
     <div class="header-right">
         <p>Kanban Project Management Tool</p>
         @if (this.authService.isLoggedIn) {
-        <img src="assets/img/icons/help_white.png" [routerLink]="['/instructions']" alt="join-logo" class="join-logo">
+        <img src="assets/img/icons/help_white.svg" [routerLink]="['/instructions']" alt="join-logo" class="join-logo">
         <div class="user-profile" (click)="toggleUserMenu()">
             <div class="circle-outside">
                 <div class="circle-inside">
