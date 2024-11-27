@@ -252,7 +252,7 @@
         <div class="add-task-header">
             <h3>Add Task</h3>
             <button class="close-btn" (click)="handleCloseAddTaskOverlay($event)"><img
-                    src="/assets/img/icons/close_btn_blue.png" alt="close button"></button>
+                    src="/assets/img/icons/close_btn_blue.svg" alt="close button"></button>
         </div>
         <app-add-task [category]="this.selectedStaus"></app-add-task>
     </div>
@@ -271,7 +271,7 @@
                 <h4 class="{{ task.category | titlecase }}">{{task.category}}</h4>
             </div>
             <div class="close-btn" (click)="handleCloseTaskDetailOverlay($event)"><img
-                    src="/assets/img/icons/close_btn_blue.png" alt="close button"></div>
+                    src="/assets/img/icons/close_btn_blue.svg" alt="close button"></div>
         </div>
         <div class="task-title">
             <h2>{{task.title}}</h2>
@@ -312,10 +312,10 @@
         </div>
         <div class="task-actions">
             <button class="contact-action-btn" type="button" (click)="handleDeleteTask(task)"><img
-                    src="/assets/img/icons/trash.svg" alt="delete button">Delete</button>
+                    src="/assets/img/icons/delete_trash.svg" alt="delete button">Delete</button>
             <div class="vertical-line"></div>
             <button class="contact-action-btn" type="button" (click)="openTaskEditor(task)"><img
-                    src="/assets/img/icons/edit_contact.png" alt="edit button">Edit</button>
+                    src="/assets/img/icons/edit_contact.svg" alt="edit button">Edit</button>
         </div>
     </div>
 </div>
@@ -331,7 +331,7 @@
         <div class="add-task-header">
             <h3></h3>
             <button class="close-btn" (click)="handleCloseEditTaskOverlay($event)"><img
-                    src="/assets/img/icons/close_btn_blue.png" alt="close button"></button>
+                    src="/assets/img/icons/close_btn_blue.svg" alt="close button"></button>
         </div>
         <app-add-task [category]="this.selectedStaus"></app-add-task>
     </div>

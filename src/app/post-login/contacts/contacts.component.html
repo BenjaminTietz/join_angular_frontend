@@ -30,7 +30,7 @@
             <button class="mobile-add-btn" (click)="handleAddContact()"><img
                     src="/assets/img/icons/add_contact_white.svg" alt="add contact button"></button>
             } @else {
-            <button class="mobile-add-btn" (click)="handleShowMenu()"><img src="/assets/img/icons/3_dots_vert_menu.png"
+            <button class="mobile-add-btn" (click)="handleShowMenu()"><img src="/assets/img/icons/3_dots_vert_menu.svg"
                     alt="menu button"></button>
             }
         </div>
@@ -55,11 +55,11 @@
                         <h2>{{contactDetail.name}}</h2>
                         <div class="contact-actions">
                             <button class="contact-action-btn edit-btn pointer" type="button"
-                                (click)="handleEditContact()"><img src="/assets/img/icons/edit_contact.png"
+                                (click)="handleEditContact()"><img src="/assets/img/icons/edit_contact.svg"
                                     alt="edit contact button">Edit</button>
                             <button class="contact-action-btn delete-btn pointer" type="button"
-                                (click)="handleDeleteContact(contactDetail.id)"><img src="/assets/img/icons/trash.svg"
-                                    alt="delete contact button">Delete</button>
+                                (click)="handleDeleteContact(contactDetail.id)"><img
+                                    src="/assets/img/icons/delete_trash.svg" alt="delete contact button">Delete</button>
                         </div>
                     </div>
                 </div>
@@ -88,16 +88,16 @@
         [ngClass]="{ 'full-width': this.communicationService.isMobileViewActive}">
         <div class="contact-overlay-top">
             <div class="close-btn" (click)="handleCloseAddContactOverlay()"><img
-                    src="/assets/img/icons/close_btn_blue.png" alt="close button">
+                    src="/assets/img/icons/close_btn_blue.svg" alt="close button">
             </div>
-            <img src="/assets/img/logos/join_logo_white.png" alt="logo">
+            <img src="/assets/img/logos/join_logo_white.svg" alt="logo">
             <h2>Add Contact</h2>
             <h3>Tasks are better with a team!</h3>
         </div>
         <div class="contact-overlay-bottom">
             <form [formGroup]="addContactForm" (ngSubmit)="onSubmit()">
                 <div class="form-input">
-                    <img class="create-icon" src="/assets/img/icons/create_contact.png" alt="create contact icon">
+                    <img class="create-icon" src="/assets/img/icons/create_contact.svg" alt="create contact icon">
                     <div class="input-container">
                         <input type="text" placeholder="Name" formControlName="name"><img
                             src="/assets/img/icons/login_name.svg" alt="logo">
@@ -108,7 +108,7 @@
                     </div>
                     <div class="input-container">
                         <input type="phone" placeholder="Phone" formControlName="phone"><img
-                            src="/assets/img/icons/contact_phone.svg" alt="logo">
+                            src="/assets/img/icons/login_phone.svg" alt="logo">
                     </div>
                     <div class="submit-btn-container">
                         <button class="white-btn" type="button" (click)="handleCloseAddContactOverlay()">Cancel<img
@@ -139,15 +139,15 @@
                 <div class="form-input">
                     <div class="input-container">
                         <input type="text" placeholder="Name" formControlName="editedName"><img
-                            src="/assets/img/icons/login_name.png" alt="logo">
+                            src="/assets/img/icons/login_name.svg" alt="logo">
                     </div>
                     <div class="input-container">
                         <input type="email" placeholder="Email" formControlName="editedEmail"><img
-                            src="/assets/img/icons/login_mail.png" alt="logo">
+                            src="/assets/img/icons/login_mail.svg" alt="logo">
                     </div>
                     <div class="input-container">
                         <input type="phone" placeholder="Phone" formControlName="editedPhone"><img
-                            src="/assets/img/icons/contact_phone.png" alt="phone">
+                            src="/assets/img/icons/login_phone.svg" alt="phone">
                     </div>
                 </div>
                 <div class="submit-btn-container">
