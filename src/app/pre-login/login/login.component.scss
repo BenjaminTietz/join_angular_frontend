@@ -215,8 +215,8 @@ header {
     .animated-logo svg {
         width: 74px;
         height: 88px !important;
-        margin-top: -20px !important;
-        margin-left: -20px !important;
+        margin-top: -10px !important;
+        margin-left: -10px !important;
     }
 }
 
@@ -226,8 +226,8 @@ header {
     }
 
     .animated-logo svg {
-        margin-top: -26px !important;
-        margin-left: -26px !important;
+        margin-top: 20px !important;
+        margin-left: 0px !important;
     }
 
     header {
@@ -262,6 +262,7 @@ header {
         width: 80% !important;
         height: 480px !important;
         padding: 0 !important;
+        gap: 8px !important;
 
         h1 {
             @include OpenSans(700 !important, 47px !important, 56.4px !important, $black);

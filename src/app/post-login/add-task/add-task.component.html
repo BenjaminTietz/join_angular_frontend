@@ -22,9 +22,14 @@
             <span>Due date</span>
             <div class="form-input-container" (click)="stopEventPropagation($event)">
                 <input type="date" formControlName="taskDueDate" />
-                @if (addTaskForm.get('taskDueDate')?.touched && addTaskForm.get('taskDueDate')?.invalid) {
+                @if (addTaskForm.get('taskDueDate')?.touched && addTaskForm.get('taskDueDate')?.errors) {
                 <div class="error">
-                    <span>Choose a due date</span>
+                    @if (addTaskForm.get('taskDueDate')?.errors?.['required']) {
+                    <span>Date is required</span>
+                    }
+                    @if (addTaskForm.get('taskDueDate')?.errors?.['pastDate']) {
+                    <span>Date cannot be in the past</span>
+                    }
                 </div>
                 }
             </div>
@@ -82,8 +87,7 @@
                         </svg>
                     </div>
                 </div>
-                @if (addTaskForm.get('taskPrioity')?.touched && (addTaskForm.get('taskPrioity')?.dirty ||
-                addTaskForm.get('taskPrioity')?.invalid)) {
+                @if (addTaskForm.get('taskPriority')?.touched && addTaskForm.get('taskPriority')?.invalid) {
                 <div class="error">
                     <span>Choose a due date</span>
                 </div>

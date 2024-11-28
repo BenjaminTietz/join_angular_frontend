@@ -14,6 +14,8 @@ import {
   FormGroup,
   ReactiveFormsModule,
   Validators,
+  AbstractControl,
+  ValidationErrors,
 } from "@angular/forms";
 import { Observable, Subscription } from "rxjs";
 import { Contact } from "../../models/contact.class";
@@ -77,7 +79,7 @@ export class AddTaskComponent implements OnInit {
     this.addTaskForm = this.fb.group({
       taskTitle: ["", Validators.required],
       taskDescription: [""],
-      taskDueDate: ["", Validators.required],
+      taskDueDate: ["", [Validators.required, this.futureDateValidator]],
       taskPriority: ["", Validators.required],
       taskAssignedTo: this.fb.array([]),
       category: ["", Validators.required],
@@ -132,6 +134,17 @@ export class AddTaskComponent implements OnInit {
     this.taskId = null;
     this.taskData = null;
     this.isTaskgettingEdited = false;
+  }
+
+  futureDateValidator(control: AbstractControl): ValidationErrors | null {
+    const selectedDate = new Date(control.value);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (selectedDate < today) {
+      return { pastDate: true };
+    }
+    return null;
   }
 
   onSubmit() {
