@@ -13,6 +13,7 @@ import { HeaderComponent } from "../header/header.component";
 import { SidenavComponent } from "../sidenav/sidenav.component";
 import { AppComponent } from "../../app.component";
 import { CommunicationService } from "../../services/communication.service";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-contacts",
@@ -27,7 +28,7 @@ import { CommunicationService } from "../../services/communication.service";
   styleUrl: "./contacts.component.scss",
 })
 export class ContactsComponent implements OnInit, OnDestroy {
-  contacts$!: Observable<Contact[]>;
+  groupedContacts: { letter: string; contacts: Contact[] }[] = [];
   private subscriptions: Subscription = new Subscription();
   contactDetail: any | null = null;
   addContactForm!: FormGroup;
@@ -54,11 +55,39 @@ export class ContactsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.databaseService.initializeData(true);
-    this.contacts$ = this.databaseService.getContacts();
+    this.databaseService
+      .getContacts()
+      .pipe(
+        map((contacts: Contact[]) => {
+          const grouped = contacts.reduce(
+            (acc: { [key: string]: Contact[] }, contact: Contact) => {
+              const letter = contact.name.charAt(0).toUpperCase();
+              if (!acc[letter]) {
+                acc[letter] = [];
+              }
+              acc[letter].push(contact);
+              return acc;
+            },
+            {}
+          );
+
+          return Object.entries(grouped).map(([letter, contacts]) => ({
+            letter,
+            contacts,
+          }));
+        })
+      )
+      .subscribe((groupedContacts) => {
+        this.groupedContacts = groupedContacts;
+      });
   }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+  }
+
+  getKeys(obj: { [key: string]: Contact[] }): string[] {
+    return Object.keys(obj);
   }
 
   handleShowContactDetails(id: string) {

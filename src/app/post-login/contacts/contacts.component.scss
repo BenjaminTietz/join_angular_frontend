@@ -24,9 +24,20 @@
     >.contacts-list {
         @include dFlex(column, flex-start, flex-start);
         width: 100%;
-        gap: 20px;
 
-        >.contact {
+        .contact-group {
+            width: 100%;
+            border-radius: 3px;
+            margin-bottom: 32px;
+            gap: 20px;
+        }
+
+        .contact-group-header {
+            @include OpenSans(400, 18px, 21.6px, $black);
+            border-bottom: 1px solid $border-color;
+        }
+
+        .contact {
             width: 352px;
             height: 77px;
             border-radius: 10px;

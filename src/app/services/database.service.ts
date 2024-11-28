@@ -186,11 +186,9 @@ export class DatabaseService {
   // Helper function to get the next due date for urgent tasks
   public getNextDueDateForUrgentTasks(tasks: Task[]): string | null {
     const urgentTasks = tasks.filter((task) => task.priority === "urgent");
-    console.log(urgentTasks); // Debugging
     urgentTasks.sort(
       (a, b) => new Date(a.due_date).getTime() - new Date(b.due_date).getTime()
     );
-    console.log(urgentTasks); // Debugging
     return urgentTasks.length > 0 ? urgentTasks[0].due_date : null;
   }
 
