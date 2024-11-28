@@ -14,7 +14,6 @@
     overflow-y: scroll;
 }
 
-
 .submit-btn-container {
     width: 335px;
     height: 61px;
@@ -33,6 +32,7 @@ form {
     padding-bottom: 64px;
     gap: 24px;
     @include dFlex(column, flex-start, flex-start);
+    overflow: hidden;
 
     input {
         width: 440px;
@@ -43,6 +43,10 @@ form {
         border: none;
         border-bottom: 1px solid $border-color;
         cursor: pointer;
+    }
+
+    input.special-input {
+        border-bottom: none;
     }
 
     input::placeholder {
@@ -114,18 +118,17 @@ form {
     &:nth-child(3):hover {
         border-color: $low !important;
     }
-
 }
 
-
 .dropdown-menu {
-    width: 100%;
+    width: 440px;
     height: 48px;
     border-bottom: solid 1px;
     border-color: $border-color;
     padding: 12px 16px;
     @include dFlex(row, space-between, center);
     transition: all 0.1s ease-in-out;
+    box-sizing: content-box;
 
     &:hover {
         border-color: $light-blue;
@@ -145,10 +148,9 @@ form {
     }
 
     input {
-        width: 100%;
+        width: 440px;
         height: 48px;
         box-sizing: border-box;
-        border: none;
         padding: unset;
     }
 
@@ -174,7 +176,6 @@ form {
         @include OpenSans(400, 19px, 22.8px, $black);
     }
 }
-
 
 .drop-down-content {
     width: 100%;
@@ -212,10 +213,8 @@ form {
                 border-bottom: 1px solid $border-color;
                 cursor: pointer;
             }
-
         }
     }
-
 }
 
 .contact-initials {
@@ -242,21 +241,21 @@ form {
 
 .input-subtasks {
     @include dFlex(column, flex-start, center);
-    width: 100%;
+    width: 440px;
     height: fit-content;
     position: relative;
 
     >.subtask-input {
-        width: 100%;
+        width: 440px;
         @include dFlex(row, flex-start, center);
-
+        box-sizing: content-box;
 
         img {
             width: 24px;
             height: 24px;
             cursor: pointer;
             position: absolute;
-            right: 16px;
+            right: 62px;
             top: 28px;
         }
     }
@@ -264,7 +263,6 @@ form {
     .subtask-input input::placeholder {
         @include OpenSans(400, 19px, 22.8px, $border-color);
     }
-
 
     >.subtask-container {
         width: 440px;
@@ -362,8 +360,6 @@ form {
     form input {
         width: 100% !important;
     }
-
-
 }
 
 @media only screen and (max-width: 650px) {
@@ -371,15 +367,11 @@ form {
         width: 100%;
     }
 
-
-
     form input,
     form textarea {
         width: 100% !important;
         @include OpenSans(400, 16px, 19.2px, $black);
     }
-
-
 
     form {
         textarea::placeholder {
@@ -408,7 +400,6 @@ form {
     .btn-container {
         gap: 8px;
     }
-
 
     .prio-btn {
         width: 188px;

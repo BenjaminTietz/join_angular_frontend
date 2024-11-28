@@ -88,6 +88,7 @@ export class AddTaskComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    this.databaseService.initializeData(true);
     this.subscriptions.add(
       this.communicationService.resetForm$.subscribe(() => {
         this.resetForm();
@@ -150,7 +151,6 @@ export class AddTaskComponent implements OnInit {
   onSubmit() {
     if (this.addTaskForm.valid) {
       const newTask = this.createTaskObject();
-      console.log("New Task:", newTask);
       this.app.showDialog("Task Creation Successful");
       if (this.taskId) {
         this.updateTask(newTask);
@@ -183,9 +183,9 @@ export class AddTaskComponent implements OnInit {
       this.databaseService
         .updateTask(this.taskId, task)
         .subscribe((updatedTask) => {
-          console.log("Task updated:", updatedTask);
           this.handleAdditionalUpdates(task.id);
           this.databaseService.showEditTaskOverlay = false;
+          this.databaseService.loadTasks();
           this.app.showDialog("Task Update Successful");
         });
     }
@@ -193,7 +193,6 @@ export class AddTaskComponent implements OnInit {
 
   private createNewTask(task: Task) {
     this.databaseService.createTask(task).subscribe((createdTask) => {
-      console.log("Task created:", createdTask);
       this.app.showDialog("Task Creation Successful");
       setTimeout(() => {
         this.databaseService.loadTasks();
@@ -211,15 +210,13 @@ export class AddTaskComponent implements OnInit {
     );
 
     if (newSubtasks.length > 0) {
-      this.databaseService.addSubtasks(taskId, newSubtasks).subscribe(() => {
-        console.log("Neue Subtasks erfolgreich hinzugefügt");
-      });
+      this.databaseService.addSubtasks(taskId, newSubtasks).subscribe(() => {});
     }
 
     if (newAssignees.length > 0) {
-      this.databaseService.addAssignees(taskId, newAssignees).subscribe(() => {
-        console.log("Neue Assignees erfolgreich hinzugefügt");
-      });
+      this.databaseService
+        .addAssignees(taskId, newAssignees)
+        .subscribe(() => {});
     }
   }
 
@@ -252,7 +249,6 @@ export class AddTaskComponent implements OnInit {
         (c) => c.id !== contact.id
       );
     }
-    console.log("Assigned Contacts:", this.assignedContacts);
   }
 
   setPriority(priority: string) {
@@ -271,13 +267,11 @@ export class AddTaskComponent implements OnInit {
       });
       this.addTaskForm.patchValue({ subtask: "" });
     }
-    console.log("Subtasks:", this.subTasks);
   }
   removeSubtaskFromArray(index: number) {
     this.subTasks.splice(index, 1);
   }
   handleEditSubtask(subtaskTitle: string, index: number) {
-    console.log("Edit subtask index", index);
     this.editSubTaskTitle = subtaskTitle;
     const listElement = document.querySelector(
       `.subtask-container:nth-child(${index + 2}) > li`
@@ -314,7 +308,6 @@ export class AddTaskComponent implements OnInit {
         listElement.style.display = "flex";
       }
     }
-    console.log("Subtasks:", this.subTasks);
   }
 
   loadTaskData(task: Task) {
@@ -368,13 +361,10 @@ export class AddTaskComponent implements OnInit {
 
   deleteSubtask(subtaskId: string, index: string) {
     this.subTasks.splice(Number(index), 1);
-    console.log("Subtasks:", this.subTasks);
     if (this.taskId) {
       this.databaseService
         .deleteSubtask(this.taskId, subtaskId)
-        .subscribe((res) => {
-          console.log("Subtask deleted:", res);
-        });
+        .subscribe((res) => {});
     } else {
       console.error("Task ID is null, cannot delete subtask.");
     }
@@ -416,7 +406,5 @@ export class AddTaskComponent implements OnInit {
     const formattedValue = value.charAt(0).toUpperCase() + value.slice(1);
     this.addTaskForm.get("category")?.setValue(formattedValue);
     this.showCategories = false;
-    console.log("Selected category:", value);
-    console.log("Selected category:", formattedValue);
   }
 }
