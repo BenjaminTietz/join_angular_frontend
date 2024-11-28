@@ -154,7 +154,7 @@ export class AddTaskComponent implements OnInit {
       id: this.taskId || "",
       title: this.addTaskForm.value.taskTitle,
       description: this.addTaskForm.value.taskDescription,
-      dueDate: this.addTaskForm.value.taskDueDate,
+      due_date: this.addTaskForm.value.taskDueDate,
       assignedTo: [],
       category: this.addTaskForm.value.category,
       priority: this.addTaskForm.value.taskPriority,
@@ -309,7 +309,7 @@ export class AddTaskComponent implements OnInit {
     this.addTaskForm.patchValue({
       taskTitle: task.title,
       taskDescription: task.description,
-      taskDueDate: task.dueDate,
+      taskDueDate: task.due_date,
       taskPriority: task.priority,
       category: task.category,
     });

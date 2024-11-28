@@ -90,7 +90,7 @@ export class DatabaseService {
       category: task.category.toLowerCase(),
       priority: task.priority.toLowerCase(),
       status: task.status,
-      due_date: task.dueDate,
+      due_date: task.due_date,
       assignedTo: task.assignedTo,
       subTasks: task.subTasks,
     };
@@ -186,10 +186,12 @@ export class DatabaseService {
   // Helper function to get the next due date for urgent tasks
   public getNextDueDateForUrgentTasks(tasks: Task[]): string | null {
     const urgentTasks = tasks.filter((task) => task.priority === "urgent");
+    console.log(urgentTasks); // Debugging
     urgentTasks.sort(
-      (a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
+      (a, b) => new Date(a.due_date).getTime() - new Date(b.due_date).getTime()
     );
-    return urgentTasks.length > 0 ? urgentTasks[0].dueDate : null;
+    console.log(urgentTasks); // Debugging
+    return urgentTasks.length > 0 ? urgentTasks[0].due_date : null;
   }
 
   // Getter and Setter for taskId

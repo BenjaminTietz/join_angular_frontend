@@ -1,5 +1,5 @@
-import { Contact } from './contact.class';
-import { SubTask } from './subTask.class';
+import { Contact } from "./contact.class";
+import { SubTask } from "./subTask.class";
 
 export class Task {
   id: string;
@@ -7,7 +7,7 @@ export class Task {
   description: string;
   category: string;
   assignedTo: Contact[];
-  dueDate: string;
+  due_date: string;
   priority: string;
   subTasks: SubTask[];
   status: string;
@@ -15,16 +15,16 @@ export class Task {
   createdBy: string;
 
   constructor(obj?: any) {
-    this.id = obj ? obj.id : '';
-    this.title = obj ? obj.title : '';
-    this.description = obj ? obj.description : '';
-    this.category = obj ? obj.category : '';
+    this.id = obj ? obj.id : "";
+    this.title = obj ? obj.title : "";
+    this.description = obj ? obj.description : "";
+    this.category = obj ? obj.category : "";
     this.assignedTo = obj ? obj.assignedTo : [];
-    this.dueDate = obj ? obj.dueDate : '';
-    this.priority = obj ? obj.priority : '';
+    this.due_date = obj ? obj.due_date : "";
+    this.priority = obj ? obj.priority : "";
     this.subTasks = obj ? obj.subTasks : [];
-    this.status = obj ? obj.status : '';
-    this.createdAt = obj ? obj.createdAt : '';
-    this.createdBy = obj ? obj.createdBy : '';
+    this.status = obj ? obj.status : "";
+    this.createdAt = obj ? obj.createdAt : "";
+    this.createdBy = obj ? obj.createdBy : "";
   }
 }
