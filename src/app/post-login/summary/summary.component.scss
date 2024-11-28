@@ -51,6 +51,7 @@ h1 {
             >.task-category-bottom {
                 span {
                     color: $white;
+                    white-space: nowrap;
                 }
             }
         }
@@ -66,6 +67,7 @@ h1 {
 
         .task-category-bottom {
             color: $white;
+            white-space: nowrap;
         }
     }
 
@@ -98,6 +100,7 @@ h1 {
         >.task-deadline p,
         >.task-deadline span {
             color: $main-blue-dark !important;
+            white-space: nowrap;
         }
 
         .vertical-line {
@@ -134,6 +137,7 @@ h1 {
 
         .task-category-bottom span {
             color: $white;
+            white-space: nowrap;
         }
     }
 

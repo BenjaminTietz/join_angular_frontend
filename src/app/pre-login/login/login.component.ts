@@ -1,17 +1,26 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, OnInit, Output, EventEmitter } from "@angular/core";
+import { filter } from "rxjs/operators";
 import {
   FormGroup,
   ReactiveFormsModule,
   FormBuilder,
   Validators,
 } from "@angular/forms";
-import { Router, RouterModule } from "@angular/router";
+import { Router, RouterModule, NavigationEnd } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
 import { DatabaseService } from "../../services/database.service";
 import { CommunicationService } from "../../services/communication.service";
 import { FooterComponent } from "../shared/footer/footer.component";
 import { HeaderComponent } from "../shared/header/header.component";
 import { AppComponent } from "../../app.component";
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from "@angular/animations";
+import { CommonModule } from "@angular/common";
 @Component({
   selector: "app-login",
   standalone: true,
@@ -20,12 +29,59 @@ import { AppComponent } from "../../app.component";
     ReactiveFormsModule,
     HeaderComponent,
     FooterComponent,
+    CommonModule,
   ],
   templateUrl: "./login.component.html",
   styleUrl: "./login.component.scss",
+  animations: [
+    trigger("logoAnimationContainer", [
+      state(
+        "visible",
+        style({
+          opacity: 1,
+          display: "block",
+          backgroundColor: "white",
+        })
+      ),
+      state(
+        "hidden",
+        style({
+          opacity: 0,
+          display: "none",
+          backgroundColor: "transparent",
+        })
+      ),
+      transition("visible => hidden", [animate("0.5s ease-out")]),
+    ]),
+    trigger("logoAnimation", [
+      state(
+        "center",
+        style({
+          transform: "translate(-50%, -50%) scale(1.5)",
+          top: "50%",
+          left: "50%",
+          opacity: 1,
+        })
+      ),
+      state(
+        "header",
+        style({
+          transform: "translate(0, 0) scale(1)",
+          top: "0px",
+          left: "0px",
+          opacity: 1,
+        })
+      ),
+      transition("center => header", [animate("1s ease-in-out")]),
+    ]),
+  ],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
+  @Output() animationFinished = new EventEmitter<void>();
+  animationState: "center" | "header" | "hidden" = "center";
+  containerState: "visible" | "hidden" = "visible";
   loginForm!: FormGroup;
+  private destroy$ = new EventEmitter<void>();
   injectAuthService!: AuthService;
   app = inject(AppComponent);
   public communicationService = inject(CommunicationService);
@@ -34,6 +90,40 @@ export class LoginComponent {
   private router = inject(Router);
   constructor(private fb: FormBuilder) {
     this.createLoginForm();
+  }
+
+  ngOnInit() {
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        if (event.url === "/login") {
+          this.resetAnimationState();
+          this.startAnimation();
+        }
+      });
+    this.resetAnimationState();
+    this.startAnimation();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.resetAnimationState();
+  }
+
+  private startAnimation() {
+    this.resetAnimationState();
+    setTimeout(() => {
+      this.animationState = "header";
+      setTimeout(() => {
+        this.containerState = "hidden";
+      }, 1000);
+    }, 1000);
+  }
+
+  private resetAnimationState() {
+    this.animationState = "center";
+    this.containerState = "visible";
   }
 
   createLoginForm() {
