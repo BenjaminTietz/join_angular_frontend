@@ -297,6 +297,17 @@ textarea::placeholder {
     }
 }
 
+.error {
+    width: 100%;
+    position: absolute;
+    bottom: -24px;
+    left: 4px;
+
+    span {
+        @include Inter(400, 13px, 15.6px, $error);
+    }
+}
+
 .form-input-container.ng-invalid.ng-touched .error {
     display: block;
 }

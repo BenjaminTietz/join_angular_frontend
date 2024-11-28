@@ -40,19 +40,30 @@ export class ContactsComponent implements OnInit, OnDestroy {
   private appComponent = inject(AppComponent);
   public communicationService = inject(CommunicationService);
   private databaseService = inject(DatabaseService);
+  /**
+   * The constructor for the ContactsComponent class.
+   * @param fb The FormBuilder service is injected into the component to create
+   *     the addContactForm and editContactForm.
+   */
   constructor(private fb: FormBuilder) {
     this.addContactForm = this.fb.group({
       name: ["", Validators.required],
-      email: ["", Validators.required],
+      email: ["", [Validators.required, Validators.email]],
       phone: ["", Validators.required],
     });
     this.editContactForm = this.fb.group({
       editedName: ["", Validators.required],
-      editedEmail: ["", Validators.required],
+      editedEmail: ["", [Validators.required, Validators.email]],
       editedPhone: ["", Validators.required],
     });
   }
 
+  /**
+   * Initializes the component by:
+   * 1. Initializing the DatabaseService by calling its initializeData method with true as the argument.
+   * 2. Subscribing to the contacts$ observable and grouping the contacts by the first letter of their name.
+   * 3. Assigning the grouped contacts to the groupedContacts field.
+   */
   ngOnInit(): void {
     this.databaseService.initializeData(true);
     this.databaseService
@@ -70,7 +81,6 @@ export class ContactsComponent implements OnInit, OnDestroy {
             },
             {}
           );
-
           return Object.entries(grouped).map(([letter, contacts]) => ({
             letter,
             contacts,
@@ -82,14 +92,29 @@ export class ContactsComponent implements OnInit, OnDestroy {
       });
   }
 
+  /**
+   * Lifecycle hook that is called when the component is destroyed.
+   * Unsubscribes from all subscriptions to prevent memory leaks.
+   */
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
+  /**
+   * Retrieves the keys of an object where each key is associated with an array of Contact objects.
+   *
+   * @param obj - An object with keys of type string and values of type array of Contact.
+   * @returns An array of strings representing the keys of the input object.
+   */
   getKeys(obj: { [key: string]: Contact[] }): string[] {
     return Object.keys(obj);
   }
 
+  /**
+   * Handles showing the details of a contact when the user clicks on it from the contacts list.
+   * Slides out the current contact details, and then slides in the new contact details.
+   * @param id - The id of the contact to show the details of.
+   */
   handleShowContactDetails(id: string) {
     const contactView = document.querySelector(
       ".contacts-right"
@@ -110,6 +135,11 @@ export class ContactsComponent implements OnInit, OnDestroy {
     });
     this.showMobileContactDetail = true;
   }
+  /**
+   * Handles showing the edit contact overlay when the user clicks the edit button for a contact.
+   * Retrieves the contact details and populates the edit contact form with the contact's current values.
+   * It also marks all form controls as touched and updates the form's validity.
+   */
   handleEditContact() {
     this.showEditContactOverlay = true;
     const contactOverlay = document.querySelector(
@@ -124,18 +154,38 @@ export class ContactsComponent implements OnInit, OnDestroy {
       editedEmail: this.contactDetail.email,
       editedPhone: this.contactDetail.phone,
     });
+    this.editContactForm.markAllAsTouched();
+    this.editContactForm.updateValueAndValidity();
   }
 
+  /**
+   * Given a name, splits it into individual parts and extracts the first letter of each part to create an
+   * initial string. This is used to generate the initial for a contact's display name.
+   * @param name The name to split and extract initials from.
+   * @returns The initial string.
+   */
   extractInitials(name: string) {
     const nameParts = name.split(" ");
     const initials = nameParts.map((part) => part[0]).join("");
     return initials;
   }
 
+  /**
+   * Generates a random hexadecimal color code.
+   *
+   * @returns A string representing a random color in the format "#RRGGBB".
+   */
   assignRandomColor() {
     return "#" + Math.floor(Math.random() * 16777215).toString(16);
   }
 
+  /**
+   * Handles the submission of the add contact form.
+   * If the form is valid, it creates a new contact object, assigns random initials and color,
+   * and sends a request to create the contact in the database.
+   * Upon successful creation, closes the add contact overlay and reloads the contacts.
+   * Displays a dialog on successful completion or logs an error on failure.
+   */
   onSubmit() {
     if (this.addContactForm.valid) {
       const newContact: Contact = {
@@ -162,6 +212,13 @@ export class ContactsComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Handles the submission of the edit contact form.
+   * If the form is valid and there are changes, it sends a request to update the contact in the database.
+   * Upon successful update, closes the edit contact overlay and reloads the contacts.
+   * Displays a dialog on successful completion, or logs an error on failure.
+   * If there are no changes, displays a dialog indicating so and closes the overlay.
+   */
   onSubmitEditContactForm() {
     if (this.editContactForm.valid) {
       const oldContact = this.contactDetail;
@@ -199,6 +256,14 @@ export class ContactsComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Deletes a contact by its ID.
+   * Sends a request to delete the contact from the database and updates the UI accordingly.
+   * On successful deletion, sets the contact detail to null and reloads the contact list.
+   * Displays a success dialog on completion or an error dialog if the deletion fails.
+   *
+   * @param contactId - The ID of the contact to be deleted.
+   */
   handleDeleteContact(contactId: string): void {
     this.databaseService.deleteContact(contactId).subscribe({
       next: () => {
@@ -215,9 +280,18 @@ export class ContactsComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Opens the overlay for adding a new contact.
+   * Sets the `showAddContactOverlay` flag to true, making the add contact form visible.
+   */
   handleAddContact() {
     this.showAddContactOverlay = true;
   }
+  /**
+   * Closes the add contact overlay.
+   * Hides the add contact overlay, resets the add contact form and waits for 500ms before setting the `showAddContactOverlay` flag to false.
+   * This allows the animation of the overlay to finish before the flag is set to false.
+   */
   handleCloseAddContactOverlay() {
     const contactOverlay = document.querySelector(
       ".contact-overlay"
@@ -231,20 +305,36 @@ export class ContactsComponent implements OnInit, OnDestroy {
       this.addContactForm.reset();
     }, 500);
   }
+  /**
+   * Closes the edit contact overlay.
+   * Hides the edit contact overlay and resets the edit contact form.
+   */
   handleCloseEditContactOverlay() {
     this.showEditContactOverlay = false;
     this.editContactForm.reset();
   }
+  /**
+   * Stops the propagation of the given event.
+   * @param event The event whose propagation is to be stopped.
+   */
   stopEventPropagation(event: Event) {
     event.stopPropagation();
   }
 
+  /**
+   * Closes the mobile contact detail view.
+   * Hides the mobile contact detail view, resets the contact detail to null and hides the menu.
+   */
   handleCloseMobileContactDetail() {
     this.contactDetail = null;
     this.showMobileContactDetail = false;
     this.showMenu = false;
   }
 
+  /**
+   * Displays the menu.
+   * Sets the `showMenu` flag to true, making the menu visible.
+   */
   handleShowMenu() {
     this.showMenu = true;
   }

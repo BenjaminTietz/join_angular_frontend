@@ -23,8 +23,6 @@
                 </div>
             </div>
         </div>
-
-
         @if (this.communicationService.isMobileViewActive) {
         <div class="mobile-btn">
             @if (this.communicationService.isMobileViewActive && !this.showMobileContactDetail) {
@@ -74,7 +72,6 @@
             </div>
         </div>
         }
-
     </div>
     }
 </section>
@@ -100,22 +97,48 @@
                 <div class="form-input">
                     <img class="create-icon" src="/assets/img/icons/create_contact.svg" alt="create contact icon">
                     <div class="input-container">
-                        <input type="text" placeholder="Name" formControlName="name"><img
-                            src="/assets/img/icons/login_name.svg" alt="logo">
+                        <input type="text" placeholder="Name" formControlName="name">
+                        <img src="/assets/img/icons/login_name.svg" alt="logo">
+                        @if (addContactForm.get('name')?.touched && addContactForm.get('name')?.invalid) {
+                        <div class="error">
+                            @if (addContactForm.get('name')?.errors?.['required']) {
+                            <span>Name is required.</span>
+                            }
+                        </div>
+                        }
                     </div>
                     <div class="input-container">
-                        <input type="email" placeholder="Email" formControlName="email"><img
-                            src="/assets/img/icons/login_mail.svg" alt="logo">
+                        <input type="email" placeholder="Email" formControlName="email">
+                        <img src="/assets/img/icons/login_mail.svg" alt="logo">
+                        @if (addContactForm.get('email')?.touched && addContactForm.get('email')?.invalid) {
+                        <div class="error">
+                            @if (addContactForm.get('email')?.errors?.['required']) {
+                            <span>Email is required.</span>
+                            }
+                            @if (addContactForm.get('email')?.errors?.['email']) {
+                            <span>Enter a valid email.</span>
+                            }
+                        </div>
+                        }
                     </div>
                     <div class="input-container">
-                        <input type="phone" placeholder="Phone" formControlName="phone"><img
-                            src="/assets/img/icons/login_phone.svg" alt="logo">
+                        <input type="phone" placeholder="Phone" formControlName="phone">
+                        <img src="/assets/img/icons/login_phone.svg" alt="logo">
+                        @if (addContactForm.get('phone')?.touched && addContactForm.get('phone')?.invalid) {
+                        <div class="error">
+                            @if (addContactForm.get('phone')?.errors?.['required']) {
+                            <span>Phone number is required.</span>
+                            }
+                        </div>
+                        }
                     </div>
                     <div class="submit-btn-container">
-                        <button class="white-btn" type="button" (click)="handleCloseAddContactOverlay()">Cancel<img
-                                src="/assets/img/icons/cancel_btn.svg" alt="cancel button"></button>
-                        <button class="blue-btn" type="submit">Create Contact<img src="/assets/img/icons/create_btn.svg"
-                                alt="create button"></button>
+                        <button class="white-btn" type="button" (click)="handleCloseAddContactOverlay()">Cancel
+                            <img src="/assets/img/icons/cancel_btn.svg" alt="cancel button">
+                        </button>
+                        <button class="blue-btn" type="submit" [disabled]="addContactForm.invalid">Create Contact
+                            <img src="/assets/img/icons/create_btn.svg" alt="create button">
+                        </button>
                     </div>
                 </div>
             </form>
@@ -139,23 +162,52 @@
             <form [formGroup]="editContactForm" (ngSubmit)="onSubmitEditContactForm()">
                 <div class="form-input">
                     <div class="input-container">
-                        <input type="text" placeholder="Name" formControlName="editedName"><img
-                            src="/assets/img/icons/login_name.svg" alt="logo">
+                        <input type="text" placeholder="Name" formControlName="editedName">
+                        <img src="/assets/img/icons/login_name.svg" alt="logo">
+                        @if (editContactForm.get('editedName')?.touched && editContactForm.get('editedName')?.invalid) {
+                        <div class="error">
+                            @if (editContactForm.get('editedName')?.errors?.['required']) {
+                            <span>Name is required.</span>
+                            }
+                        </div>
+                        }
                     </div>
                     <div class="input-container">
-                        <input type="email" placeholder="Email" formControlName="editedEmail"><img
-                            src="/assets/img/icons/login_mail.svg" alt="logo">
+                        <input type="email" placeholder="Email" formControlName="editedEmail">
+                        <img src="/assets/img/icons/login_mail.svg" alt="logo">
+                        @if (editContactForm.get('editedEmail')?.touched && editContactForm.get('editedEmail')?.invalid)
+                        {
+                        <div class="error">
+                            @if (editContactForm.get('editedEmail')?.errors?.['required']) {
+                            <span>Email is required.</span>
+                            }
+                            @if (editContactForm.get('editedEmail')?.errors?.['email']) {
+                            <span>Enter a valid email.</span>
+                            }
+                        </div>
+                        }
                     </div>
                     <div class="input-container">
-                        <input type="phone" placeholder="Phone" formControlName="editedPhone"><img
-                            src="/assets/img/icons/login_phone.svg" alt="phone">
+                        <input type="phone" placeholder="Phone" formControlName="editedPhone">
+                        <img src="/assets/img/icons/login_phone.svg" alt="phone">
+                        @if (editContactForm.get('editedPhone')?.touched && editContactForm.get('editedPhone')?.invalid)
+                        {
+                        <div class="error">
+                            @if (editContactForm.get('editedPhone')?.errors?.['required']) {
+                            <span>Phone number is required.</span>
+                            }
+                        </div>
+                        }
                     </div>
                 </div>
                 <div class="submit-btn-container">
-                    <button class="white-btn pointer" type="button"
-                        (click)="handleDeleteContact(contactDetail.id)">Delete</button>
-                    <button class="blue-btn pointer" type="submit">Save<img src="/assets/img/icons/create_btn.svg"
-                            alt="create button"></button>
+                    <button class="white-btn pointer" type="button" (click)="handleDeleteContact(contactDetail.id)">
+                        Delete
+                    </button>
+                    <button class="blue-btn pointer" type="submit" [disabled]="editContactForm.invalid">
+                        Save
+                        <img src="/assets/img/icons/create_btn.svg" alt="create button">
+                    </button>
                 </div>
             </form>
         </div>

@@ -300,7 +300,7 @@
 
                 >.input-container {
                     width: 422px;
-                    @include dFlex(row, flex-start, center);
+                    @include dFlex(column, flex-start, flex-start);
                     position: relative;
 
                     >input {
