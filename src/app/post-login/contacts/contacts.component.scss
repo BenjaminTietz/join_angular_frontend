@@ -2,11 +2,12 @@
 
 .contacts-wrapper {
     @include dFlex(row, flex-start, flex-start);
-    overflow-x: hidden
+    overflow-x: hidden;
+    position: relative;
 }
 
 .contacts-left {
-    width: calc(70% - 365px);
+    width: 50%;
     height: 100%;
     @include dFlex(column, flex-start, center);
     overflow-y: scroll;
@@ -35,6 +36,7 @@
         .contact-group-header {
             @include OpenSans(400, 18px, 21.6px, $black);
             border-bottom: 1px solid $border-color;
+            margin-bottom: 16px;
         }
 
         .contact {
@@ -46,6 +48,7 @@
             cursor: pointer;
             @include dFlex(row, flex-start, center);
             transition: all 0.175s ease-in-out;
+
 
             &:hover {
                 background-color: $main-blue-light;
@@ -81,31 +84,41 @@
     }
 }
 
+.mobile-contacts-right {
+    width: 100% !important;
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    z-index: 7;
+    background-color: $white;
+}
+
 .contacts-right {
-    width: calc(70% - 365px);
+    width: 50%;
     height: 100%;
     @include dFlex(row, flex-start, flex-start);
-    position: fixed;
-    left: calc(70% - 300px);
-    top: 10%;
-    transform: translateX(100%);
-    transition: transform 0.5s ease-in-out;
-    padding: 32px;
-
-    &.slide-in {
-        animation: slideIn 0.5s ease-in-out forwards;
-    }
-
-    &.slide-out {
-        animation: slideOut 0.5s ease-in-out forwards;
-    }
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
 
     >.contact-detail-view {
         @include dFlex(column, flex-start, flex-start);
         position: absolute;
-        left: 64px;
-        top: 32px;
+        top: 0;
+        width: 400px;
         gap: 16px;
+        transform: translateX(100%);
+        transition: transform 0.5s ease-in-out;
+        padding: 32px;
+        box-sizing: border-box;
+
+        &.slide-in {
+            animation: slideIn 0.5s ease-in-out forwards;
+        }
+
+        &.slide-out {
+            animation: slideOut 0.5s ease-in-out forwards;
+        }
 
         >.top-section {
             @include dFlex(row, space-between, center);
@@ -152,7 +165,77 @@
     }
 }
 
+.mobile-btn {
+    width: 100% !important;
+    @include dFlex(row, flex-end, center);
+    position: fixed;
+    bottom: 100px;
+    right: 14px;
+    z-index: 10;
 
+    .mobile-add-btn {
+        width: 64px;
+        height: 64px;
+        border-radius: 10px;
+        border: 1px solid $border-color;
+        background-color: $main-blue-dark;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        transition: all 0.175s ease-in-out;
+        cursor: pointer;
+
+        img {
+            width: 32px;
+            height: 32px;
+        }
+    }
+
+    &:hover {
+        .mobile-add-btn {
+            scale: 1.05;
+        }
+    }
+}
+
+.contact-actions-mobile {
+    @include dFlex(column, center, center);
+    position: absolute;
+    bottom: 100px;
+    right: 0;
+    width: 116px;
+    height: 100px;
+    border-radius: 20px 20px 0px 20px;
+    padding: 10px;
+    box-shadow: 0px 4px 4px 0px #00000040;
+    gap: px;
+    transition: all 0.175s ease-in-out;
+    z-index: 10;
+
+    .delete-btn:hover img {
+        transform: scale(1.15);
+        filter: hue-rotate(30deg);
+    }
+
+    .edit-btn:hover img {
+        transform: scale(1.2);
+        filter: brightness(1.2);
+    }
+
+
+    button {
+        width: 100%;
+        height: 24px;
+        gap: 6px;
+        border: none;
+        background-color: $white;
+        @include dFlex(row, flex-start, center);
+        @include OpenSans(400, 16px, 19.2px, $board-text);
+
+        img {
+            width: 24px;
+            height: 24px;
+        }
+    }
+}
 
 // Keyframe für das Einblenden von rechts nach links
 @keyframes slideIn {
@@ -219,12 +302,13 @@
     position: absolute;
     top: 0;
     right: 0;
-    z-index: 6;
+    z-index: 15;
 }
 
 .contact-overlay-content {
     width: 584px;
     height: 1024px;
+    max-height: 100svh;
     background-color: $white;
     border-radius: 30px 0px 30px 30px;
     box-shadow: 0px 0px 4px 0px #00000029;
@@ -268,6 +352,16 @@
             top: 32px;
             right: 32px;
             cursor: pointer;
+
+            img {
+                width: 32px;
+                height: 32px;
+            }
+        }
+
+        img {
+            width: 55.12px;
+            height: 66.48px;
         }
     }
 
@@ -283,13 +377,14 @@
         >form {
             width: 584px;
             height: 362.48px;
-            padding: 91px 46px;
+            padding-top: 80px;
             gap: 32px;
             @include dFlex(column, center, center);
             box-sizing: content-box;
 
             >.form-input {
                 width: 100%;
+                height: 438px;
                 gap: 24px;
                 @include dFlex(column, flex-start, center);
 
@@ -361,6 +456,7 @@
     }
 }
 
+
 @media only screen and (max-width: 1200px) {
     .contacts-wrapper {
         @include dFlex(row, flex-start, center);
@@ -372,12 +468,96 @@
     }
 }
 
+@media only screen and (max-width: 950px) {}
+
 @media only screen and (max-width: 650px) {
+    .contact-overlay {
+        @include dFlex(column, center, center);
+    }
+
+    .contact-overlay-content {
+        position: unset;
+        border-radius: 30px !important;
+        max-height: 100svh !important;
+    }
+
     .contacts-wrapper {
         padding: 10px 18px !important;
     }
 
-    .contact-name {
+    .contact-overlay-bottom {
+        position: relative;
+
+        form:nth-child(2) {
+            padding-top: 92px !important;
+        }
+
+        .user-initial {
+            position: absolute;
+            top: -60px;
+            left: calc(50% - 60px);
+        }
+    }
+
+    .create-icon {
+        position: absolute;
+        top: -60px;
+        left: calc(50% - 60px);
+    }
+
+
+
+    .contact-overlay-top {
+        height: 300px !important;
+
+        h2 {
+            white-space: nowrap;
+        }
+
+        img:nth-child(2) {
+            display: none !important;
+        }
+    }
+
+    .input-container {
+        width: 100% !important;
+    }
+
+    form {
+        width: 90% !important;
+    }
+
+    .submit-btn-container:nth-child(1) {
+        button:nth-child(1) {
+            display: none !important;
+        }
+
+        button {
+            width: 173px !important;
+            height: 48px !important;
+            padding: 12px 8px !important;
+            @include OpenSans(400 !important, 19px !important, 22.8px !important, $white);
+        }
+    }
+
+    .submit-btn-container:nth-child(2) {
+
+        button:nth-child(1) {
+            width: 104px !important;
+            height: 48px !important;
+            padding: 12px 8px !important;
+            @include OpenSans(400 !important, 19px !important, 22.8px !important, $menu-color);
+        }
+
+        button:nth-child(2) {
+            width: 86px !important;
+            height: 48px !important;
+            padding: 12px 8px !important;
+            @include OpenSans(400 !important, 19px !important, 22.8px !important, $white);
+        }
+    }
+
+    .contact-names {
         @include OpenSans(400 !important, 19px !important, 22.8px !important, $black);
     }
 
@@ -397,36 +577,6 @@
         padding: 7px 12px !important;
     }
 
-    .mobile-btn {
-        width: 100% !important;
-        @include dFlex(row, flex-end, center);
-        position: fixed;
-        bottom: 100px;
-        right: 14px;
-        z-index: 6;
-
-        .mobile-add-btn {
-            width: 64px;
-            height: 64px;
-            border-radius: 10px;
-            border: 1px solid $border-color;
-            background-color: $main-blue-dark;
-            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-            transition: all 0.175s ease-in-out;
-            cursor: pointer;
-
-            img {
-                width: 32px;
-                height: 32px;
-            }
-        }
-
-        &:hover {
-            .mobile-add-btn {
-                scale: 1.05;
-            }
-        }
-    }
 
     .contact-overlay-content {
         width: 90% !important;
@@ -446,14 +596,7 @@
         }
     }
 
-    .contacts-right {
-        width: 100% !important;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 7;
-        background-color: $white;
-    }
+
 
     .contact-detail-view {
         width: 100% !important;

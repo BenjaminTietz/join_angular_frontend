@@ -257,6 +257,7 @@ export class BoardComponent implements OnInit, OnDestroy {
         this.moveTaskBetweenArrays(index, sourceArray, status);
       });
     this.ngOnInit();
+    this.filterTasks();
   }
   /**
    * Retrieves the source array of a task by its ID.

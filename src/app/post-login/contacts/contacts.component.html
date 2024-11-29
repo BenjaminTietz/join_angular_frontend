@@ -23,22 +23,38 @@
                 </div>
             </div>
         </div>
+        <!-- mobile add contact button -->
         @if (this.communicationService.isMobileViewActive) {
         <div class="mobile-btn">
             @if (this.communicationService.isMobileViewActive && !this.showMobileContactDetail) {
             <button class="mobile-add-btn" (click)="handleAddContact()"><img
                     src="/assets/img/icons/add_contact_white.svg" alt="add contact button"></button>
             } @else {
-            <button class="mobile-add-btn" (click)="handleShowMenu()"><img src="/assets/img/icons/3_dots_vert_menu.svg"
-                    alt="menu button"></button>
+            <button class="mobile-add-btn" (click)="toggleMobileMenu()"><img
+                    src="/assets/img/icons/3_dots_vert_menu.svg" alt="menu button"></button>
             }
         </div>
+        @if (showMenu) {
+        <div class="contact-actions-mobile">
+            <button class="contact-action-btn edit-btn pointer" type="button" (click)="handleEditContact()"><img
+                    src="/assets/img/icons/edit_contact.svg" alt="edit contact button">Edit</button>
+            <button class="contact-action-btn delete-btn pointer" type="button"
+                (click)="handleDeleteContact(contactDetail.id)"><img src="/assets/img/icons/delete_trash.svg"
+                    alt="delete contact button">Delete</button>
+        </div>
+        }
         }
     </div>
-    @if (this.communicationService.isMobileViewActive && this.showMobileContactDetail) {
-    <div class="contacts-right">
+    @if ((this.communicationService.isMobileViewActive && contactDetail)||
+    !this.communicationService.isMobileViewActive) {
+    <div class="contacts-right" [ngClass]="{
+        'mobile-contacts-right': this.communicationService.isMobileViewActive
+      }">
         @if (contactDetail) {
-        <div class="contact-detail-view" [ngClass]="{ 'visible': contactDetail }">
+        <div class="contact-detail-view" [ngClass]="{
+            'slide-in': showMobileContactDetail,
+            'slide-out': !showMobileContactDetail
+          }">
             @if (this.communicationService.isMobileViewActive) {
             <div class="top-section-mobile">
                 <h2>Contact Information</h2>
@@ -82,11 +98,10 @@
 @if (showAddContactOverlay) {
 <div class="contact-overlay" [ngClass]="{ 'visible': showAddContactOverlay, 'hidden': !showAddContactOverlay }"
     (click)="handleCloseAddContactOverlay()">
-    <div class="contact-overlay-content" (click)="stopEventPropagation($event)"
-        [ngClass]="{ 'full-width': this.communicationService.isMobileViewActive}">
+    <div class="contact-overlay-content" (click)="stopEventPropagation($event)">
         <div class="contact-overlay-top">
             <div class="close-btn" (click)="handleCloseAddContactOverlay()"><img
-                    src="/assets/img/icons/close_btn_blue.svg" alt="close button">
+                    src="/assets/img/icons/close_btn_white.svg" alt="close button">
             </div>
             <img src="/assets/img/logos/join_logo_white.svg" alt="logo">
             <h2>Add Contact</h2>
@@ -115,8 +130,8 @@
                             @if (addContactForm.get('email')?.errors?.['required']) {
                             <span>Email is required.</span>
                             }
-                            @if (addContactForm.get('email')?.errors?.['email']) {
-                            <span>Enter a valid email.</span>
+                            @if (addContactForm.get('email')?.errors?.['invalidEmail']) {
+                            <span>Please enter a valid email.</span>
                             }
                         </div>
                         }

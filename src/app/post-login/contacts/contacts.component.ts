@@ -8,6 +8,9 @@ import {
   FormGroup,
   ReactiveFormsModule,
   Validators,
+  ValidatorFn,
+  AbstractControl,
+  ValidationErrors,
 } from "@angular/forms";
 import { HeaderComponent } from "../header/header.component";
 import { SidenavComponent } from "../sidenav/sidenav.component";
@@ -48,12 +51,12 @@ export class ContactsComponent implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder) {
     this.addContactForm = this.fb.group({
       name: ["", Validators.required],
-      email: ["", [Validators.required, Validators.email]],
+      email: ["", [Validators.required, this.emailValidator()]],
       phone: ["", Validators.required],
     });
     this.editContactForm = this.fb.group({
       editedName: ["", Validators.required],
-      editedEmail: ["", [Validators.required, Validators.email]],
+      editedEmail: ["", [Validators.required, this.emailValidator()]],
       editedPhone: ["", Validators.required],
     });
   }
@@ -110,6 +113,13 @@ export class ContactsComponent implements OnInit, OnDestroy {
     return Object.keys(obj);
   }
 
+  emailValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      const valid = emailRegex.test(control.value);
+      return valid ? null : { invalidEmail: true };
+    };
+  }
   /**
    * Handles showing the details of a contact when the user clicks on it from the contacts list.
    * Slides out the current contact details, and then slides in the new contact details.
@@ -117,7 +127,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
    */
   handleShowContactDetails(id: string) {
     const contactView = document.querySelector(
-      ".contacts-right"
+      ".contact-detail-view"
     ) as HTMLElement;
     if (contactView) {
       contactView.classList.remove("slide-in");
@@ -156,6 +166,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
     });
     this.editContactForm.markAllAsTouched();
     this.editContactForm.updateValueAndValidity();
+    this.toggleMobileMenu();
   }
 
   /**
@@ -270,6 +281,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
         // todo: show success message / refresh contact list / ask for confirmation
         this.contactDetail = null;
         this.databaseService.loadContacts();
+        this.toggleMobileMenu();
       },
       error: (error) => {
         this.appComponent.showDialog("Error deleting contact.");
@@ -335,7 +347,8 @@ export class ContactsComponent implements OnInit, OnDestroy {
    * Displays the menu.
    * Sets the `showMenu` flag to true, making the menu visible.
    */
-  handleShowMenu() {
-    this.showMenu = true;
+  toggleMobileMenu() {
+    this.showMenu = !this.showMenu;
+    console.log("showMenu", this.showMenu);
   }
 }
