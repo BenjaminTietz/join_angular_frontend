@@ -290,6 +290,7 @@ textarea::placeholder {
         position: absolute;
         bottom: -18px;
         left: 24px;
+        z-index: 10;
 
         span {
             @include Inter(400, 13px, 15.6px, $error);

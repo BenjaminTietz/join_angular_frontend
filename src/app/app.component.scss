@@ -30,6 +30,7 @@
 
         h1 {
             @include OpenSans(400, 32px, 40px, $main-blue-dark);
+            text-align: center;
         }
 
         @keyframes slideInOut {

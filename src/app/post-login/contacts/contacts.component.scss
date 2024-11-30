@@ -19,7 +19,6 @@
         width: 357px;
         margin-top: 16px;
         gap: 10px;
-
     }
 
     >.contacts-list {
@@ -49,7 +48,6 @@
             @include dFlex(row, flex-start, center);
             transition: all 0.175s ease-in-out;
 
-
             &:hover {
                 background-color: $main-blue-light;
                 box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -69,7 +67,6 @@
             >.contact-right {
                 width: 140px;
                 height: 47px;
-
                 @include dFlex(column, flex-start, flex-start);
 
                 >.contact-name {
@@ -125,6 +122,7 @@
             gap: 16px;
 
             >.detail-view-right {
+                width: 50%;
 
                 >.detail-view-right-top {
                     h2 {
@@ -147,7 +145,6 @@
                             transform: scale(1.2);
                             filter: brightness(1.2);
                         }
-
 
                         button {
                             width: unset;
@@ -219,7 +216,6 @@
         transform: scale(1.2);
         filter: brightness(1.2);
     }
-
 
     button {
         width: 100%;
@@ -325,9 +321,6 @@
     &.hidden>.contact-overlay-content {
         animation: slideOutRight 0.5s ease-in-out forwards;
     }
-
-
-
 
     >.contact-overlay-top {
         width: 584px;
@@ -463,7 +456,6 @@
     }
 
     .contacts-left {
-
         overflow-y: unset !important;
     }
 }
@@ -527,33 +519,37 @@
         width: 90% !important;
     }
 
-    .submit-btn-container:nth-child(1) {
-        button:nth-child(1) {
-            display: none !important;
+    .submit-btn-container {
+        margin-top: 8px !important;
+        margin-bottom: 32px !important;
+
+        &.add-contact-buttons {
+            button.white-btn {
+                display: none !important;
+            }
+
+            button.blue-btn {
+                width: 173px !important;
+                height: 48px !important;
+                padding: 12px 8px !important;
+                @include OpenSans(400 !important, 19px !important, 22.8px !important, $white);
+            }
         }
 
-        button {
-            width: 173px !important;
-            height: 48px !important;
-            padding: 12px 8px !important;
-            @include OpenSans(400 !important, 19px !important, 22.8px !important, $white);
-        }
-    }
+        &.edit-contact-buttons {
+            button.white-btn {
+                width: 104px !important;
+                height: 48px !important;
+                padding: 12px 8px !important;
+                @include OpenSans(400 !important, 19px !important, 22.8px !important, $menu-color);
+            }
 
-    .submit-btn-container:nth-child(2) {
-
-        button:nth-child(1) {
-            width: 104px !important;
-            height: 48px !important;
-            padding: 12px 8px !important;
-            @include OpenSans(400 !important, 19px !important, 22.8px !important, $menu-color);
-        }
-
-        button:nth-child(2) {
-            width: 86px !important;
-            height: 48px !important;
-            padding: 12px 8px !important;
-            @include OpenSans(400 !important, 19px !important, 22.8px !important, $white);
+            button.blue-btn {
+                width: 86px !important;
+                height: 48px !important;
+                padding: 12px 8px !important;
+                @include OpenSans(400 !important, 19px !important, 22.8px !important, $white);
+            }
         }
     }
 
@@ -577,9 +573,8 @@
         padding: 7px 12px !important;
     }
 
-
     .contact-overlay-content {
-        width: 90% !important;
+        width: 100% !important;
         box-sizing: border-box;
 
         .contact-overlay-top {
@@ -588,15 +583,33 @@
 
             h2 {
                 @include OpenSans(700, 47px, 56.4px, $white);
+                white-space: nowrap;
+                text-align: center;
             }
 
             h3 {
                 @include Inter(400, 21px, 25.2px, $white);
+                white-space: nowrap;
+                text-align: center;
             }
         }
+
+        .contact-overlay-bottom {
+            form {
+                padding-top: 64px !important;
+                gap: 0px !important;
+
+                .form-input {
+                    gap: 22px !important;
+                }
+            }
+
+            .user-initial {
+                margin-top: unset !important;
+            }
+
+        }
     }
-
-
 
     .contact-detail-view {
         width: 100% !important;

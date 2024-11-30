@@ -147,7 +147,7 @@
                         </div>
                         }
                     </div>
-                    <div class="submit-btn-container">
+                    <div class="submit-btn-container add-contact-buttons">
                         <button class="white-btn" type="button" (click)="handleCloseAddContactOverlay()">Cancel
                             <img src="/assets/img/icons/cancel_btn.svg" alt="cancel button">
                         </button>
@@ -196,8 +196,8 @@
                             @if (editContactForm.get('editedEmail')?.errors?.['required']) {
                             <span>Email is required.</span>
                             }
-                            @if (editContactForm.get('editedEmail')?.errors?.['email']) {
-                            <span>Enter a valid email.</span>
+                            @if (editContactForm.get('editedEmail')?.errors?.['invalidEmail']) {
+                            <span>Please enter a valid email.</span>
                             }
                         </div>
                         }
@@ -215,7 +215,7 @@
                         }
                     </div>
                 </div>
-                <div class="submit-btn-container">
+                <div class="submit-btn-container edit-contact-buttons">
                     <button class="white-btn pointer" type="button" (click)="handleDeleteContact(contactDetail.id)">
                         Delete
                     </button>
