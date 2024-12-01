@@ -115,4 +115,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.communicationService.isSmallScreenActive = isTabletScreen;
     // console.log("small screen", this.communicationService.isSmallScreenActive);
   }
+
+  @HostListener("document:click", ["$event"])
+  onDocumentClick(event: Event): void {
+    const target = event.target as HTMLElement;
+    if (!target.closest(".user-menu") && !target.closest(".user-profile")) {
+      this.communicationService.isUserMenuVisible = false;
+    }
+  }
 }

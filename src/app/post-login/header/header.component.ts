@@ -1,7 +1,8 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
+import { CommunicationService } from "../../services/communication.service";
 import { Contact } from "../../models/contact.class";
 @Component({
   selector: "app-header",
@@ -11,7 +12,9 @@ import { Contact } from "../../models/contact.class";
   styleUrl: "./header.component.scss",
 })
 export class HeaderComponent implements OnInit {
-  constructor(private router: Router, public authService: AuthService) {
+  public communicationService = inject(CommunicationService);
+  public authService = inject(AuthService);
+  constructor(private router: Router) {
     if (
       this.router.url === "/imprint" ||
       this.router.url === "/privacy-policy"
@@ -19,7 +22,6 @@ export class HeaderComponent implements OnInit {
       this.isLoggedIn = false;
     }
   }
-  isUserMenuVisible = false;
   isLoggedIn: boolean = true;
   contact: Contact | null = null;
 
@@ -27,10 +29,14 @@ export class HeaderComponent implements OnInit {
     this.contact = this.authService.getContact();
   }
 
-  toggleUserMenu() {
-    this.isUserMenuVisible = !this.isUserMenuVisible;
+  toggleUserMenu(): void {
+    this.communicationService.isUserMenuVisible =
+      !this.communicationService.isUserMenuVisible;
   }
 
+  closeMenu(): void {
+    this.communicationService.isUserMenuVisible = false;
+  }
   handleLogout() {
     this.authService.logout();
   }

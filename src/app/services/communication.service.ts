@@ -10,6 +10,7 @@ export class CommunicationService {
   isLoggedIn: boolean = false;
   private resetFormSubject = new Subject<void>();
   resetForm$ = this.resetFormSubject.asObservable();
+  isUserMenuVisible: boolean = false;
   constructor() {}
 
   triggerResetForm(): void {

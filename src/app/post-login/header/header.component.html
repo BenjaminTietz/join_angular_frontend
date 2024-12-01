@@ -20,14 +20,19 @@
             </div>
         </div>
         }
-        <div class="user-menu" [ngStyle]="{'display': isUserMenuVisible ? 'flex' : 'none'}">
-            <div class="menu-item" [routerLink]="['/imprint']">
+        <div class="user-menu" [ngStyle]="{'display': this.communicationService.isUserMenuVisible ? 'flex' : 'none'}">
+            @if (this.communicationService.isMobileViewActive) {
+            <div class="menu-item" [routerLink]="['/instructions']" (click)="closeMenu()">
+                <span>Help</span>
+            </div>
+            }
+            <div class="menu-item" [routerLink]="['/imprint']" (click)="closeMenu()">
                 <span>Legal Notice</span>
             </div>
-            <div class="menu-item" [routerLink]="['/privacy-policy']">
+            <div class="menu-item" [routerLink]="['/privacy-policy']" (click)="closeMenu()">
                 <span>Privacy Policy</span>
             </div>
-            <div class="menu-item" (click)="handleLogout()">
+            <div class="menu-item" (click)="handleLogout(); closeMenu()">
                 <span>Log out</span>
             </div>
         </div>

@@ -1,11 +1,14 @@
 <section>
     <app-header></app-header>
 </section>
-
-<section class="summary-wrapper content-wrapper">
-
+@if (this.communicationService.isMobileViewActive && this.showMobileGreeting) {
+<div class="mobile-greeting" [@slideOut]="this.showMobileGreeting ? 'visible' : 'hidden'">
+    <h1>{{ greetingMessage }}</h1>
+    <span>{{contact?.name}}</span>
+</div>
+}
+<section class="summary-wrapper content-wrapper" [@slideUp]="this.showSummary ? 'visible' : 'hidden'">
     <h1>{{ greetingMessage }}<span>{{contact?.name}}</span></h1>
-
     <div class="tasks-overview">
         <div class="task-overview-top">
             <div class="urgent-tasks pointer" [routerLink]="['/board']">

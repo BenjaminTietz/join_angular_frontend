@@ -5,6 +5,14 @@
     @include dFlex(column, center, center);
     overflow-x: hidden;
     overflow-y: scroll;
+    position: relative;
+    transform: translateY(100%);
+    opacity: 0;
+}
+
+.summary-wrapper.visible {
+    transform: translateY(0);
+    opacity: 1;
 }
 
 h1 {
@@ -242,6 +250,22 @@ h1 {
     }
 }
 
+.mobile-greeting {
+    @include dFlex(column, center, center);
+    height: 100vh;
+    width: 100vw;
+    background-color: white;
+    position: relative;
+
+    h1 {
+        @include OpenSans(400, 33px, 39.6px, $black);
+        padding-bottom: unset !important;
+    }
+
+    span {
+        @include OpenSans(700, 47px, 56.4px, $light-blue);
+    }
+}
 
 
 
@@ -305,7 +329,7 @@ h1 {
 
     .urgent-tasks {
         justify-content: center !important;
-        gap: unset !important;
+        gap: 8px !important;
 
         .task-category {
             padding: 0px 16px !important;
@@ -342,7 +366,8 @@ h1 {
         }
     }
 
-    .task-overview-middle .task-category {
+    .task-overview-middle,
+    .task-category {
         .task-category-top {
             span {
                 @include OpenSans(700, 40px !important, 48px !important, $black);
@@ -356,8 +381,13 @@ h1 {
         }
     }
 
-    .task-overview-bottom .task-category {
+    .task-overview-bottom,
+    .task-category {
+        height: unset !important;
+
         .task-category-top {
+            gap: 8px !important;
+
             span {
                 @include OpenSans(700, 40px !important, 48px !important, $black);
             }
@@ -368,6 +398,29 @@ h1 {
                 @include OpenSans(400, 19px !important, 22.8px !important, $main-blue-dark);
             }
         }
+    }
+
+    .task-overview-top {
+        height: 150px !important;
+
+        .urgent-tasks {
+            height: 150px !important;
+        }
+    }
+
+    .task-overview-middle {
+        height: 108px !important;
+
+        .task-category {
+            height: 108px !important;
+        }
+    }
+
+    .task-category {
+        height: 186px !important;
+        width: 160px !important;
+        padding: 15px 40px !important;
+        border-radius: 30px !important;
     }
 }
 
