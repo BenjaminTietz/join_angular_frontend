@@ -67,8 +67,8 @@ import { CommonModule } from "@angular/common";
         "header",
         style({
           transform: "translate(0, 0) scale(1)",
-          top: "0px",
-          left: "0px",
+          top: "-10px",
+          left: "10px",
           opacity: 1,
         })
       ),

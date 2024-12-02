@@ -2,6 +2,7 @@
 
 .board-wrapper {
     @include dFlex(column, flex-start, flex-start);
+    overflow-x: hidden;
 }
 
 .board-top-section {

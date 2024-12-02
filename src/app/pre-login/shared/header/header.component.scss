@@ -43,8 +43,6 @@
 @media screen and (max-width: 650px) {
 
     .header {
-        margin-left: 16px !important;
-        margin-top: 16px !important;
         padding: 10px !important;
 
         .header-right {
@@ -52,8 +50,8 @@
         }
 
         img {
-            width: 64px !important;
-            height: 78px !important;
+            width: 32px !important;
+            height: 39px !important;
         }
     }
 }

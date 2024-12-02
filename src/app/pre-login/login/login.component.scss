@@ -6,6 +6,8 @@
     background-color: $white;
     position: relative;
     @include dFlex(column, space-between, center);
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .animation-container {
@@ -241,6 +243,8 @@ header {
         flex-direction: column !important;
         gap: 16px !important;
         padding: 16px 16px !important;
+        margin-top: -16px;
+
 
         .blue-btn,
         .white-btn {
@@ -315,4 +319,19 @@ header {
         }
     }
 
+    .forgot-password {
+        margin-bottom: 16px !important;
+    }
+
+    .animated-logo {
+        width: 32px;
+        height: 39px !important;
+    }
+
+    .animated-logo svg {
+        width: 32px !important;
+        height: 39px !important;
+        margin-top: -10px;
+        margin-left: -10px;
+    }
 }

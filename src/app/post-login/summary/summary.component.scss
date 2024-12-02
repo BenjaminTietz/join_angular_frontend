@@ -158,6 +158,7 @@ h1 {
     >.task-deadline {
         @include dFlex(column, flex-start, flex-start);
         gap: 13px;
+        white-space: nowrap;
 
         p {
             @include OpenSans(700, 33px, 39.6px, $white);
@@ -192,6 +193,7 @@ h1 {
             >.task-category-bottom {
                 span {
                     color: $main-blue-dark !important;
+                    white-space: nowrap;
                 }
             }
         }
@@ -218,6 +220,7 @@ h1 {
         >.task-category-bottom {
             span {
                 color: $white;
+                white-space: nowrap;
             }
         }
     }
@@ -227,7 +230,7 @@ h1 {
         width: 124px;
         height: 76px;
         gap: 8px;
-        @include dFlex(row, flex-start, center);
+        @include dFlex(row, space-between, center);
 
         span {
             @include OpenSans(700, 48px, 57.6px, $black);
