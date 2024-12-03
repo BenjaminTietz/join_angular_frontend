@@ -92,7 +92,15 @@ export class LoginComponent implements OnInit {
     this.createLoginForm();
   }
 
+  /**
+   * Called when the component is initialized.
+   *
+   * Checks if the user is already logged in, and if so, navigates to the summary page.
+   * Listens for navigation end events and resets the animation state if the user navigates to the /login page.
+   * Resets the animation state and starts the animation.
+   */
   ngOnInit() {
+    this.checkToken();
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: any) => {
@@ -105,12 +113,48 @@ export class LoginComponent implements OnInit {
     this.startAnimation();
   }
 
+  /**
+   * Called when the component is destroyed.
+   *
+   * Emits the `destroy$` event and completes it. Resets the animation state.
+   * This is done to prevent memory leaks, and to ensure that the animation is reset
+   * when the component is destroyed.
+   */
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
     this.resetAnimationState();
   }
 
+  /**
+   * Checks if the user has a valid token.
+   *
+   * If the user has a valid token, navigates to the summary page.
+   * If the token is invalid, logs out the user.
+   * @returns A promise that resolves when the token has been checked.
+   */
+  async checkToken(): Promise<void> {
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
+    if (token) {
+      try {
+        const isValid = await this.authService.validateToken(token);
+        if (isValid) {
+          this.router.navigate(["/summary"]);
+        }
+      } catch (error) {
+        console.error("Token validation failed:", error);
+        this.authService.logout();
+      }
+    }
+  }
+
+  /**
+   * Starts the animation of the logo.
+   *
+   * Resets the animation state to its initial state, then waits for 1 second and sets the animation state to "header", and waits for another second and sets the container state to "hidden".
+   * This creates a smooth animation of the logo moving from the center of the page to the top left corner, and then hiding the container.
+   */
   private startAnimation() {
     this.resetAnimationState();
     setTimeout(() => {
@@ -121,11 +165,25 @@ export class LoginComponent implements OnInit {
     }, 1000);
   }
 
+  /**
+   * Resets the animation state.
+   *
+   * Sets the animation state to "center" and the container state to "visible".
+   * This prepares the component for a new animation sequence.
+   */
   private resetAnimationState() {
     this.animationState = "center";
     this.containerState = "visible";
   }
 
+  /**
+   * Initializes the login form group.
+   *
+   * Creates a reactive form with three controls:
+   * - `email`: a required field with email validation.
+   * - `password`: a required field.
+   * - `remember`: a boolean field to indicate if the user wants to be remembered, defaulting to false.
+   */
   createLoginForm() {
     this.loginForm = this.fb.group({
       email: ["", [Validators.required, Validators.email]],
@@ -133,7 +191,17 @@ export class LoginComponent implements OnInit {
       remember: [false],
     });
   }
-  // todo implement checking value of username / password, create token, sending value of remember to backend, save in session when false save in session / local storage
+
+  /**
+   * Handles form submission for login.
+   *
+   * Validates the login form and attempts to log in the user using the provided credentials.
+   * If the login is successful and a token is received, the token is stored in either
+   * local storage or session storage based on the 'remember' option.
+   * Displays a success dialog and navigates to the summary page after a delay.
+   * In case of an error during login, displays an error dialog.
+   * Logs a message if the form is invalid.
+   */
   async onSubmit() {
     if (this.loginForm.valid) {
       this.app.isLoading = true;
@@ -152,7 +220,6 @@ export class LoginComponent implements OnInit {
             sessionStorage.setItem("token", response.token);
           }
         }
-
         this.app.showDialog("Login Successful");
         setTimeout(() => {
           this.databaseService.initializeData();
@@ -168,6 +235,17 @@ export class LoginComponent implements OnInit {
       console.log("Invalid Form");
     }
   }
+
+  /**
+   * Logs in as a guest user.
+   *
+   * Logs in a user with email "guest@guest.com" and password "0123456789bb".
+   * Saves the token in either local storage or session storage based on the 'remember'
+   * option.
+   * Displays a success dialog and navigates to the summary page after a delay.
+   * In case of an error during login, displays an error dialog.
+   * Logs a message if the form is invalid.
+   */
   async loginAsGuest() {
     this.app.isLoading = true;
     try {

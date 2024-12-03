@@ -2,8 +2,11 @@
     <app-header></app-header>
 </section>
 <section class="instructions-wrapper content-wrapper">
-    <div class="back-btn"></div>
-    <h1>Help</h1>
+    <div class="top-section">
+        <h1>Help</h1>
+        <button class="close-btn" (click)="handleCloseHelp()"><img src="/assets/img/icons/close_btn_blue.svg"
+                alt="close button"></button>
+    </div>
     <span>Welcome to the help page for <span class="highlight">Join</span>, your guide to using our kanban project
         management tool. Here, we'll provide
         an overview of what <span class="highlight">Join</span> is, how it can benefit you, and how to use it.</span>
@@ -74,8 +77,8 @@
                     you and your team to ensure
                     the board reflects the current state of your project.
 
-                    Have more questions about <span class="highlight">Join</span>? Feel free to contact us at [Your
-                    Contact Email]. We're here to help
+                    Have more questions about <span class="highlight">Join</span>? Feel free to contact us at <a
+                        href="mailto:info&#64;benjamin-tietz.com">info&#64;benjamin-tietz.com</a>. We're here to help
                     you!
                 </p>
             </div>

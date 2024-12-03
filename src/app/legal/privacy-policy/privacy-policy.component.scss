@@ -33,6 +33,11 @@ p {
     padding-top: 8px;
 }
 
+a {
+    @include OpenSans(400, 16px, 19.2px, $main-blue-dark);
+    text-decoration: none;
+}
+
 
 @media only screen and (max-width: 1200px) {
     h1 {
