@@ -170,7 +170,7 @@ body {
         color: $light-blue;
         border: 1px solid $light-blue;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        transform: scale(1.05);
+        transform: scale(1.025);
     }
 }
 
@@ -191,7 +191,7 @@ body {
     &:hover {
         background-color: darken($color: $main-blue-dark, $amount: 20%);
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        transform: scale(1.05);
+        transform: scale(1.025);
     }
 
     &:disabled {
@@ -264,6 +264,10 @@ textarea::placeholder {
     padding: 32px 32px 32px 264px;
     box-sizing: content-box;
     overflow-y: auto;
+}
+
+.content-wrapper-big {
+    height: calc(100vh - 80px) !important;
 }
 
 .full-width {

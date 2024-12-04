@@ -3,6 +3,7 @@
 .add-task-wrapper {
     @include dFlex(row, flex-start, flex-start);
     position: relative;
+    box-sizing: content-box;
 }
 
 .add-task-content {
@@ -21,7 +22,7 @@
     @include dFlex(row, flex-start, flex-start);
     position: absolute;
     bottom: 10%;
-    right: 10%;
+    right: 6%;
 }
 
 form {
@@ -30,6 +31,7 @@ form {
     height: fit-content;
     max-height: 100%;
     padding-bottom: 64px;
+    padding-right: 16px;
     gap: 24px;
     @include dFlex(column, flex-start, flex-start);
     overflow: hidden;
@@ -104,7 +106,7 @@ form {
     transition: all 0.175s ease-in-out;
 
     &:hover {
-        transform: scale(1.05);
+        transform: scale(1.025);
     }
 
     &:nth-child(1):hover {
@@ -240,14 +242,14 @@ form {
 
 
 .input-subtasks {
-    @include dFlex(column, flex-start, center);
-    width: 440px;
+    @include dFlex(column, center, center);
+    width: 100%;
     height: fit-content;
     position: relative;
 
     >.subtask-input {
-        width: 440px;
-        @include dFlex(row, flex-start, center);
+        width: 100%;
+        @include dFlex(row, center, center);
         box-sizing: content-box;
 
         img {
@@ -255,7 +257,7 @@ form {
             height: 24px;
             cursor: pointer;
             position: absolute;
-            right: 62px;
+            right: 20px;
             top: 28px;
         }
     }
@@ -397,8 +399,12 @@ form {
         @include OpenSans(400, 16px, 19.2px, $black);
     }
 
+    .dropdown-menu {
+        width: 100% !important;
+    }
+
     .btn-container {
-        gap: 8px;
+        gap: 4px;
     }
 
     .prio-btn {

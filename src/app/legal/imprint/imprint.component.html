@@ -1,7 +1,8 @@
 <section>
     <app-header></app-header>
 </section>
-<section class="imprint-wrapper content-wrapper">
+<section class="imprint-wrapper content-wrapper"
+    [ngClass]="{ 'content-wrapper-big': !this.communicationService.isLoggedIn}">
     <div class="top-section">
         <h1>Legal Notice</h1>
         <button class="close-btn" (click)="handleCloseImprint()"><img src="/assets/img/icons/close_btn_blue.svg"
@@ -54,6 +55,8 @@
         goodwill, use, data, or other intangible losses, even if we have been advised of the possibility of such
         damages, arising out of or in connection with the use or performance of <span class="highlight">Join</span>.</p>
 </section>
+@if (this.communicationService.isLoggedIn) {
 <section>
     <app-sidenav></app-sidenav>
 </section>
+}

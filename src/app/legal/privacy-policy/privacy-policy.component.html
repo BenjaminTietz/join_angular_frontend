@@ -1,7 +1,8 @@
 <section>
     <app-header></app-header>
 </section>
-<section class="privacy-policy-wrapper content-wrapper">
+<section class="privacy-policy-wrapper content-wrapper"
+    [ngClass]="{ 'content-wrapper-big': !this.communicationService.isLoggedIn}">
     <div class="top-section">
         <h1>Privacy Policy</h1>
         <button class="close-btn" (click)="handleClosePrivacyPolicy()"><img src="/assets/img/icons/close_btn_blue.svg"
@@ -236,7 +237,8 @@
         <li>By email: <a href="mailto:info&#64;benjamin-tietz.com">info&#64;benjamin-tietz.com</a></li>
     </ul>
 </section>
-
+@if (this.communicationService.isLoggedIn) {
 <section>
     <app-sidenav></app-sidenav>
 </section>
+}
