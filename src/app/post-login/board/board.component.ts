@@ -259,6 +259,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.ngOnInit();
     this.filterTasks();
   }
+
   /**
    * Retrieves the source array of a task by its ID.
    * @param taskId - The ID of the task to find.
@@ -288,6 +289,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     console.warn(`Task with ID ${taskId} not found in any array.`);
     return [];
   }
+
   /**
    * Moves a task between the source array and the target array, and updates the task status.
    * @param index - The index of the task in the source array.
@@ -384,6 +386,7 @@ export class BoardComponent implements OnInit, OnDestroy {
         },
       });
   }
+
   // todo confirm delete task first before deleting
   handleDeleteTask(task: Task) {
     this.databaseService.deleteTask(task.id).subscribe({
@@ -445,6 +448,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   hasTasksWithStatus(status: string): boolean {
     return this.filteredTasks.some((task) => task.status === status);
   }
+
   /**
    * Filters and returns a list of tasks with the specified status.
    *

@@ -51,6 +51,14 @@ export class SummaryComponent implements OnInit {
   public communicationService = inject(CommunicationService);
   constructor(private router: Router, private http: HttpClient) {}
 
+  /**
+   * Initializes the component when it is created.
+   * - Initializes data in the database service.
+   * - Sets the greeting message and retrieves the contact information.
+   * - Adjusts the view based on whether the mobile view is active:
+   *   - If mobile view is active, temporarily shows a mobile greeting before displaying the summary.
+   *   - Otherwise, directly displays the summary.
+   */
   ngOnInit() {
     this.databaseService.initializeData(true);
     this.greetingMessage = this.getGreetingMessage();
@@ -68,12 +76,20 @@ export class SummaryComponent implements OnInit {
     }
   }
 
+  /**
+   * Lifecycle hook that is called when the component is destroyed.
+   * Unsubscribes from all subscriptions to prevent memory leaks.
+   */
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
 
-  //Helper function to show greeting message based on time
-
+  /**
+   * Returns a greeting message based on the current time of day.
+   * The returned message is a string that starts with a greeting phrase
+   * ("Good Morning", "Good Afternoon", or "Good Evening") followed by a comma and a space.
+   * @returns A greeting message based on the current time of day.
+   */
   public getGreetingMessage(): string {
     const date = new Date();
     const hours = date.getHours();

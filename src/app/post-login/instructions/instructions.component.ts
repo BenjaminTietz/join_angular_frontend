@@ -10,6 +10,10 @@ import { SidenavComponent } from "../sidenav/sidenav.component";
   styleUrl: "./instructions.component.scss",
 })
 export class InstructionsComponent {
+  /**
+   * Closes the help page by going back in the browser's history.
+   * @returns {void}
+   */
   handleCloseHelp() {
     window.history.back();
   }
