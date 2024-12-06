@@ -13,6 +13,10 @@ export class CommunicationService {
   isUserMenuVisible: boolean = false;
   constructor() {}
 
+  /**
+   * Triggers the reset of the form in the form component
+   * (e.g. when the user is logged out).
+   */
   triggerResetForm(): void {
     this.resetFormSubject.next();
   }
