@@ -266,6 +266,14 @@ textarea::placeholder {
     overflow-y: auto;
 }
 
+.embedded .content-wrapper {
+    width: unset !important;
+}
+
+.embedded .add-task-content {
+    overflow-y: hidden !important;
+}
+
 .content-wrapper-big {
     height: calc(100vh - 80px) !important;
 }
@@ -354,16 +362,10 @@ textarea::placeholder {
     .blue-btn {}
 
     .white-btn {}
+
+    //todo 
 }
 
-@media only screen and (max-width: 1200px) {
-    .content-wrapper {
-        width: 100vw;
-        height: calc(100vh - 154px);
-        padding: 8px !important;
-        box-sizing: border-box;
-    }
-}
 
 
 @media only screen and (max-width: 650px) {
@@ -376,4 +378,7 @@ textarea::placeholder {
         }
     }
 
+    .embedded .add-task-content {
+        overflow-y: scroll !important;
+    }
 }

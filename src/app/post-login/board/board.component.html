@@ -28,7 +28,7 @@
                         (dragend)="onDragEnd($event)" draggable="true" (click)="handleShowTaskDetailOverlay(task)">
                         <div class="mobile-btn-container">
                             <img (click)="this.handleMoveToNewStatus(task.id, index, 'inProgress'); $event.stopPropagation()"
-                                src="/assets/img/icons/arrow_down.png" class="more-btn" alt="arrow down">
+                                src="/assets/img/icons/arrow_down.svg" class="more-btn" alt="arrow down">
                         </div>
                         <div class="task-category">
                             <h4 class="{{ task.category | titlecase }}">{{task.category}}</h4>
@@ -84,9 +84,9 @@
                     (dragend)="onDragEnd($event)" draggable="true" (click)="handleShowTaskDetailOverlay(task)">
                     <div class="mobile-btn-container">
                         <img (click)="this.handleMoveToNewStatus(task.id, index, 'todo'); $event.stopPropagation()"
-                            src="/assets/img/icons/arrow_up.png" class="more-btn" alt="arrow up">
+                            src="/assets/img/icons/arrow_up.svg" class="more-btn" alt="arrow up">
                         <img (click)="this.handleMoveToNewStatus(task.id, index, 'awaitFeedback'); $event.stopPropagation()"
-                            src="/assets/img/icons/arrow_down.png" class="more-btn" alt="arrow down">
+                            src="/assets/img/icons/arrow_down.svg" class="more-btn" alt="arrow down">
                     </div>
                     <div class="task-category">
                         <h4 class="{{ task.category | titlecase }}">{{task.category}}</h4>
@@ -142,9 +142,9 @@
                 (dragend)="onDragEnd($event)" draggable="true" (click)="handleShowTaskDetailOverlay(task)">
                 <div class="mobile-btn-container">
                     <img (click)="this.handleMoveToNewStatus(task.id, index, 'inProgress'); $event.stopPropagation()"
-                        src="/assets/img/icons/arrow_up.png" class="more-btn" alt="arrow up">
+                        src="/assets/img/icons/arrow_up.svg" class="more-btn" alt="arrow up">
                     <img (click)="this.handleMoveToNewStatus(task.id, index, 'done'); $event.stopPropagation()"
-                        src="/assets/img/icons/arrow_down.png" class="more-btn" alt="arrow down">
+                        src="/assets/img/icons/arrow_down.svg" class="more-btn" alt="arrow down">
                 </div>
                 <div class="task-category">
                     <h4 class="{{ task.category | titlecase }}">{{task.category}}</h4>
@@ -198,7 +198,7 @@
                 (dragend)="onDragEnd($event)" draggable="true" (click)="handleShowTaskDetailOverlay(task)">
                 <div class="mobile-btn-container">
                     <img (click)="this.handleMoveToNewStatus(task.id, index, 'awaitFeedback'); $event.stopPropagation()"
-                        src="/assets/img/icons/arrow_up.png" class="more-btn" alt="arrow up">
+                        src="/assets/img/icons/arrow_up.svg" class="more-btn" alt="arrow up">
                 </div>
                 <div class="task-category">
                     <h4 class="{{ task.category | titlecase }}">{{task.category}}</h4>
@@ -245,8 +245,9 @@
     <app-sidenav></app-sidenav>
 </section>
 <!--Add Task Overlay-->
-@if (showAddTaskOverlay) {
-<div class="floating-add-task-wrapper" [ngClass]="{'visible': showAddTaskOverlay, 'hidden': !showAddTaskOverlay}"
+@if (this.communicationService.showAddTaskOverlay) {
+<div class="floating-add-task-wrapper"
+    [ngClass]="{'visible': this.communicationService.showAddTaskOverlay, 'hidden': !this.communicationService.showAddTaskOverlay}"
     (click)="handleCloseAddTaskOverlay($event)">
     <div class="add-task-content" (click)="stopEventPropagation($event)">
         <div class="add-task-header">
@@ -254,7 +255,7 @@
             <button class="close-btn" (click)="handleCloseAddTaskOverlay($event)"><img
                     src="/assets/img/icons/close_btn_blue.svg" alt="close button"></button>
         </div>
-        <app-add-task [category]="this.selectedStaus"></app-add-task>
+        <app-add-task [isEmbeddedInBoard]="true" [category]="this.selectedStaus"></app-add-task>
     </div>
 </div>
 }
@@ -333,7 +334,7 @@
             <button class="close-btn" (click)="handleCloseEditTaskOverlay($event)"><img
                     src="/assets/img/icons/close_btn_blue.svg" alt="close button"></button>
         </div>
-        <app-add-task [category]="this.selectedStaus"></app-add-task>
+        <app-add-task [isEmbeddedInBoard]="true" [category]="this.selectedStaus"></app-add-task>
     </div>
 </div>
 }

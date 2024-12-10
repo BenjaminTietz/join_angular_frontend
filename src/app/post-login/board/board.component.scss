@@ -234,6 +234,12 @@ progress {
     }
 }
 
+.more-btn {
+    width: 48px;
+    height: 48px;
+
+}
+
 // add task overlay
 .floating-add-task-wrapper {
     width: 100svw;
@@ -256,8 +262,8 @@ progress {
     }
 
     >.add-task-content {
-        width: 584px;
-        padding: 91px 46px;
+        height: 100%;
+        padding: 32px 16px;
         gap: 12px;
         background-color: $white;
         border-radius: 30px 0 0 0;
@@ -322,7 +328,7 @@ progress {
     top: 0;
     right: 0;
     z-index: 6;
-    @include dFlex(column, flex-end, flex-start);
+    @include dFlex(column, center, center);
     overflow: hidden;
 
     &.visible>.task-detail-content {
@@ -335,16 +341,13 @@ progress {
 
 
     >.task-detail-content {
-        min-width: 584px;
-        max-width: fit-content;
+
         height: fit-content;
         padding: 48px 40px;
         gap: 24px;
         background-color: $white;
         border-radius: 30px;
         @include dFlex(column, flex-start, center);
-        position: absolute;
-        top: 10%;
         right: calc(50% - 292px);
         box-shadow: 0px 0px 4px 0px #00000029;
 
@@ -392,6 +395,8 @@ progress {
 
         h4 {
             @include Inter(700, 21px, 25.2px, $black);
+            margin-block-start: unset;
+            margin-block-end: unset;
         }
 
         >.task-assignee {
@@ -495,8 +500,8 @@ progress {
 
 .close-btn {
     position: absolute;
-    top: 104px;
-    left: 728px;
+    top: 32px;
+    right: 32px;
     z-index: 6;
     cursor: pointer;
 }
@@ -562,5 +567,57 @@ progress {
 
     .blue-btn {
         display: none;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .add-task-content {
+        width: 100% !important;
+        border-radius: unset !important;
+    }
+
+
+}
+
+@media only screen and (max-width: 650px) {
+    .close-btn {
+        top: 16px;
+        right: 16px;
+    }
+
+    .floating-add-task-wrapper .add-task-content {}
+
+    .floating-task-detail-wrapper .task-detail-content {
+        height: unset;
+        overflow-y: auto;
+    }
+
+    h4 {
+        @include OpenSans(400 !important, 16px !important, 19.2px !important, $white);
+    }
+
+    span {
+        @include OpenSans(400 !important, 16px !important, 19.2px !important, $black);
+    }
+
+    .task-detail-content {
+
+        p {
+            @include OpenSans(400 !important, 16px !important, 19.2px !important, $board-text);
+        }
+    }
+
+    .task-category {}
+
+    .task-description {
+        p {
+            @include OpenSans(400 !important, 16px !important, 19.2px !important, $board-text);
+        }
+    }
+
+    .task-title {
+        h2 {
+            @include OpenSans(700 !important, 36px !important, 43.2px !important, $black);
+        }
     }
 }

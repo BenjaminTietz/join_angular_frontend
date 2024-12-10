@@ -3,7 +3,6 @@
     <app-header></app-header>
 </section>
 }
-
 <section class="add-task-wrapper content-wrapper" [ngClass]="{ 'padding-unset': this.displayFloatingAddTask }">
     <div class="add-task-content">
         <form [formGroup]="addTaskForm" (ngSubmit)="onSubmit()" (click)="this.showContactsToAssign = false">
@@ -131,8 +130,13 @@
             @if (assignedContacts.length > 0) {
             <div class="selected-contacts">
                 @for (contact of this.assignedContacts; track contact; let index = $index) {
-                <div class="contact-initials" [style.backgroundColor]="contact.color">
+                <div class="contact-initials" [style.backgroundColor]="contact.color"
+                    (mouseenter)="hoveredIndex = index" (mouseleave)="hoveredIndex = null">
                     <span>{{ contact.initials}}</span>
+                    @if (this.hoveredIndex === index) {
+                    <img class="delete-assigned-to" (click)="this.removeAssignedContact(contact, index)"
+                        src="/assets/img/icons/delete_assigned.svg" alt="close">
+                    }
                 </div>
                 }
             </div>
@@ -172,7 +176,6 @@
                     <input type="text" placeholder="Add new subtask" formControlName="subtask"><img
                         src="/assets/img/icons/add_blue.svg" (click)="pushSubtaskToArray()" alt="add_blue">
                 </div>
-
                 @for (subtask of subTasks; track subtask; let index = $index) {
                 <div class="subtask-container pointer">
                     <li (click)="handleEditSubtask(subtask.title, index)">{{subtask.title}}</li>
@@ -194,12 +197,14 @@
                 </div>
                 }
             </div>
-            <div class="submit-btn-container" [ngClass]="{ 'position-unset': this.displayFloatingAddTask}"
-                (click)="stopEventPropagation($event)">
+            <div class="submit-btn-container" [ngClass]="{ 'position-unset': this.displayFloatingAddTask,
+    'right-align': displayFloatingAddTask }" (click)="stopEventPropagation($event)">
+                @if (!displayFloatingAddTask) {
                 <button class="white-btn" type="button" (click)="onClear()">Clear<img
                         src="/assets/img/icons/cancel_btn.svg" alt="cancel button"></button>
+                }
                 <button class="blue-btn" type="submit" [disabled]="addTaskForm.invalid"
-                    [ngClass]="{ 'disabled': addTaskForm.invalid }">
+                    [ngClass]="{ 'disabled': addTaskForm.invalid} ">
                     Create Task
                     <img src="/assets/img/icons/create_btn.svg" alt="create button">
                 </button>

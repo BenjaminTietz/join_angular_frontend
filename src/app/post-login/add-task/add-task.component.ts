@@ -6,6 +6,8 @@ import {
   Input,
   ElementRef,
   ViewChild,
+  HostBinding,
+  Renderer2,
 } from "@angular/core";
 import {
   FormArray,
@@ -41,6 +43,10 @@ import { CommunicationService } from "../../services/communication.service";
   styleUrl: "./add-task.component.scss",
 })
 export class AddTaskComponent implements OnInit {
+  @Input() isEmbeddedInBoard: boolean = false;
+  @HostBinding("class.embedded") get embeddedClass() {
+    return this.isEmbeddedInBoard;
+  }
   app = inject(AppComponent);
   addTaskForm!: FormGroup;
   categories = [
@@ -71,11 +77,17 @@ export class AddTaskComponent implements OnInit {
   displayFloatingAddTask: boolean = false;
   private subscriptions: Subscription = new Subscription();
   currentUserId: number = 0;
+  hoveredIndex: number | null = null;
   public databaseService = inject(DatabaseService);
   private authService = inject(AuthService);
   communicationService = inject(CommunicationService);
   @ViewChild("contactInput") contactInput!: ElementRef<HTMLInputElement>;
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private renderer: Renderer2,
+    private el: ElementRef
+  ) {
     this.addTaskForm = this.fb.group({
       taskTitle: ["", Validators.required],
       taskDescription: [""],
@@ -98,17 +110,27 @@ export class AddTaskComponent implements OnInit {
    * - Sets the current user ID from the authentication service.
    */
   ngOnInit(): void {
+    this.initializeData();
+    this.initializeSubscriptions();
+    this.initializeUserAndRouterState();
+    console.log("User ID:", this.currentUserId);
+    console.log("isEmbeddedInBoard:", this.isEmbeddedInBoard);
+  }
+
+  private initializeData(): void {
     this.databaseService.initializeData(true);
+    this.contacts$ = this.databaseService.getContacts();
+    this.contacts$.subscribe((contacts) => {
+      this.filteredContacts = contacts;
+    });
+  }
+
+  private initializeSubscriptions(): void {
     this.subscriptions.add(
       this.communicationService.resetForm$.subscribe(() => {
         this.resetForm();
       })
     );
-    this.contacts$ = this.databaseService.getContacts();
-    const contactsSub = this.contacts$.subscribe((contacts) => {
-      this.filteredContacts = contacts;
-    });
-    this.subscriptions.add(contactsSub);
     const taskIdSub = this.databaseService.getTaskId().subscribe((taskId) => {
       this.taskId = taskId;
     });
@@ -124,12 +146,18 @@ export class AddTaskComponent implements OnInit {
         }
       });
     this.subscriptions.add(taskDataSub);
+  }
 
+  private initializeUserAndRouterState(): void {
     if (this.router.url === "/board") {
       this.displayFloatingAddTask = true;
     }
     this.currentUserId = this.authService.getUserId()!;
-    console.log("User ID:", this.currentUserId);
+  }
+
+  refreshBoard(): void {
+    this.initializeData();
+    this.databaseService.loadTasks();
   }
 
   /**
@@ -189,6 +217,8 @@ export class AddTaskComponent implements OnInit {
         this.createNewTask(newTask);
         this.app.showDialog("Task Creation Successful");
       }
+      this.communicationService.showAddTaskOverlay = false;
+      this.refreshBoard();
     }
   }
 
@@ -233,6 +263,7 @@ export class AddTaskComponent implements OnInit {
           this.databaseService.loadTasks();
           this.app.showDialog("Task Update Successful");
         });
+      this.refreshBoard();
     }
   }
 
@@ -253,6 +284,7 @@ export class AddTaskComponent implements OnInit {
       this.addTaskForm.reset();
       this.handleAdditionalUpdates(createdTask.id);
     });
+    this.refreshBoard();
   }
 
   /**
@@ -266,16 +298,15 @@ export class AddTaskComponent implements OnInit {
     const newAssignees = this.assignedContacts.filter(
       (contact) => !this.assignedContactIds.includes(contact.id)
     );
-
     if (newSubtasks.length > 0) {
       this.databaseService.addSubtasks(taskId, newSubtasks).subscribe(() => {});
     }
-
     if (newAssignees.length > 0) {
       this.databaseService
         .addAssignees(taskId, newAssignees)
         .subscribe(() => {});
     }
+    this.refreshBoard();
   }
 
   /**
@@ -406,6 +437,7 @@ export class AddTaskComponent implements OnInit {
         listElement.style.display = "flex";
       }
     }
+    this.refreshBoard();
   }
 
   /**
@@ -517,7 +549,6 @@ export class AddTaskComponent implements OnInit {
       this.contacts$.subscribe((contacts) => {
         this.filteredContacts = contacts;
       });
-
       setTimeout(() => {
         if (this.contactInput) {
           this.contactInput.nativeElement.focus();
@@ -565,5 +596,26 @@ export class AddTaskComponent implements OnInit {
     const formattedValue = value.charAt(0).toUpperCase() + value.slice(1);
     this.addTaskForm.get("category")?.setValue(formattedValue);
     this.showCategories = false;
+  }
+
+  removeAssignedContact(contact: Contact, index: number) {
+    this.assignedContacts.splice(index, 1);
+    this.taskAssignedToArray.removeAt(index);
+    this.assignedContactIds = this.assignedContactIds.filter(
+      (id) => id !== contact.id
+    );
+    if (this.taskId) {
+      this.databaseService
+        .removeAssignee(Number(this.taskId), [Number(contact.id)])
+        .subscribe({
+          next: () => {
+            this.app.showDialog("Contact removed from task");
+          },
+          error: (error) => {
+            console.error("Error removing contact from task:", error);
+          },
+        });
+      this.refreshBoard();
+    }
   }
 }

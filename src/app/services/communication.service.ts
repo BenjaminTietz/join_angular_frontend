@@ -11,11 +11,11 @@ export class CommunicationService {
   private resetFormSubject = new Subject<void>();
   resetForm$ = this.resetFormSubject.asObservable();
   isUserMenuVisible: boolean = false;
+  showAddTaskOverlay: boolean = false;
   constructor() {}
 
   /**
-   * Triggers the reset of the form in the form component
-   * (e.g. when the user is logged out).
+   * Triggers the reset of the form in the add task component
    */
   triggerResetForm(): void {
     this.resetFormSubject.next();

@@ -134,6 +134,10 @@ export class DatabaseService {
     const url = `${this.tasksUrl}${taskId}/add_assignees/`;
     return this.http.post<any>(url, { assignedTo });
   }
+  public removeAssignee(taskId: number, assignedTo: number[]): Observable<any> {
+    const url = `${this.tasksUrl}${taskId}/remove_assignees/`;
+    return this.http.post<any>(url, { assignedTo });
+  }
 
   public loadContacts() {
     this.http.get<Contact[]>(this.contactsUrl).subscribe({

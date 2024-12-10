@@ -39,7 +39,6 @@ export class BoardComponent implements OnInit, OnDestroy {
     medium: "/assets/img/icons/task_prio_medium.svg",
     low: "/assets/img/icons/task_prio_low.svg",
   };
-  showAddTaskOverlay = false;
   showTaskDetailOverlay = false;
   selectedStaus = "";
   selectedCategory = "";
@@ -54,11 +53,17 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   /**
    * Called when the component is initialized.
-   * Initializes the task data by calling the {@link DatabaseService}'s initializeData method.
-   * Subscribes to the tasks$ observable and stores the tasks in the allTasks and filteredTasks fields.
-   * Adds the subscription to the subscriptions field.
    */
   ngOnInit(): void {
+    this.initializeBoard();
+  }
+  /**
+   * Initializes the board by loading all tasks and storing them in the allTasks and filteredTasks fields.
+   * Subscribes to the tasks observable from the {@link DatabaseService}.
+   * Adds the subscription to the subscriptions field to manage resources.
+   */
+
+  initializeBoard(): void {
     this.databaseService.initializeData(true);
     const tasksSub = this.databaseService.getTasks().subscribe((tasks) => {
       this.allTasks = tasks;
@@ -131,21 +136,21 @@ export class BoardComponent implements OnInit, OnDestroy {
    */
   handleShowAddTaskOverlay(status: string) {
     this.communicationService.triggerResetForm();
-    this.showAddTaskOverlay = true;
+    this.communicationService.showAddTaskOverlay = true;
     this.selectedStaus = status;
   }
+
   /**
    * Closes the add task overlay and resets the form.
    * @param event The event that triggered the function.
    */
   handleCloseAddTaskOverlay(event: Event) {
     event.stopPropagation();
-    this.showAddTaskOverlay = false;
+    this.communicationService.showAddTaskOverlay = false;
     this.communicationService.triggerResetForm();
   }
 
-  //drag and drop
-
+  //drag and drop functions
   /**
    * Handles the drag start event for a task.
    * Sets the dragged task's ID, index, and the status from which the drag originated.
@@ -187,8 +192,8 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.databaseService.updateTask(this.draggedTaskId, { status }).subscribe({
       next: (updatedTask) => {
         this.moveTaskBetweenArrays(this.draggedTaskIndex, sourceArray, status);
+        this.initializeBoard();
         this.filterTasks();
-        this.ngOnInit();
       },
       error: (err) => {
         console.error("Error updating task:", err);
@@ -242,7 +247,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   /**
    * Handles the click event for a task to move it to a new status.
    * Retrieves the source array of the task, updates the task in the database,
-   * moves the task between arrays in the component, and calls ngOnInit.
+   * moves the task between arrays in the component, and calls initializeBoard().
    * @param taskId - The ID of the task to move.
    * @param index - The index of the task in the source array.
    * @param status - The new status of the task.
@@ -256,7 +261,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       .subscribe((updatedTask) => {
         this.moveTaskBetweenArrays(index, sourceArray, status);
       });
-    this.ngOnInit();
+    this.initializeBoard();
     this.filterTasks();
   }
 
@@ -358,7 +363,7 @@ export class BoardComponent implements OnInit, OnDestroy {
    */
   handleTaskSaved(updatedTask: Task) {
     console.log("Task wurde gespeichert:", updatedTask);
-    this.showAddTaskOverlay = false;
+    this.communicationService.showAddTaskOverlay = false;
     // todo : update task in the array
   }
 
