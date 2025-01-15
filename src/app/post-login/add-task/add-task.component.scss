@@ -374,7 +374,14 @@ form {
     position: relative;
 }
 
+.extra-contacts {
+    @include dFlex(row, center, center);
 
+    span {
+        @include Inter(400, 16px, 19.2px, $input-border !important);
+
+    }
+}
 
 @media only screen and (max-width: 1200px) {
     .add-task-wrapper {

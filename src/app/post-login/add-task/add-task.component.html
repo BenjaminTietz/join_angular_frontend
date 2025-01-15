@@ -130,96 +130,101 @@
             @if (assignedContacts.length > 0) {
             <div class="selected-contacts">
                 @for (contact of this.assignedContacts; track contact; let index = $index) {
-                <div class="contact-initials" [style.backgroundColor]="contact.color"
+                @if (index < 8) { <div class="contact-initials" [style.backgroundColor]="contact.color"
                     (mouseenter)="hoveredIndex = index" (mouseleave)="hoveredIndex = null">
                     <span>{{ contact.initials}}</span>
                     @if (this.hoveredIndex === index) {
                     <img class="delete-assigned-to" (click)="this.removeAssignedContact(contact, index)"
                         src="/assets/img/icons/delete_assigned.svg" alt="close">
                     }
-                </div>
-                }
             </div>
             }
-            <span>Category</span>
-            <div class="form-input-container">
-                <div class="dropdown-menu">
-                    @if (!showCategories ) {
-                    @if (!selectedCategory) {
-                    <p>Select task category</p>
-                    } @else {
-                    <p>{{ selectedCategory }}</p>
-                    }
-                    <img (click)="this.toggleShowCategories(); stopEventPropagation($event)"
-                        src="/assets/img/icons/arrow_drop_down.svg" alt="arrow_drop_down">
-                    } @else {
-                    <input formControlName="category" type="text" class="special-input">
-                    <img (click)="this.toggleShowCategories(); stopEventPropagation($event)"
-                        src="/assets/img/icons/arrow_drop_up.svg" alt="arrow_drop_up">
-                    }
-                </div>
-                @if (addTaskForm.get('taskCategory')?.touched && (addTaskForm.get('taskCategory')?.dirty ||
-                addTaskForm.get('taskCategory')?.invalid)) {
-                <div class="error">
-                    <span>Choose a category</span>
-                </div>
-                }
-            </div>
-            @if (this.showCategories) {
-            <div class="drop-down-content">
-                @for (cat of categories; track index; let index = $index) {
-                <div class="category-container" (click)="selectCategory(cat.value)">
-                    <p>{{cat.label}}</p>
-                </div>
-                }
+            }
+            @if (this.assignedContacts.length > 8) {
+            <div class="contact-initials extra-contacts">
+                <span>+{{ this.assignedContacts.length - 8 }}</span>
             </div>
             }
-            <span>Subtasks (optional)</span>
-            <div class="input-container input-subtasks">
-                <div class="subtask-input">
-                    <input type="text" placeholder="Add new subtask" formControlName="subtask"><img
-                        src="/assets/img/icons/add_blue.svg" (click)="pushSubtaskToArray()" alt="add_blue">
-                </div>
-                @for (subtask of subTasks; track subtask; let index = $index) {
-                <div class="subtask-container pointer">
-                    <li (click)="handleEditSubtask(subtask.title, index)">{{subtask.title}}</li>
-                    <input type="text" value="{{subtask.title}}">
-                    <div class="icon-container">
-                        @if (!this.databaseService.showEditTaskOverlay) {
-                        <img src="/assets/img/icons/delete_trash.svg" (click)="removeSubtaskFromArray(index)"
-                            class="pointer delete-btn" alt="delete button" alt="delete">
-                        } @else {
-                        <img src="/assets/img/icons/delete_trash.svg"
-                            (click)="this.deleteSubtask(subtask.id, index.toString())" class="pointer"
-                            alt="delete button">
-                        }
-
-                        <div class="vertical-line"></div>
-                        <img src="/assets/img/icons/save_subtask_blue.svg"
-                            (click)="saveEditedSubtask(subtask.title,index)" class="pointer edit-btn" alt="edit button">
-                    </div>
-                </div>
-                }
-            </div>
-            <div class="submit-btn-container" [ngClass]="{ 'position-unset': this.displayFloatingAddTask,
-    'right-align': displayFloatingAddTask }" (click)="stopEventPropagation($event)">
-                @if(!this.databaseService.showEditTaskOverlay){
-                <button class="white-btn" type="button" (click)="onClear()">Clear<img
-                        src="/assets/img/icons/cancel_btn.svg" alt="cancel button"></button>
-                <button class="blue-btn" type="submit" [disabled]="addTaskForm.invalid"
-                    [ngClass]="{ 'disabled': addTaskForm.invalid} ">
-                    Create Task
-                    <img src="/assets/img/icons/create_btn.svg" alt="create button">
-                </button>
+    </div>
+    }
+    <span>Category</span>
+    <div class="form-input-container">
+        <div class="dropdown-menu">
+            @if (!showCategories ) {
+            @if (!selectedCategory) {
+            <p>Select task category</p>
+            } @else {
+            <p>{{ selectedCategory }}</p>
+            }
+            <img (click)="this.toggleShowCategories(); stopEventPropagation($event)"
+                src="/assets/img/icons/arrow_drop_down.svg" alt="arrow_drop_down">
+            } @else {
+            <input formControlName="category" type="text" class="special-input">
+            <img (click)="this.toggleShowCategories(); stopEventPropagation($event)"
+                src="/assets/img/icons/arrow_drop_up.svg" alt="arrow_drop_up">
+            }
+        </div>
+        @if (addTaskForm.get('taskCategory')?.touched && (addTaskForm.get('taskCategory')?.dirty ||
+        addTaskForm.get('taskCategory')?.invalid)) {
+        <div class="error">
+            <span>Choose a category</span>
+        </div>
+        }
+    </div>
+    @if (this.showCategories) {
+    <div class="drop-down-content">
+        @for (cat of categories; track index; let index = $index) {
+        <div class="category-container" (click)="selectCategory(cat.value)">
+            <p>{{cat.label}}</p>
+        </div>
+        }
+    </div>
+    }
+    <span>Subtasks (optional)</span>
+    <div class="input-container input-subtasks">
+        <div class="subtask-input">
+            <input type="text" placeholder="Add new subtask" formControlName="subtask"><img
+                src="/assets/img/icons/add_blue.svg" (click)="pushSubtaskToArray()" alt="add_blue">
+        </div>
+        @for (subtask of subTasks; track subtask; let index = $index) {
+        <div class="subtask-container pointer">
+            <li (click)="handleEditSubtask(subtask.title, index)">{{subtask.title}}</li>
+            <input type="text" value="{{subtask.title}}">
+            <div class="icon-container">
+                @if (!this.databaseService.showEditTaskOverlay) {
+                <img src="/assets/img/icons/delete_trash.svg" (click)="removeSubtaskFromArray(index)"
+                    class="pointer delete-btn" alt="delete button" alt="delete">
                 } @else {
-                <button class="blue-btn" type="submit" [disabled]="addTaskForm.invalid"
-                    [ngClass]="{ 'disabled': addTaskForm.invalid} ">
-                    Save Task
-                    <img src="/assets/img/icons/create_btn.svg" alt="create button">
-                </button>
+                <img src="/assets/img/icons/delete_trash.svg" (click)="this.deleteSubtask(subtask.id, index.toString())"
+                    class="pointer" alt="delete button">
                 }
+
+                <div class="vertical-line"></div>
+                <img src="/assets/img/icons/save_subtask_blue.svg" (click)="saveEditedSubtask(subtask.title,index)"
+                    class="pointer edit-btn" alt="edit button">
             </div>
-        </form>
+        </div>
+        }
+    </div>
+    <div class="submit-btn-container" [ngClass]="{ 'position-unset': this.displayFloatingAddTask,
+    'right-align': displayFloatingAddTask }" (click)="stopEventPropagation($event)">
+        @if(!this.databaseService.showEditTaskOverlay){
+        <button class="white-btn" type="button" (click)="onClear()">Clear<img src="/assets/img/icons/cancel_btn.svg"
+                alt="cancel button"></button>
+        <button class="blue-btn" type="submit" [disabled]="addTaskForm.invalid"
+            [ngClass]="{ 'disabled': addTaskForm.invalid} ">
+            Create Task
+            <img src="/assets/img/icons/create_btn.svg" alt="create button">
+        </button>
+        } @else {
+        <button class="blue-btn" type="submit" [disabled]="addTaskForm.invalid"
+            [ngClass]="{ 'disabled': addTaskForm.invalid} ">
+            Save Task
+            <img src="/assets/img/icons/create_btn.svg" alt="create button">
+        </button>
+        }
+    </div>
+    </form>
     </div>
 </section>
 @if (!this.displayFloatingAddTask) {
