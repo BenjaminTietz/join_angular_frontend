@@ -102,6 +102,12 @@
     gap: 10px;
     cursor: pointer;
     @include dFlex(column, center, center);
+    transition: all 0.175s ease-in-out;
+
+    &:hover {
+        scale: 1.05;
+        box-shadow: 0px 0px 4px 0px #00000029;
+    }
 }
 
 .single-task {
@@ -157,7 +163,6 @@
 
         >.task-assignee {
             @include dFlex(row, flex-start, center);
-            width: 80px;
             height: 32px;
 
             >.assignee {
@@ -428,6 +433,7 @@ progress {
             }
         }
 
+
         >.task-subtasks {
             width: 100%;
             @include dFlex(column, flex-start, flex-start);
@@ -489,6 +495,15 @@ progress {
 
     100% {
         transform: translateY(0);
+    }
+}
+
+.extra-assignees {
+    @include dFlex(row, center, center);
+
+    span {
+        @include Inter(400, 16px, 19.2px, $input-border !important);
+
     }
 }
 

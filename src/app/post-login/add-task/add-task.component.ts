@@ -57,6 +57,7 @@ export class AddTaskComponent implements OnInit {
     { value: "testing", label: "Testing" },
     { value: "project-management", label: "Project Management" },
   ];
+  selectedCategory: string | null = null;
   contacts$!: Observable<Contact[]>;
   filteredContacts: Contact[] = [];
   searchTerm: string = "";
@@ -320,6 +321,7 @@ export class AddTaskComponent implements OnInit {
     this.assignedContactIds = [];
     this.assignedContacts = [];
     this.subTasks = [];
+    this.selectCategory("");
   }
 
   /**
@@ -372,7 +374,7 @@ export class AddTaskComponent implements OnInit {
     if (this.addTaskForm.value.subtask) {
       this.subTasks.push({
         title: this.addTaskForm.value.subtask,
-        taskId: "",
+        task: "",
         id: "",
         checked: false,
         createdAt: new Date().toISOString(),
@@ -409,37 +411,53 @@ export class AddTaskComponent implements OnInit {
       listElement.style.display = "none";
     }
   }
-  /**
-   * Saves the edited subtask title and switches the subtask element from the input field back to the li element.
-   * If the edited title is different from the original title, updates the title in the subTasks array.
-   * @param originalTitle - The original title of the subtask.
-   * @param index - The index of the subtask in the subTasks array.
-   */
   saveEditedSubtask(originalTitle: string, index: number) {
-    const inputElement = document.querySelector(
+    const inputElement = this.getElementBySelector<HTMLInputElement>(
       `.subtask-container:nth-child(${index + 2}) > input`
-    ) as HTMLInputElement;
+    );
+    const listElement = this.getElementBySelector<HTMLElement>(
+      `.subtask-container:nth-child(${index + 2}) > li`
+    );
 
     if (inputElement) {
-      const newTitle = inputElement.value;
-      if (newTitle !== originalTitle) {
-        this.subTasks[index].title = newTitle;
-        console.log("Updated subtask title:", newTitle);
-      } else {
-        console.log("No changes made.");
+      const newTitle = inputElement.value.trim();
+      if (newTitle && newTitle !== originalTitle) {
+        this.updateSubtaskTitle(index, newTitle);
       }
-      const listElement = document.querySelector(
-        `.subtask-container:nth-child(${index + 2}) > li`
-      ) as HTMLElement;
-
-      if (listElement) {
-        inputElement.style.display = "none";
-        listElement.style.display = "flex";
-      }
+      this.toggleSubtaskEditMode(inputElement, listElement, false);
     }
     this.refreshBoard();
   }
 
+  private updateSubtaskTitle(index: number, newTitle: string) {
+    this.subTasks[index].title = newTitle;
+
+    if (this.databaseService.showEditTaskOverlay) {
+      const subtask = this.subTasks[index];
+      this.databaseService
+        .updateSubtask(subtask.task, subtask.id, { title: newTitle })
+        .subscribe({
+          next: (response) =>
+            this.app.showDialog("Subtask updated successfully"),
+          error: (err) => console.error("Error updating subtask:", err),
+        });
+    }
+  }
+
+  private toggleSubtaskEditMode(
+    inputElement: HTMLElement | null,
+    listElement: HTMLElement | null,
+    isEditing: boolean
+  ) {
+    if (inputElement) inputElement.style.display = isEditing ? "flex" : "none";
+    if (listElement) listElement.style.display = isEditing ? "none" : "flex";
+  }
+
+  private getElementBySelector<T extends HTMLElement>(
+    selector: string
+  ): T | null {
+    return document.querySelector(selector) as T | null;
+  }
   /**
    * Loads the given task data into the form.
    * Sets the task title, description, due date, priority, and category
@@ -571,9 +589,16 @@ export class AddTaskComponent implements OnInit {
   onSearch(event: Event) {
     const input = (event.target as HTMLInputElement).value.trim().toLowerCase();
     this.searchTerm = input;
-    this.filteredContacts = this.filteredContacts.filter((contact) =>
-      contact.name.toLowerCase().includes(this.searchTerm)
-    );
+
+    if (this.searchTerm === "") {
+      this.contacts$.subscribe((contacts) => {
+        this.filteredContacts = contacts;
+      });
+    } else {
+      this.filteredContacts = this.filteredContacts.filter((contact) =>
+        contact.name.toLowerCase().includes(this.searchTerm)
+      );
+    }
   }
 
   /**
@@ -595,6 +620,7 @@ export class AddTaskComponent implements OnInit {
   selectCategory(value: string) {
     const formattedValue = value.charAt(0).toUpperCase() + value.slice(1);
     this.addTaskForm.get("category")?.setValue(formattedValue);
+    this.selectedCategory = formattedValue;
     this.showCategories = false;
   }
 

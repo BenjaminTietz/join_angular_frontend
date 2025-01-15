@@ -49,10 +49,15 @@
                         <div class="single-task-bottom">
                             <div class="task-assignee">
                                 @for (assignee of task.assignedTo; track assignee.id; let index = $index) {
-                                @if(index<=2){ <div class="assignee" [style.backgroundColor]="assignee.color">
+                                @if (index < 3) { <div class="assignee" [style.backgroundColor]="assignee.color">
                                     <span>{{assignee.initials}}</span>
                             </div>
                             }
+                            }
+                            @if (task.assignedTo.length > 3) {
+                            <div class="extra-assignees">
+                                <span>+{{task.assignedTo.length - 3}}</span>
+                            </div>
                             }
                         </div>
                         <div class="task-prio">
@@ -107,10 +112,15 @@
                     <div class="single-task-bottom">
                         <div class="task-assignee">
                             @for (assignee of task.assignedTo; track assignee.id; let index = $index) {
-                            @if(index<=2){ <div class="assignee" [style.backgroundColor]="assignee.color">
+                            @if (index < 3) { <div class="assignee" [style.backgroundColor]="assignee.color">
                                 <span>{{assignee.initials}}</span>
                         </div>
                         }
+                        }
+                        @if (task.assignedTo.length > 3) {
+                        <div class="extra-assignees">
+                            <span>+{{task.assignedTo.length - 3}}</span>
+                        </div>
                         }
                     </div>
                     <div class="task-prio">
@@ -165,10 +175,15 @@
                 <div class="single-task-bottom">
                     <div class="task-assignee">
                         @for (assignee of task.assignedTo; track assignee.id; let index = $index) {
-                        @if(index<=2){ <div class="assignee" [style.backgroundColor]="assignee.color">
+                        @if (index < 3) { <div class="assignee" [style.backgroundColor]="assignee.color">
                             <span>{{assignee.initials}}</span>
                     </div>
                     }
+                    }
+                    @if (task.assignedTo.length > 3) {
+                    <div class="extra-assignees">
+                        <span>+{{task.assignedTo.length - 3}}</span>
+                    </div>
                     }
                 </div>
                 <div class="task-prio">
@@ -219,10 +234,15 @@
                 <div class="single-task-bottom">
                     <div class="task-assignee">
                         @for (assignee of task.assignedTo; track assignee.id; let index = $index) {
-                        @if(index<=2){ <div class="assignee" [style.backgroundColor]="assignee.color">
+                        @if (index < 3) { <div class="assignee" [style.backgroundColor]="assignee.color">
                             <span>{{assignee.initials}}</span>
                     </div>
                     }
+                    }
+                    @if (task.assignedTo.length > 3) {
+                    <div class="extra-assignees">
+                        <span>+{{task.assignedTo.length - 3}}</span>
+                    </div>
                     }
                 </div>
                 <div class="task-prio">
@@ -292,33 +312,37 @@
         <div class="task-assignee">
             <h4>Assigned To:</h4>
             @for (assignee of task.assignedTo; track assignee.id; let index = $index) {
-            <div class="assigned-container">
+            @if (index < 3) { <div class="assigned-container">
                 <div class="assigned-contact" [style.backgroundColor]="assignee.color">
                     <span>{{assignee.initials}}</span>
                 </div>
                 <span>{{assignee.name}}</span>
-            </div>
-
-            }
         </div>
-        <div class="task-subtasks">
-            <h4>Subtasks</h4>
-            @for (subtask of task.subTasks; track subtask.id; let index = $index) {
-            <div class="subtask">
-                <input type="checkbox" [checked]="subtask.checked" id="subtask1" name="subtask1"
-                    (change)="toggleCheckBox(task,subtask)">
-                <h5>{{subtask.title}}</h5>
-            </div>
-            }
+        }
+        } @if (task.assignedTo.length > 3) {
+        <div class="assignee extra-assignees">
+            <span>+{{task.assignedTo.length - 3}} more</span>
         </div>
-        <div class="task-actions">
-            <button class="contact-action-btn" type="button" (click)="handleDeleteTask(task)"><img
-                    src="/assets/img/icons/delete_trash.svg" alt="delete button">Delete</button>
-            <div class="vertical-line"></div>
-            <button class="contact-action-btn" type="button" (click)="openTaskEditor(task)"><img
-                    src="/assets/img/icons/edit_contact.svg" alt="edit button">Edit</button>
-        </div>
+        }
     </div>
+    <div class="task-subtasks">
+        <h4>Subtasks</h4>
+        @for (subtask of task.subTasks; track subtask.id; let index = $index) {
+        <div class="subtask">
+            <input type="checkbox" [checked]="subtask.checked" id="subtask1" name="subtask1"
+                (change)="toggleCheckBox(task,subtask)">
+            <h5>{{subtask.title}}</h5>
+        </div>
+        }
+    </div>
+    <div class="task-actions">
+        <button class="contact-action-btn" type="button" (click)="handleDeleteTask(task)"><img
+                src="/assets/img/icons/delete_trash.svg" alt="delete button">Delete</button>
+        <div class="vertical-line"></div>
+        <button class="contact-action-btn" type="button" (click)="openTaskEditor(task)"><img
+                src="/assets/img/icons/edit_contact.svg" alt="edit button">Edit</button>
+    </div>
+</div>
 </div>
 }
 }

@@ -1,7 +1,5 @@
-import { Task } from './task.class';
-
 export class SubTask {
-  taskId: Task['id'];
+  task: string;
   id: string;
   title: string;
   checked: boolean;
@@ -9,11 +7,11 @@ export class SubTask {
   createdBy: string;
 
   constructor(obj?: any) {
-    this.taskId = obj ? obj.id : '';
-    this.id = obj ? obj.id : '';
-    this.title = obj ? obj.title : '';
+    this.task = obj ? obj.task : "";
+    this.id = obj ? obj.id : "";
+    this.title = obj ? obj.title : "";
     this.checked = obj ? obj.checked : false;
-    this.createdAt = obj ? obj.createdAt : '';
-    this.createdBy = obj ? obj.createdBy : '';
+    this.createdAt = obj ? obj.created_at : "";
+    this.createdBy = obj ? obj.createdBy : "";
   }
 }

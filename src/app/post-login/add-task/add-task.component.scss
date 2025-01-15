@@ -58,7 +58,7 @@ form {
     }
 
     input.special-input {
-        border-bottom: none;
+        border-bottom: none !important;
     }
 
     input::placeholder {
@@ -382,7 +382,7 @@ form {
     }
 
     .add-task-content {
-        overflow-y: unset;
+        overflow-y: unset !important;
     }
 
     .submit-btn-container {

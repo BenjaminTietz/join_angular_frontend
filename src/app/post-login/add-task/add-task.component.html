@@ -99,8 +99,8 @@
                 <img (click)="this.toggleShowContactsToAssign(); stopEventPropagation($event)"
                     src="/assets/img/icons/arrow_drop_down.svg" alt="arrow_drop_down">
                 } @else {
-                <input #contactInput type="text" placeholder="Search contacts" (click)="stopEventPropagation($event)"
-                    (input)="onSearch($event)">
+                <input #contactInput type="text" placeholder="Search contacts" class="special-input"
+                    (click)="stopEventPropagation($event)" (input)="onSearch($event)">
                 <img (click)="this.toggleShowContactsToAssign()" src="/assets/img/icons/arrow_drop_up.svg"
                     alt="arrow_drop_up">
                 }
@@ -144,8 +144,12 @@
             <span>Category</span>
             <div class="form-input-container">
                 <div class="dropdown-menu">
-                    @if (!showCategories && this.addTaskForm.get("category")?.value === "") {
+                    @if (!showCategories ) {
+                    @if (!selectedCategory) {
                     <p>Select task category</p>
+                    } @else {
+                    <p>{{ selectedCategory }}</p>
+                    }
                     <img (click)="this.toggleShowCategories(); stopEventPropagation($event)"
                         src="/assets/img/icons/arrow_drop_down.svg" alt="arrow_drop_down">
                     } @else {
@@ -199,15 +203,21 @@
             </div>
             <div class="submit-btn-container" [ngClass]="{ 'position-unset': this.displayFloatingAddTask,
     'right-align': displayFloatingAddTask }" (click)="stopEventPropagation($event)">
-                @if (!displayFloatingAddTask) {
+                @if(!this.databaseService.showEditTaskOverlay){
                 <button class="white-btn" type="button" (click)="onClear()">Clear<img
                         src="/assets/img/icons/cancel_btn.svg" alt="cancel button"></button>
-                }
                 <button class="blue-btn" type="submit" [disabled]="addTaskForm.invalid"
                     [ngClass]="{ 'disabled': addTaskForm.invalid} ">
                     Create Task
                     <img src="/assets/img/icons/create_btn.svg" alt="create button">
                 </button>
+                } @else {
+                <button class="blue-btn" type="submit" [disabled]="addTaskForm.invalid"
+                    [ngClass]="{ 'disabled': addTaskForm.invalid} ">
+                    Save Task
+                    <img src="/assets/img/icons/create_btn.svg" alt="create button">
+                </button>
+                }
             </div>
         </form>
     </div>

@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Observable, BehaviorSubject } from "rxjs";
+import { Observable, BehaviorSubject, throwError } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from "../../environments/environment";
 import { Contact } from "../models/contact.class";
 import { Task } from "../models/task.class";
 import { SubTask } from "../models/subTask.class";
 import { CommunicationService } from "./communication.service";
+import { catchError, tap } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",
@@ -126,6 +127,25 @@ export class DatabaseService {
 
     return this.http.patch<any>(url, body);
   }
+  public updateSubtask(
+    taskId: string,
+    subtaskId: string,
+    updatedFields: Partial<SubTask>
+  ): Observable<SubTask> {
+    const url = `${this.tasksUrl}${taskId}/subtask/${subtaskId}/update/`;
+    return this.http.patch<SubTask>(url, updatedFields).pipe(
+      tap((response) =>
+        console.log("Subtask erfolgreich aktualisiert:", response)
+      ),
+      catchError((err) => {
+        console.error("Fehler beim Aktualisieren des Subtasks:", err);
+        return throwError(
+          () => new Error("Fehler beim Aktualisieren des Subtasks")
+        );
+      })
+    );
+  }
+
   public deleteSubtask(taskId: string, subtaskId: string): Observable<any> {
     const url = `${this.tasksUrl}${taskId}/subtask/${subtaskId}/`;
     return this.http.delete<any>(url);
