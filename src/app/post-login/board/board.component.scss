@@ -51,7 +51,7 @@
     width: 1208px;
     height: fit-content;
     @include dFlex(row, space-between, flex-start);
-    flex: 1 1 25%;
+    flex: 1 1 calc(25% - 16px);
     padding: 0px 16px 16px 16px;
     flex-wrap: wrap;
     gap: 32px;
@@ -533,15 +533,31 @@ progress {
 
 @media only screen and (max-width: 1500px) {
     .board-column {
-        flex: 1 1 50% !important;
+        flex: 1 1 calc(50% - 16px);
+    }
+
+    .board-column-container {
+        width: calc(50% - 16px);
+    }
+
+    .board-column-bottom {
+        width: 100%;
+    }
+
+    .single-task {
+        width: 100%;
+    }
+
+    .progress-container {
+        width: 100%;
+    }
+
+    .single-task-bottom {
+        width: 100% !important;
     }
 }
 
 @media only screen and (max-width: 1200px) {
-    .board-column {
-        flex: 1 1 45% !important;
-    }
-
     .board-wrapper {
         @include dFlex(column, flex-start, center);
     }
