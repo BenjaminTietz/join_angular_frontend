@@ -11,9 +11,9 @@ import { Contact } from "../models/contact.class";
 })
 export class AuthService {
   isLoggedIn: boolean = false;
-  public loginUrl = `${environment.baseRefUrl}/auth/login/`;
-  public signupUrl = `${environment.baseRefUrl}/auth/signup/`;
-  public verifyTokenUrl = `${environment.baseRefUrl}/auth/verify-token/`;
+  public loginUrl = `${environment.baseRefUrl}/login/`;
+  public signupUrl = `${environment.baseRefUrl}/signup/`;
+  public verifyTokenUrl = `${environment.baseRefUrl}/verify-token/`;
 
   constructor(
     private http: HttpClient,
@@ -168,7 +168,7 @@ export class AuthService {
     try {
       const loginResponse = await this.login(
         "guest@guest.com",
-        "0123456789!b",
+        "0123456789bb",
         true
       );
       const token = loginResponse.token;
@@ -220,7 +220,7 @@ export class AuthService {
     sessionStorage.removeItem("contact");
     sessionStorage.removeItem("userId");
     this.isLoggedIn = false;
-    this.router.navigate(["/login"]);
+    this.router.navigate(["/"]);
   }
 
   /**
@@ -246,7 +246,7 @@ export class AuthService {
    * @param email The email address for which to request a password reset.
    */
   public async requestPasswordReset(email: string): Promise<void> {
-    const resetUrl = `${environment.baseRefUrl}/auth/password-reset/`;
+    const resetUrl = `${environment.baseRefUrl}/password-reset/`;
     try {
       const response = await firstValueFrom(
         this.http.post(resetUrl, { email })
@@ -268,7 +268,7 @@ export class AuthService {
    * @param password The new password to be set for the user.
    */
   public async resetPassword(token: string, password: string): Promise<void> {
-    const resetUrl = `${environment.baseRefUrl}/auth/password-reset/${token}/`;
+    const resetUrl = `${environment.baseRefUrl}/password-reset/${token}/`;
     try {
       const response = await firstValueFrom(
         this.http.post(resetUrl, { password })

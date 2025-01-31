@@ -22,7 +22,7 @@ export const routes: Routes = [
     component: SignupComponent,
   },
   {
-    path: "reset-password/:token",
+    path: "password-reset/:token",
     component: ResetPasswordComponent,
   },
   {
