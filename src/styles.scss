@@ -282,7 +282,6 @@ textarea::placeholder {
     width: 100% !important;
 }
 
-// todo fix font size addtask Title
 .OS-32 {
     @include OpenSans(400, 32px, 38.4px, $black);
 
@@ -353,22 +352,19 @@ textarea::placeholder {
 
 @media only screen and (max-width: 1200px) {
     .content-wrapper {
-        width: 100vw;
+        width: calc(100vw - 64px);
         height: calc(100vh - 154px);
-        padding: 32px 32px 32px 32px;
+        padding: 32px;
         box-sizing: border-box;
     }
-
-    .blue-btn {}
-
-    .white-btn {}
-
-    //todo 
 }
 
 
 
 @media only screen and (max-width: 650px) {
+    form {
+        padding-right: unset !important;
+    }
 
     .OS-32 {
         @include OpenSans(400, 28px, 33.6px, $black);
@@ -380,5 +376,11 @@ textarea::placeholder {
 
     .embedded .add-task-content {
         overflow-y: scroll !important;
+    }
+
+    .content-wrapper {
+        width: 100% !important;
+        padding: 16px;
+        box-sizing: border-box;
     }
 }

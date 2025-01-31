@@ -370,7 +370,7 @@
         >form {
             width: 584px;
             height: 362.48px;
-            padding-top: 80px;
+            padding-top: 40px;
             gap: 32px;
             @include dFlex(column, center, center);
             box-sizing: content-box;
@@ -481,7 +481,11 @@
         position: relative;
 
         form:nth-child(2) {
-            padding-top: 92px !important;
+            padding-top: 40px !important;
+        }
+
+        form {
+            height: unset !important;
         }
 
         .user-initial {
@@ -520,7 +524,7 @@
     }
 
     .submit-btn-container {
-        margin-top: 8px !important;
+        margin-top: 16px !important;
         margin-bottom: 32px !important;
 
         &.add-contact-buttons {
@@ -600,6 +604,7 @@
                 gap: 0px !important;
 
                 .form-input {
+                    height: unset !important;
                     gap: 22px !important;
                 }
             }
@@ -620,7 +625,7 @@
         padding: 16px 8px !important;
 
         .top-section {
-            gap: 8px;
+            gap: 8px !important;
         }
     }
 
@@ -634,6 +639,8 @@
     }
 
     .top-section {
+        @include dFlex(row, flex-start !important, center);
+
         .user-initial {
             width: 80px !important;
             height: 80px !important;

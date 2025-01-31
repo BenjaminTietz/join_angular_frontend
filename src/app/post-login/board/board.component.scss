@@ -523,7 +523,6 @@ progress {
 
 .mobile-btn-container {
     @include dFlex(column, space-between, center);
-    height: 75%;
     position: absolute;
     top: 0;
     right: 0;

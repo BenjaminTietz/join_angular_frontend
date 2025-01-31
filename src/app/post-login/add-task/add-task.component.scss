@@ -3,7 +3,7 @@
 .add-task-wrapper {
     @include dFlex(row, flex-start, flex-start);
     position: relative;
-    box-sizing: content-box;
+    box-sizing: border-box;
 }
 
 
@@ -407,10 +407,6 @@ form {
 
 
 @media only screen and (max-width: 650px) {
-    .add-task-wrapper {
-        height: 100% !important;
-        overflow-y: hidden !important;
-    }
 
     .add-task-content {
         width: 100% !important;

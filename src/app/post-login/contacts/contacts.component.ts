@@ -279,9 +279,11 @@ export class ContactsComponent implements OnInit, OnDestroy {
     this.databaseService.deleteContact(contactId).subscribe({
       next: () => {
         // todo: show success message / refresh contact list / ask for confirmation
+        this.showEditContactOverlay = false;
+        this.showMobileContactDetail = false;
+        this.showMenu = false;
         this.contactDetail = null;
         this.databaseService.loadContacts();
-        this.toggleMobileMenu();
       },
       error: (error) => {
         this.appComponent.showDialog("Error deleting contact.");
