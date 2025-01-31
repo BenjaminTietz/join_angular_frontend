@@ -34,25 +34,6 @@ import { CommonModule } from "@angular/common";
   templateUrl: "./login.component.html",
   styleUrl: "./login.component.scss",
   animations: [
-    trigger("logoAnimationContainer", [
-      state(
-        "visible",
-        style({
-          opacity: 1,
-          display: "block",
-          backgroundColor: "white",
-        })
-      ),
-      state(
-        "hidden",
-        style({
-          opacity: 0,
-          display: "none",
-          backgroundColor: "transparent",
-        })
-      ),
-      transition("visible => hidden", [animate("0.5s ease-out")]),
-    ]),
     trigger("logoAnimation", [
       state(
         "center",
@@ -64,21 +45,42 @@ import { CommonModule } from "@angular/common";
         })
       ),
       state(
-        "header",
+        "headerDesktop",
         style({
           transform: "translate(0, 0) scale(1)",
-          top: "-10px",
+          top: "10px",
           left: "10px",
           opacity: 1,
         })
       ),
-      transition("center => header", [animate("1s ease-in-out")]),
+      state(
+        "headerTablet",
+        style({
+          transform: "translate(0, 0) scale(0.9)",
+          top: "8px",
+          left: "8px",
+          opacity: 1,
+        })
+      ),
+      state(
+        "headerMobile",
+        style({
+          transform: "translate(0, 0) scale(0.8)",
+          top: "5px",
+          left: "5px",
+          opacity: 1,
+        })
+      ),
+      transition("center => headerDesktop", [animate("1s ease-in-out")]),
+      transition("center => headerTablet", [animate("1s ease-in-out")]),
+      transition("center => headerMobile", [animate("1s ease-in-out")]),
     ]),
   ],
 })
 export class LoginComponent implements OnInit {
   @Output() animationFinished = new EventEmitter<void>();
-  animationState: "center" | "header" | "hidden" = "center";
+  animationState: "center" | "headerDesktop" | "headerTablet" | "headerMobile" =
+    "center";
   containerState: "visible" | "hidden" = "visible";
   loginForm!: FormGroup;
   private destroy$ = new EventEmitter<void>();
@@ -101,15 +103,8 @@ export class LoginComponent implements OnInit {
    */
   ngOnInit() {
     this.checkToken();
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((event: any) => {
-        if (event.url === "/login") {
-          this.resetAnimationState();
-          this.startAnimation();
-        }
-      });
-    this.resetAnimationState();
+    this.detectScreenSize();
+    this.router.events.subscribe(() => this.resetAnimationState());
     this.startAnimation();
   }
 
@@ -124,6 +119,20 @@ export class LoginComponent implements OnInit {
     this.destroy$.next();
     this.destroy$.complete();
     this.resetAnimationState();
+  }
+
+  detectScreenSize() {
+    this.breakpointObserver
+      .observe(["(max-width: 650px)", "(max-width: 950px)"])
+      .subscribe((result) => {
+        if (result.breakpoints["(max-width: 650px)"]) {
+          this.animationState = "headerMobile";
+        } else if (result.breakpoints["(max-width: 950px)"]) {
+          this.animationState = "headerTablet";
+        } else {
+          this.animationState = "headerDesktop";
+        }
+      });
   }
 
   /**
@@ -149,28 +158,16 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  /**
-   * Starts the animation of the logo.
-   *
-   * Resets the animation state to its initial state, then waits for 1 second and sets the animation state to "header", and waits for another second and sets the container state to "hidden".
-   * This creates a smooth animation of the logo moving from the center of the page to the top left corner, and then hiding the container.
-   */
   private startAnimation() {
     this.resetAnimationState();
     setTimeout(() => {
-      this.animationState = "header";
+      this.detectScreenSize();
       setTimeout(() => {
         this.containerState = "hidden";
       }, 1000);
     }, 1000);
   }
 
-  /**
-   * Resets the animation state.
-   *
-   * Sets the animation state to "center" and the container state to "visible".
-   * This prepares the component for a new animation sequence.
-   */
   private resetAnimationState() {
     this.animationState = "center";
     this.containerState = "visible";
