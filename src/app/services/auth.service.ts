@@ -168,7 +168,7 @@ export class AuthService {
     try {
       const loginResponse = await this.login(
         "guest@guest.com",
-        "0123456789",
+        "0123456789!b",
         true
       );
       const token = loginResponse.token;

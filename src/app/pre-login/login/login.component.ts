@@ -239,7 +239,7 @@ export class LoginComponent implements OnInit {
   /**
    * Logs in as a guest user.
    *
-   * Logs in a user with email "guest@guest.com" and password "0123456789bb".
+   * Logs in a user with email "guest@guest.com" and password "0123456789!b".
    * Saves the token in either local storage or session storage based on the 'remember'
    * option.
    * Displays a success dialog and navigates to the summary page after a delay.

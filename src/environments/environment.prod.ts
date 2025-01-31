@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseRefUrl: 'https://example-server.com',
+  baseRefUrl: 'https://backend-benjamin-tietz.de/join/',
 };

@@ -6,11 +6,13 @@ import {
   FormGroup,
   ReactiveFormsModule,
   Validators,
+  ValidationErrors,
 } from "@angular/forms";
 import { AuthService } from "../../services/auth.service";
 import { FooterComponent } from "../shared/footer/footer.component";
 import { HeaderComponent } from "../shared/header/header.component";
 import { AppComponent } from "../../app.component";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-signup",
@@ -20,6 +22,7 @@ import { AppComponent } from "../../app.component";
     ReactiveFormsModule,
     FooterComponent,
     HeaderComponent,
+    CommonModule,
   ],
   templateUrl: "./signup.component.html",
   styleUrl: "./signup.component.scss",
@@ -57,45 +60,53 @@ export class SignupComponent {
     );
   }
 
-  /**
-   * Custom validator to check if the values of the 'password' and 'confirmPassword' controls match.
-   * Returns {passwordsMismatch: true} if they don't match, or null otherwise.
-   * The validator only runs if both controls have been touched.
-   */
-  passwordsMatchValidator(
-    control: AbstractControl
-  ): { [key: string]: boolean } | null {
-    const password = control.get("password");
-    const confirmPassword = control.get("confirmPassword");
-    if (password && confirmPassword) {
-      if (!password.touched || !confirmPassword.touched) {
-        return null;
-      }
-      if (password.value !== confirmPassword.value) {
-        return { passwordsMismatch: true };
-      }
-    }
+  get passwordControl(): AbstractControl {
+    return this.signupForm.get("password")!;
+  }
+
+  get confirmPasswordControl(): AbstractControl {
+    return this.signupForm.get("confirmPassword")!;
+  }
+
+  get passwordErrors(): string | null {
+    if (!this.passwordControl.touched || !this.passwordControl.errors)
+      return null;
+
+    const errors = this.passwordControl.errors;
+    if (errors["required"]) return "The password is required.";
+    if (errors["minlength"])
+      return "The password must be at least 8 characters long.";
+    if (errors["numericOnly"])
+      return "The password must not be entirely numeric.";
+    if (errors["tooCommon"])
+      return "The password is too common. Please choose a stronger one.";
+    if (errors["weak"])
+      return "The password must contain at least one letter and one number.";
     return null;
   }
 
-  strongPasswordValidator(
-    control: AbstractControl
-  ): { [key: string]: boolean } | null {
+  get confirmPasswordError(): string | null {
+    return this.signupForm.hasError("passwordsMismatch") &&
+      this.confirmPasswordControl.touched
+      ? "Passwords do not match."
+      : null;
+  }
+
+  passwordsMatchValidator(control: AbstractControl): ValidationErrors | null {
+    const password = control.get("password")?.value;
+    const confirmPassword = control.get("confirmPassword")?.value;
+    return password && confirmPassword && password !== confirmPassword
+      ? { passwordsMismatch: true }
+      : null;
+  }
+
+  strongPasswordValidator(control: AbstractControl): ValidationErrors | null {
     const password = control.value;
+    if (!password) return null;
 
-    if (!password) {
-      return null;
-    }
-
-    const errors: { [key: string]: boolean } = {};
-
-    if (password.length < 8) {
-      errors["minLength"] = true;
-    }
-
-    if (/^\d+$/.test(password)) {
-      errors["numericOnly"] = true;
-    }
+    const errors: ValidationErrors = {};
+    if (password.length < 8) errors["minlength"] = true;
+    if (/^\d+$/.test(password)) errors["numericOnly"] = true;
 
     const commonPasswords = [
       "12345678",
@@ -106,13 +117,11 @@ export class SignupComponent {
       "abc123",
       "password1",
     ];
-    if (commonPasswords.includes(password.toLowerCase())) {
+    if (commonPasswords.includes(password.toLowerCase()))
       errors["tooCommon"] = true;
-    }
 
-    if (!/[a-zA-Z]/.test(password) || !/\d/.test(password)) {
+    if (!/[a-zA-Z]/.test(password) || !/\d/.test(password))
       errors["weak"] = true;
-    }
 
     return Object.keys(errors).length > 0 ? errors : null;
   }

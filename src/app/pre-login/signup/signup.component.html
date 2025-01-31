@@ -39,32 +39,18 @@
             <div class="form-input-container input-wrapper">
                 <input type="password" formControlName="password" placeholder="Password"><img
                     src="assets/img/icons/login_password.svg" alt="logo" class="logo">
-                @if (signupForm.get('password')?.invalid && signupForm.get('password')?.touched) {
+                @if (passwordErrors) {
                 <div class="error">
-                    <span>Enter a valid password, min 6 characters</span>
+                    <span>{{ passwordErrors }}</span>
                 </div>
                 }
             </div>
             <div class="form-input-container input-wrapper">
                 <input type="password" formControlName="confirmPassword" placeholder="Confirm Password"><img
                     src="assets/img/icons/login_password.svg" alt="logo" class="logo">
-                @if (signupForm.get('password')?.invalid && signupForm.get('password')?.touched) {
+                @if (confirmPasswordError) {
                 <div class="error">
-                    @if (signupForm.get('password')?.hasError('required')) {
-                    <span>The password is required.</span>
-                    }
-                    @if (signupForm.get('password')?.hasError('minLength')) {
-                    <span>The password must be at least 8 characters long.</span>
-                    }
-                    @if (signupForm.get('password')?.hasError('numericOnly')) {
-                    <span>The password must not be entirely numeric.</span>
-                    }
-                    @if (signupForm.get('password')?.hasError('tooCommon')) {
-                    <span>The password is used too frequently. Please choose a different one.</span>
-                    }
-                    @if (signupForm.get('password')?.hasError('weak')) {
-                    <span>The password must contain at least one letter and one number.</span>
-                    }
+                    <span>{{ confirmPasswordError }}</span>
                 </div>
                 }
             </div>
