@@ -13,6 +13,7 @@ import { CommunicationService } from "../../services/communication.service";
 import { FooterComponent } from "../shared/footer/footer.component";
 import { HeaderComponent } from "../shared/header/header.component";
 import { AppComponent } from "../../app.component";
+import { FormValidationService } from "../../services/form-validation.service";
 
 @Component({
   selector: "app-reset-password",
@@ -36,6 +37,7 @@ export class ResetPasswordComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  validationService = inject(FormValidationService);
   token: string | null = null;
   constructor(private fb: FormBuilder) {
     this.createSetNewPasswordForm();
@@ -70,65 +72,37 @@ export class ResetPasswordComponent implements OnInit {
           [
             Validators.required,
             Validators.minLength(8),
-            this.strongPasswordValidator,
+            this.validationService.strongPasswordValidator,
           ],
         ],
         confirmPassword: ["", Validators.required],
       },
-      { validators: this.passwordsMatchValidator }
+      { validators: this.validationService.passwordsMatchValidator }
     );
   }
 
   /**
-   * Custom validator to check if the values of 'password' and 'confirmPassword' controls match.
-   * Returns {passwordsMismatch: true} if they don't match, or null otherwise.
+   * Returns an error message for password validation.
+   *
+   * The error message is either null (if the password is valid) or a string
+   * describing the validation error.
    */
-  passwordsMatchValidator(
-    control: AbstractControl
-  ): { [key: string]: boolean } | null {
-    const password = control.get("password");
-    const confirmPassword = control.get("confirmPassword");
-    if (password && confirmPassword) {
-      if (password.value !== confirmPassword.value) {
-        return { passwordsMismatch: true };
-      }
-    }
-    return null;
+  get passwordErrors(): string | null {
+    return this.validationService.getPasswordErrors(
+      this.setNewPasswordForm.get("password")!
+    );
   }
 
   /**
-   * Validator to enforce strong password rules.
+   * Returns an error message for confirming the password.
+   *
+   * The error message is either null (if the passwords match) or a string
+   * describing the validation error.
    */
-  strongPasswordValidator(
-    control: AbstractControl
-  ): { [key: string]: boolean } | null {
-    const password = control.value;
-    if (!password) {
-      return null;
-    }
-    const errors: { [key: string]: boolean } = {};
-    if (password.length < 8) {
-      errors["minLength"] = true;
-    }
-    if (/^\d+$/.test(password)) {
-      errors["numericOnly"] = true;
-    }
-    const commonPasswords = [
-      "12345678",
-      "password",
-      "123456789",
-      "qwerty",
-      "123456",
-      "abc123",
-      "password1",
-    ];
-    if (commonPasswords.includes(password.toLowerCase())) {
-      errors["tooCommon"] = true;
-    }
-    if (!/[a-zA-Z]/.test(password) || !/\d/.test(password)) {
-      errors["weak"] = true;
-    }
-    return Object.keys(errors).length > 0 ? errors : null;
+  get confirmPasswordError(): string | null {
+    return this.validationService.getConfirmPasswordError(
+      this.setNewPasswordForm
+    );
   }
 
   /**

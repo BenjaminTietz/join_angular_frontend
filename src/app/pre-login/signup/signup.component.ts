@@ -13,6 +13,7 @@ import { FooterComponent } from "../shared/footer/footer.component";
 import { HeaderComponent } from "../shared/header/header.component";
 import { AppComponent } from "../../app.component";
 import { CommonModule } from "@angular/common";
+import { FormValidationService } from "../../services/form-validation.service";
 
 @Component({
   selector: "app-signup",
@@ -34,6 +35,7 @@ export class SignupComponent {
   app = inject(AppComponent);
   router = inject(Router);
   authService = inject(AuthService);
+  validationService = inject(FormValidationService);
   showSignupForm: boolean = true;
   constructor(private fb: FormBuilder) {
     this.createSignupForm();
@@ -64,115 +66,24 @@ export class SignupComponent {
           [
             Validators.required,
             Validators.minLength(8),
-            this.strongPasswordValidator,
+            this.validationService.strongPasswordValidator,
           ],
         ],
         confirmPassword: ["", Validators.required],
         privacy: [false, Validators.requiredTrue],
       },
-      { validators: this.passwordsMatchValidator }
+      { validators: this.validationService.passwordsMatchValidator }
     );
   }
 
-  /**
-   * Retrieves the AbstractControl for the password form control.
-   *
-   * @returns AbstractControl for the password field in the signup form.
-   */
-
-  get passwordControl(): AbstractControl {
-    return this.signupForm.get("password")!;
-  }
-
-  /**
-   * Returns the AbstractControl for the confirmPassword form control.
-   * @returns AbstractControl
-   */
-  get confirmPasswordControl(): AbstractControl {
-    return this.signupForm.get("confirmPassword")!;
-  }
-
-  /**
-   * Returns a string error message if the password control has errors.
-   * Otherwise, returns null.
-   * @returns string | null
-   */
   get passwordErrors(): string | null {
-    if (!this.passwordControl.touched || !this.passwordControl.errors)
-      return null;
-    const errors = this.passwordControl.errors;
-    if (errors["required"]) return "The password is required.";
-    if (errors["minlength"])
-      return "The password must be at least 8 characters long.";
-    if (errors["numericOnly"])
-      return "The password must not be entirely numeric.";
-    if (errors["tooCommon"])
-      return "The password is too common. Please choose a stronger one.";
-    if (errors["weak"])
-      return "The password must contain at least one letter and one number.";
-    return null;
+    return this.validationService.getPasswordErrors(
+      this.signupForm.get("password")!
+    );
   }
 
-  /**
-   * A convenience property that returns an error message if the passwords do not match, or null if they do.
-   * The error message is only returned if the confirmPasswordControl has been touched.
-   * @returns A string error message if the passwords do not match, or null if they do.
-   */
   get confirmPasswordError(): string | null {
-    return this.signupForm.hasError("passwordsMismatch") &&
-      this.confirmPasswordControl.touched
-      ? "Passwords do not match."
-      : null;
-  }
-
-  /**
-   * Custom validator to check if the values of 'password' and 'confirmPassword' controls match.
-   * Returns {passwordsMismatch: true} if they don't match, or null otherwise.
-   * @param control - The control containing the 'password' and 'confirmPassword' inputs.
-   * @returns A ValidationErrors object if the passwords do not match, or null if they do.
-   */
-  passwordsMatchValidator(control: AbstractControl): ValidationErrors | null {
-    const password = control.get("password")?.value;
-    const confirmPassword = control.get("confirmPassword")?.value;
-    return password && confirmPassword && password !== confirmPassword
-      ? { passwordsMismatch: true }
-      : null;
-  }
-
-  /**
-   * Custom validator to check the strength of a password.
-   *
-   * Validates the following password criteria:
-   * - Must be at least 8 characters long.
-   * - Must not be entirely numeric.
-   * - Must not be a commonly used password.
-   * - Must contain at least one letter and one number.
-   *
-   * @param control - The form control containing the password value.
-   * @returns A ValidationErrors object containing any validation errors,
-   *          or null if the password is strong.
-   */
-
-  strongPasswordValidator(control: AbstractControl): ValidationErrors | null {
-    const password = control.value;
-    if (!password) return null;
-    const errors: ValidationErrors = {};
-    if (password.length < 8) errors["minlength"] = true;
-    if (/^\d+$/.test(password)) errors["numericOnly"] = true;
-    const commonPasswords = [
-      "12345678",
-      "password",
-      "123456789",
-      "qwerty",
-      "123456",
-      "abc123",
-      "password1",
-    ];
-    if (commonPasswords.includes(password.toLowerCase()))
-      errors["tooCommon"] = true;
-    if (!/[a-zA-Z]/.test(password) || !/\d/.test(password))
-      errors["weak"] = true;
-    return Object.keys(errors).length > 0 ? errors : null;
+    return this.validationService.getConfirmPasswordError(this.signupForm);
   }
 
   /**
