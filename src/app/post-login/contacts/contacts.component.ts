@@ -113,6 +113,14 @@ export class ContactsComponent implements OnInit, OnDestroy {
     return Object.keys(obj);
   }
 
+  /**
+   * A custom validator function that checks if the value of the input control is a valid email
+   * address. The function takes an AbstractControl as an argument and returns a ValidationErrors
+   * object if the email is invalid, or null if the email is valid. The email is considered
+   * invalid if it does not match the following regular expression:
+   * /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+   * @returns A ValidationErrors object if the email is invalid, or null if the email is valid.
+   */
   emailValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -133,7 +141,6 @@ export class ContactsComponent implements OnInit, OnDestroy {
       contactView.classList.remove("slide-in");
       contactView.classList.add("slide-out");
     }
-
     this.databaseService.getContactById(id).subscribe((contact) => {
       this.contactDetail = contact;
       setTimeout(() => {
@@ -145,6 +152,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
     });
     this.showMobileContactDetail = true;
   }
+
   /**
    * Handles showing the edit contact overlay when the user clicks the edit button for a contact.
    * Retrieves the contact details and populates the edit contact form with the contact's current values.
@@ -214,7 +222,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
           this.databaseService.loadContacts();
         },
         error: (error) => {
-          console.error("Error creating contact:", error);
+          this.appComponent.showDialog("Error creating contact.");
         },
         complete: () => {
           this.appComponent.showDialog("Contact created successfully.");
@@ -238,12 +246,10 @@ export class ContactsComponent implements OnInit, OnDestroy {
         email: this.editContactForm.value.editedEmail,
         phone: this.editContactForm.value.editedPhone,
       };
-
       const hasChanges =
         oldContact.name !== newContact.name ||
         oldContact.email !== newContact.email ||
         oldContact.phone !== newContact.phone;
-
       if (hasChanges) {
         this.databaseService
           .updateContact(oldContact.id, newContact)
@@ -278,7 +284,6 @@ export class ContactsComponent implements OnInit, OnDestroy {
   handleDeleteContact(contactId: string): void {
     this.databaseService.deleteContact(contactId).subscribe({
       next: () => {
-        // todo: show success message / refresh contact list / ask for confirmation
         this.showEditContactOverlay = false;
         this.showMobileContactDetail = false;
         this.showMenu = false;
@@ -319,6 +324,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
       this.addContactForm.reset();
     }, 500);
   }
+
   /**
    * Closes the edit contact overlay.
    * Hides the edit contact overlay and resets the edit contact form.
@@ -327,6 +333,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
     this.showEditContactOverlay = false;
     this.editContactForm.reset();
   }
+
   /**
    * Stops the propagation of the given event.
    * @param event The event whose propagation is to be stopped.
@@ -351,6 +358,5 @@ export class ContactsComponent implements OnInit, OnDestroy {
    */
   toggleMobileMenu() {
     this.showMenu = !this.showMenu;
-    console.log("showMenu", this.showMenu);
   }
 }

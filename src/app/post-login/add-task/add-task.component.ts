@@ -114,10 +114,13 @@ export class AddTaskComponent implements OnInit {
     this.initializeData();
     this.initializeSubscriptions();
     this.initializeUserAndRouterState();
-    console.log("User ID:", this.currentUserId);
-    console.log("isEmbeddedInBoard:", this.isEmbeddedInBoard);
   }
 
+  /**
+   * Initializes the component by calling the initializeData method of the DatabaseService
+   * with true as the argument. Then, it subscribes to the contacts$ observable and assigns
+   * the fetched contacts to the filteredContacts array.
+   */
   private initializeData(): void {
     this.databaseService.initializeData(true);
     this.contacts$ = this.databaseService.getContacts();
@@ -126,6 +129,12 @@ export class AddTaskComponent implements OnInit {
     });
   }
 
+  /**
+   * Initializes subscriptions to the DatabaseService and CommunicationService.
+   * Subscribes to the resetForm observable of the CommunicationService to reset the form when triggered.
+   * Subscribes to the taskId observable of the DatabaseService to keep track of the current task ID.
+   * Subscribes to the taskData observable of the DatabaseService and either loads the task data or resets the form.
+   */
   private initializeSubscriptions(): void {
     this.subscriptions.add(
       this.communicationService.resetForm$.subscribe(() => {
@@ -149,12 +158,23 @@ export class AddTaskComponent implements OnInit {
     this.subscriptions.add(taskDataSub);
   }
 
+  /**
+   * Initializes the user and router state.
+   * - Sets the display of the floating add task component based on the current router URL.
+   * - Retrieves and sets the current user ID from the authentication service.
+   */
+
   private initializeUserAndRouterState(): void {
     if (this.router.url === "/board") {
       this.displayFloatingAddTask = true;
     }
     this.currentUserId = this.authService.getUserId()!;
   }
+
+  /**
+   * Refreshes the task board data by reinitializing the data and loading tasks.
+   * This method updates the board with the latest tasks from the database service.
+   */
 
   refreshBoard(): void {
     this.initializeData();
@@ -383,6 +403,7 @@ export class AddTaskComponent implements OnInit {
       this.addTaskForm.patchValue({ subtask: "" });
     }
   }
+
   /**
    * Removes the subtask at the given index from the subTasks array.
    * @param index - The index of the subtask to be removed.
@@ -390,6 +411,7 @@ export class AddTaskComponent implements OnInit {
   removeSubtaskFromArray(index: number) {
     this.subTasks.splice(index, 1);
   }
+
   /**
    * Hides the subtask li element and shows the subtask input field element for the subtask at the given index.
    * Sets the value of the input field to the given subtask title.
@@ -411,6 +433,18 @@ export class AddTaskComponent implements OnInit {
       listElement.style.display = "none";
     }
   }
+
+  /**
+   * Saves the edited title of a subtask if it has changed and is not empty, and toggles the edit mode.
+   *
+   * @param originalTitle The original title of the subtask before editing.
+   * @param index The index of the subtask in the subTasks array.
+   *
+   * Retrieves the input and list elements for the subtask based on the index, checks if the new title
+   * differs from the original and is not empty, updates the subtask title, and toggles the edit mode
+   * off. Also refreshes the board to reflect changes.
+   */
+
   saveEditedSubtask(originalTitle: string, index: number) {
     const inputElement = this.getElementBySelector<HTMLInputElement>(
       `.subtask-container:nth-child(${index + 2}) > input`
@@ -429,6 +463,17 @@ export class AddTaskComponent implements OnInit {
     this.refreshBoard();
   }
 
+  /**
+   * Updates the title of a subtask at the specified index and reflects the change in the database.
+   *
+   * @param index - The index of the subtask in the subTasks array to update.
+   * @param newTitle - The new title to set for the subtask.
+   *
+   * Updates the title of the subtask in the local array. If the edit task overlay is visible,
+   * it also updates the subtask title in the database and shows a success dialog upon completion.
+   * Logs an error message if the update fails.
+   */
+
   private updateSubtaskTitle(index: number, newTitle: string) {
     this.subTasks[index].title = newTitle;
 
@@ -444,6 +489,17 @@ export class AddTaskComponent implements OnInit {
     }
   }
 
+  /**
+   * Toggles the display mode between input and list elements based on the editing state.
+   *
+   * @param inputElement - The input element to display when editing is active.
+   * @param listElement - The list element to display when editing is inactive.
+   * @param isEditing - A boolean indicating whether the edit mode is active.
+   *
+   * Sets the input element's display style to "flex" when editing, otherwise hides it.
+   * Conversely, it hides the list element when editing and displays it when not editing.
+   */
+
   private toggleSubtaskEditMode(
     inputElement: HTMLElement | null,
     listElement: HTMLElement | null,
@@ -453,6 +509,12 @@ export class AddTaskComponent implements OnInit {
     if (listElement) listElement.style.display = isEditing ? "none" : "flex";
   }
 
+  /**
+   * Gets the first element that matches the given CSS selector.
+   *
+   * @param selector - The CSS selector to query the document with.
+   * @returns The first matching element cast to the given type, or null if no match is found.
+   */
   private getElementBySelector<T extends HTMLElement>(
     selector: string
   ): T | null {
@@ -623,6 +685,19 @@ export class AddTaskComponent implements OnInit {
     this.selectedCategory = formattedValue;
     this.showCategories = false;
   }
+
+  /**
+   * Removes an assigned contact from the task.
+   *
+   * Removes the contact from the assigned contacts list and the taskAssignedTo form array
+   * by the provided index. Updates the assigned contact IDs list to exclude the removed contact's ID.
+   * If the task ID exists, it sends a request to the database to remove the assignee.
+   * Displays a success dialog upon successful removal or logs an error if the removal fails.
+   * Refreshes the board to reflect the changes.
+   *
+   * @param contact - The contact to be removed from the task.
+   * @param index - The index of the contact in the assigned contacts list to be removed.
+   */
 
   removeAssignedContact(contact: Contact, index: number) {
     this.assignedContacts.splice(index, 1);

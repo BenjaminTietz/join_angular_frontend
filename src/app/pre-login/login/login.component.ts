@@ -227,12 +227,9 @@ export class LoginComponent implements OnInit {
           this.router.navigate(["/summary"]);
         }, 3000);
       } catch (error) {
-        console.error("Login failed:", error);
         this.app.showDialog("Login failed");
         this.app.isLoading = false;
       }
-    } else {
-      console.log("Invalid Form");
     }
   }
 

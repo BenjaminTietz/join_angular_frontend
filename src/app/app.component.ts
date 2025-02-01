@@ -63,6 +63,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.checkViewport();
   }
 
+  /**
+   * Verifies if a user token is present in local or session storage and sets the
+   * isLoggedIn flag accordingly. If the current route is a public route, this
+   * function will not set the flag.
+   */
   verifyUserToken() {
     const token =
       localStorage.getItem("token") || sessionStorage.getItem("token");
@@ -70,11 +75,9 @@ export class AppComponent implements OnInit, OnDestroy {
     const publicRoutes = ["/reset-password", "/forgot-password"];
     const currentRoute = this.router.url.split("?")[0];
     const baseRoute = currentRoute.split("/")[1];
-
     if (publicRoutes.some((route) => currentRoute.startsWith(route))) {
       return;
     }
-
     if (token) {
       this.authService.isLoggedIn = true;
       this.communicationService.isLoggedIn = true;
@@ -84,6 +87,10 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Lifecycle hook: Called when the component is destroyed.
+   * Unsubscribes from the token subscription to prevent memory leaks.
+   */
   ngOnDestroy() {
     if (this.tokenSubscription) {
       this.tokenSubscription.unsubscribe();
@@ -109,14 +116,17 @@ export class AppComponent implements OnInit, OnDestroy {
     const width = window.innerWidth;
     // Flag for mobile view (height greater than width)
     this.communicationService.isMobileViewActive = height > width;
-    // console.log("mobile view", this.communicationService.isMobileViewActive);
     // Flag for small screen (tablet view)
     const isTabletScreen = width < 1200;
     this.communicationService.isSmallScreenActive = isTabletScreen;
-    // console.log("small screen", this.communicationService.isSmallScreenActive);
   }
 
   @HostListener("document:click", ["$event"])
+  /**
+   * Listens for clicks on the document and closes the user menu if the
+   * target element is not part of the user menu or the user profile.
+   * @param event The click event.
+   */
   onDocumentClick(event: Event): void {
     const target = event.target as HTMLElement;
     if (!target.closest(".user-menu") && !target.closest(".user-profile")) {

@@ -38,12 +38,27 @@ export class ForgotPasswordComponent {
     this.createForgottPasswordForm();
   }
 
+  /**
+   * Initializes the forgot password form group.
+   *
+   * Creates a reactive form with a single control, `email`, which is required
+   * and must be a valid email address.
+   */
   createForgottPasswordForm() {
     this.forgotPasswordForm = this.fb.group({
       email: ["", [Validators.required, Validators.email]],
     });
   }
-  // todo implement sending value of remember to backend, save in sesseion when false save in session / local storage
+
+  /**
+   * Handles the form submission for requesting a password reset.
+   *
+   * Validates the forgot password form and attempts to request a password reset
+   * email for the provided email address. If the request is successful, a dialog
+   * is shown to inform the user to check their email for further instructions
+   * and the form is hidden. If the request fails, an error dialog is displayed.
+   * Logs an error message if the form input is invalid.
+   */
   async onSubmit() {
     if (this.forgotPasswordForm.valid) {
       const { email } = this.forgotPasswordForm.value;
@@ -52,11 +67,8 @@ export class ForgotPasswordComponent {
         this.app.showDialog("Please check your email for reset instructions.");
         this.showForgottPasswordForm = false;
       } catch (error) {
-        console.error("Error during password reset request:", error);
         this.app.showDialog("Failed to send reset email. Please try again.");
       }
-    } else {
-      console.error("Invalid form input");
     }
   }
 }

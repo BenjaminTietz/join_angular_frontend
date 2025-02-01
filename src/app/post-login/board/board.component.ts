@@ -275,22 +275,18 @@ export class BoardComponent implements OnInit, OnDestroy {
       (task) => task.id === taskId
     );
     if (todoTask) return this.databaseService.todoTasks;
-
     const inProgressTask = this.databaseService.inProgressTasks.find(
       (task) => task.id === taskId
     );
     if (inProgressTask) return this.databaseService.inProgressTasks;
-
     const awaitFeedbackTask = this.databaseService.awaitFeedbackTasks.find(
       (task) => task.id === taskId
     );
     if (awaitFeedbackTask) return this.databaseService.awaitFeedbackTasks;
-
     const doneTask = this.databaseService.doneTasks.find(
       (task) => task.id === taskId
     );
     if (doneTask) return this.databaseService.doneTasks;
-
     console.warn(`Task with ID ${taskId} not found in any array.`);
     return [];
   }
@@ -356,18 +352,6 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Handles the event when a task is saved.
-   * Logs the saved task, hides the add task overlay,
-   * and updates the task in the array (to be implemented).
-   * @param updatedTask The task object that was saved.
-   */
-  handleTaskSaved(updatedTask: Task) {
-    console.log("Task wurde gespeichert:", updatedTask);
-    this.communicationService.showAddTaskOverlay = false;
-    // todo : update task in the array
-  }
-
-  /**
    * Toggles the checked status of a subtask and updates it in the database.
    *
    * @param task The parent task containing the subtask.
@@ -384,7 +368,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response) => {},
         error: (error) => {
-          console.error("Error updating subtask status", error);
+          this.app.showDialog("SubTask Update Failed");
         },
         complete: () => {
           this.app.showDialog("SubTask Update Successful");
@@ -392,14 +376,22 @@ export class BoardComponent implements OnInit, OnDestroy {
       });
   }
 
-  // todo confirm delete task first before deleting
+  /**
+   * Deletes a task by its ID from the database.
+   * Subscribes to the response to handle the delete operation.
+   * On successful deletion, displays a success dialog.
+   * Logs an error message if the deletion fails.
+   *
+   * @param task The task to be deleted.
+   */
+
   handleDeleteTask(task: Task) {
     this.databaseService.deleteTask(task.id).subscribe({
       next: (response) => {
         this.app.showDialog("Task Delete Successful");
       },
       error: (error) => {
-        console.error("Error deleting task", error);
+        this.app.showDialog("Task Delete Failed");
       },
       complete: () => {
         this.app.showDialog("Task Delete Successful");

@@ -18,6 +18,18 @@ import {
 export class AuthGuard implements CanActivate {
   constructor(private router: Router) {}
 
+  /**
+   * Determines if the route can be activated based on authentication status.
+   *
+   * Checks if the current URL is part of the public routes or if there is a valid token
+   * in localStorage or sessionStorage. If either condition is met, the function returns true,
+   * allowing route activation. Otherwise, it redirects the user to the login page and returns false.
+   *
+   * @param route - The activated route snapshot.
+   * @param state - The router state snapshot containing the target URL.
+   * @returns A boolean indicating whether the route can be activated.
+   */
+
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot

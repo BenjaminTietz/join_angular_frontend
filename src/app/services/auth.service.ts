@@ -71,7 +71,6 @@ export class AuthService {
       const response = await firstValueFrom(
         this.http.post<{ message: string }>(this.verifyTokenUrl, { token })
       );
-      console.log("Token validation response:", response);
       return true;
     } catch (error) {
       console.error("Token validation failed:", error);

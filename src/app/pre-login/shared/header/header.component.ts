@@ -19,6 +19,11 @@ export class HeaderComponent implements OnInit {
     public router: Router
   ) {}
 
+  /**
+   * Lifecycle hook: Called when the component is initialized.
+   * Subscribes to router events to check the route and update the
+   * showLoginHeader flag accordingly.
+   */
   ngOnInit(): void {
     this.checkRoute();
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe(() => {
@@ -26,11 +31,19 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  /**
+   * Lifecycle hook: Called when the component is destroyed.
+   * Emits the `destroy$` event and completes it. This is done to prevent memory leaks.
+   */
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
+  /**
+   * Checks the current route and updates the showLoginHeader flag accordingly.
+   * The showLoginHeader flag is set to true if the route is "/login" and false otherwise.
+   */
   private checkRoute(): void {
     this.showLoginHeader = this.router.url === "/login";
   }
