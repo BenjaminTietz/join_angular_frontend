@@ -2,11 +2,6 @@
 
 .privacy-policy-wrapper {
     @include dFlex(column, flex-start, flex-start);
-    box-sizing: border-box;
-}
-
-.content-wrapper {
-    width: 100%;
 }
 
 h1 {

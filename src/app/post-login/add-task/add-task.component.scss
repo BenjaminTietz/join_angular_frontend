@@ -3,7 +3,6 @@
 .add-task-wrapper {
     @include dFlex(row, flex-start, flex-start);
     position: relative;
-    box-sizing: border-box;
 }
 
 
