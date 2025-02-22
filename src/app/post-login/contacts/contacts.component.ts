@@ -52,12 +52,12 @@ export class ContactsComponent implements OnInit, OnDestroy {
     this.addContactForm = this.fb.group({
       name: ["", Validators.required],
       email: ["", [Validators.required, this.emailValidator()]],
-      phone: ["", Validators.required],
+      phone: ["", Validators.required, Validators.pattern("^[0-9]+$")],
     });
     this.editContactForm = this.fb.group({
       editedName: ["", Validators.required],
       editedEmail: ["", [Validators.required, this.emailValidator()]],
-      editedPhone: ["", Validators.required],
+      editedPhone: ["", Validators.required, Validators.pattern("^[0-9]+$")],
     });
   }
 

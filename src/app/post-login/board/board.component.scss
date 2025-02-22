@@ -652,6 +652,8 @@ progress {
     }
 
     .task-title {
+        max-width: 80%;
+
         h2 {
             @include OpenSans(700 !important, 36px !important, 43.2px !important, $black);
         }
