@@ -285,6 +285,9 @@ export class AddTaskComponent implements OnInit {
           this.app.showDialog("Task Update Successful");
         });
       this.refreshBoard();
+      this.databaseService.setTaskId(null);
+      this.databaseService.setTaskData(null);
+      this.isTaskgettingEdited = false;
     }
   }
 

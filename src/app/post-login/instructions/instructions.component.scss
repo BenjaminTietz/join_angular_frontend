@@ -107,10 +107,6 @@ span {
     .list-content h3 {
         @include OpenSans(700, 16px, 19.2px, $main-blue-dark);
     }
-
-    .instructions-wrapper {
-        padding: 15px;
-    }
 }
 
 @media only screen and (max-width: 650px) {

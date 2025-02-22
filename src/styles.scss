@@ -356,7 +356,7 @@ textarea::placeholder {
 @media only screen and (max-width: 1200px) {
     .content-wrapper {
         width: calc(100vw - 64px);
-        height: calc(100vh - 154px);
+        height: calc(100svh - 152px);
         padding: 32px;
     }
 }

@@ -247,7 +247,7 @@ export class LoginComponent implements OnInit {
     this.app.isLoading = true;
     try {
       const email = "guest@guest.com";
-      const password = "0123456789bb";
+      const password = "0123456789!b";
       const remember = true;
       const response = await this.authService.login(email, password, remember);
       if (response?.token) {
