@@ -348,6 +348,8 @@ progress {
     >.task-detail-content {
 
         height: fit-content;
+        min-height: 80svh;
+        min-width: 50svw;
         padding: 48px 40px;
         gap: 24px;
         background-color: $white;
