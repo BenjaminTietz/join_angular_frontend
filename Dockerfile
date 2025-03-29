@@ -16,7 +16,8 @@
     RUN rm -rf /usr/share/nginx/html/*
     
     # copy build files from builder stage
-    COPY --from=builder /app/dist/join-frontend /usr/share/nginx/html
+    COPY --from=builder /app/dist/join_angular/browser /usr/share/nginx/html
+
     
     # optional: copy custom nginx config file
     # COPY nginx.conf /etc/nginx/nginx.conf
